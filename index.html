@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Memories — Duy &amp; Vy</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rose:#e8a0b0; --rose-light:#f9eef1; --rose-deep:#c4637a;
+  --blush:#fdf4f6; --sage:#8faa8f; --cream:#fdf8f3;
+  --text-dark:#2c2020; --text-mid:#6b4f54; --text-soft:#a08090;
+  --gold:#c9a96e; --white:#ffffff;
+  --shadow:0 4px 24px rgba(196,99,122,0.08);
+  --shadow-hover:0 12px 44px rgba(196,99,122,0.18);
+  --radius:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--blush);color:var(--text-dark);min-height:100vh;overflow-x:hidden;}
+
+/* floating hearts backdrop */
+.sky{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.sky span{position:absolute;bottom:-40px;font-size:20px;opacity:0;animation:rise linear infinite;}
+@keyframes rise{
+  0%{transform:translateY(0) rotate(0deg);opacity:0;}
+  10%{opacity:.35;}
+  90%{opacity:.15;}
+  100%{transform:translateY(-110vh) rotate(25deg);opacity:0;}
+}
+
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:64px 24px 80px;}
+
+/* hero */
+.hero{text-align:center;margin-bottom:56px;}
+.hero-eyebrow{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:14px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,7vw,58px);line-height:1.12;}
+.hero h1 em{color:var(--rose-deep);font-style:italic;}
+.hero-sub{font-family:'Caveat',cursive;font-size:24px;color:var(--text-mid);margin-top:14px;}
+.hero-hearts{font-size:20px;margin-top:18px;letter-spacing:8px;}
+
+/* memory cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:28px;}
+.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .25s ease, box-shadow .25s ease;position:relative;}
+.card:hover{transform:translateY(-6px) rotate(-.4deg);box-shadow:var(--shadow-hover);}
+.card-cover{height:150px;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;}
+.card-cover .wobble{display:inline-block;transition:transform .3s;}
+.card:hover .wobble{transform:scale(1.15) rotate(-8deg);}
+.card-tape{position:absolute;top:-8px;left:50%;transform:translateX(-50%) rotate(-3deg);width:90px;height:26px;background:rgba(232,160,176,.35);border-left:1px dashed rgba(255,255,255,.7);border-right:1px dashed rgba(255,255,255,.7);border-radius:2px;}
+.card-body{padding:22px 24px 26px;flex:1;display:flex;flex-direction:column;}
+.card-kicker{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:8px;}
+.card h2{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:8px;}
+.card p{font-size:14px;color:var(--text-mid);line-height:1.65;flex:1;}
+.card-go{margin-top:16px;font-size:14px;font-weight:500;color:var(--rose-deep);display:inline-flex;align-items:center;gap:6px;}
+.card:hover .card-go .arrow{transform:translateX(4px);}
+.card-go .arrow{transition:transform .25s;}
+
+/* placeholder card for future memories */
+.card-soon{border:2px dashed var(--rose);background:transparent;box-shadow:none;align-items:center;justify-content:center;text-align:center;padding:40px 24px;min-height:280px;}
+.card-soon:hover{transform:none;box-shadow:none;}
+.card-soon .plus{font-size:40px;color:var(--rose);margin-bottom:12px;}
+.card-soon .note{font-family:'Caveat',cursive;font-size:22px;color:var(--text-soft);}
+
+footer{text-align:center;margin-top:64px;font-family:'Caveat',cursive;font-size:20px;color:var(--text-soft);}
+footer .heart{color:var(--rose-deep);}
+</style>
+</head>
+<body>
+<div class="sky" id="sky"></div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-eyebrow">Duy &amp; Vy</div>
+    <h1>Our <em>Memories</em></h1>
+    <div class="hero-sub">little pieces of us, kept safe in one place</div>
+    <div class="hero-hearts">🌸 💌 ✈️</div>
+  </header>
+
+  <main class="grid" id="grid"></main>
+
+  <footer>made with <span class="heart">♥</span> — more memories to come</footer>
+</div>
+
+<script>
+/* ============================================================
+   ADD A NEW MEMORY HERE ✨
+   1. Put your new page in its own folder, e.g.  anniversary/index.html
+   2. Add one entry below — that's it!
+   ============================================================ */
+const memories = [
+  {
+    href: "journal/index.html",
+    emoji: "✈️",
+    kicker: "Travel Journal",
+    title: "Our Travel Journal",
+    desc: "Every trip, itinerary, and adventure we've shared — pinned, mapped, and remembered together.",
+    cover: "linear-gradient(135deg,#f9eef1,#fdd9e2)"
+  },
+  {
+    href: "letter/index.html",
+    emoji: "💌",
+    kicker: "Interactive Letter",
+    title: "Chưa Gặp Đã Nhớ",
+    desc: "A letter written from the heart — open it, listen, and take your time. It was made just for you.",
+    cover: "linear-gradient(135deg,#fdf8f3,#f7ded2)"
+  }
+];
+
+const grid = document.getElementById("grid");
+grid.innerHTML = memories.map(m => `
+  <a class="card" href="${m.href}">
+    <div class="card-cover" style="background:${m.cover}">
+      <span class="card-tape"></span>
+      <span class="wobble">${m.emoji}</span>
+    </div>
+    <div class="card-body">
+      <div class="card-kicker">${m.kicker}</div>
+      <h2>${m.title}</h2>
+      <p>${m.desc}</p>
+      <span class="card-go">Open memory <span class="arrow">→</span></span>
+    </div>
+  </a>`).join("") + `
+  <div class="card card-soon">
+    <div>
+      <div class="plus">＋</div>
+      <div class="note">the next memory<br>is still being written…</div>
+    </div>
+  </div>`;
+
+/* floating hearts */
+const sky = document.getElementById("sky");
+const glyphs = ["🌸","💗","🩷","🤍","✿"];
+for (let i = 0; i < 14; i++) {
+  const s = document.createElement("span");
+  s.textContent = glyphs[i % glyphs.length];
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.fontSize = 12 + Math.random() * 16 + "px";
+  s.style.animationDuration = 14 + Math.random() * 18 + "s";
+  s.style.animationDelay = -Math.random() * 20 + "s";
+  sky.appendChild(s);
+}
+</script>
+</body>
+</html>
