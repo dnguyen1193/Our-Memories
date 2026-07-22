@@ -1,0 +1,3357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duy & Vy — Our Travel Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;700&family=Pacifico&family=Special+Elite&display=swap" rel="stylesheet">
+<!-- Firebase (real-time sync). If you ever see a load error, you can bump the version number below. -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<style>
+:root {
+  --rose:#e8a0b0; --rose-light:#f9eef1; --rose-deep:#c4637a;
+  --blush:#fdf4f6; --sage:#8faa8f; --cream:#fdf8f3;
+  --text-dark:#2c2020; --text-mid:#6b4f54; --text-soft:#a08090;
+  --gold:#c9a96e; --white:#ffffff;
+  --shadow:0 4px 24px rgba(196,99,122,0.08);
+  --shadow-hover:0 8px 40px rgba(196,99,122,0.15);
+  --radius:20px; --radius-sm:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--blush);color:var(--text-dark);min-height:100vh;}
+
+/* HEADER */
+header{background:var(--white);border-bottom:1px solid #f0dce2;padding:0 24px;position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;height:64px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;cursor:pointer;transition: opacity 0.3s;}
+.logo-heart{font-size:22px;}
+.logo-text{font-family:'Playfair Display',serif;font-size:18px;color:var(--rose-deep);font-weight:600;}
+.header-actions{display:flex;gap:8px;align-items:center;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:50px;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:all .2s;font-family:'Inter',sans-serif;}
+.btn-primary{background:var(--rose-deep);color:#fff;}
+.btn-primary:hover{background:#b5566c;transform:translateY(-1px);}
+.btn-outline{background:transparent;color:var(--rose-deep);border:1.5px solid var(--rose);}
+.btn-outline:hover{background:var(--rose-light);}
+.btn-ghost{background:transparent;color:var(--text-mid);padding:8px 12px;}
+.btn-ghost:hover{background:var(--rose-light);color:var(--rose-deep);}
+.btn-danger{background:#e05c5c;color:#fff;border:none;}
+.btn-danger:hover{background:#c94a4a;}
+.btn-sm{padding:5px 12px;font-size:12px;}
+.btn-sage{background:#e8f5e9;color:#388e3c;border:none;}
+.btn-sage:hover{background:#c8e6c9;}
+
+/* HERO Section */
+.hero{position:relative;overflow:hidden;min-height:260px;background:var(--blush);}
+.hero-bg{position:relative;width:100%;z-index:0;min-height:260px;}
+.hero-img{width:100%;height:auto;display:block;}
+.hero-bg.has-css-bg{min-height:320px;background-size:cover;background-position:center;}
+.hero-overlay{position:absolute;inset:0;z-index:3;pointer-events:none;}
+
+/* Floating Layer & Animations */
+.hero-floating-layer{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden;}
+@keyframes gentleFloat {
+  0%   { transform: translate(-50%, -50%) translateY(0px) rotate(0deg); }
+  50%  { transform: translate(-50%, -50%) translateY(-8px) rotate(3deg); }
+  100% { transform: translate(-50%, -50%) translateY(0px) rotate(-2deg); }
+}
+.floating-obj{
+  position:absolute;
+  pointer-events:none;
+  animation: gentleFloat 4s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.18));
+  line-height: 1;
+}
+.floating-obj svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Position containers */
+.hero-content{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;padding:60px 24px;pointer-events:none;}
+.hero-content > * {pointer-events: auto;}
+.hero:not(.has-bg-img) .hero-content{justify-content:center !important;align-items:center !important;text-align:center !important;}
+.hero-edit-btn{position:absolute;top:14px;right:14px;z-index:10;background:rgba(255,255,255,.9);border:1.5px solid var(--rose);color:var(--rose-deep);padding:9px 15px;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:5px;min-height:42px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;box-shadow:0 2px 8px rgba(196,99,122,.15);}
+.hero-edit-btn:hover,.hero-edit-btn:active{background:var(--rose-light);}
+
+/* Typography */
+.hero-eyebrow{font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:16px;transition: text-shadow 0.2s;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(30px,6vw,54px);line-height:1.15;color:var(--text-dark);margin-bottom:16px;transition: text-shadow 0.2s;}
+.hero h1 em{color:var(--rose-deep);font-style:italic;}
+.hero-sub{font-size:16px;color:var(--text-mid);max-width:420px;margin:0 auto 36px;line-height:1.7;transition: text-shadow 0.2s;}
+
+/* Stats Positioning */
+.hero-stats-container{position:absolute;inset:0;z-index:7;display:flex;flex-direction:column;padding:60px 24px;pointer-events:none;}
+.hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;pointer-events:auto;transition: text-shadow 0.2s;}
+.stat{text-align:center;}
+.stat-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:600;color:var(--rose-deep);line-height:1;transition: text-shadow 0.2s;}
+.stat-label{font-size:12px;color:var(--text-soft);margin-top:4px;letter-spacing:.05em;transition: text-shadow 0.2s;}
+
+/* Transparent overlay rules */
+.hero.has-bg-img .hero-eyebrow,
+.hero.has-bg-img .hero h1,
+.hero.has-bg-img .hero-sub,
+.hero.has-bg-img .stat-num,
+.hero.has-bg-img .stat-label{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.45);}
+.hero.has-bg-img .hero h1 em{color:#ffc8d4;}
+
+/* Text Alignment Grids */
+.hero.tp-tl .hero-content{align-items:flex-start;justify-content:flex-start;text-align:left;padding-top:60px;}
+.hero.tp-tc .hero-content{align-items:center;justify-content:flex-start;text-align:center;padding-top:60px;}
+.hero.tp-tr .hero-content{align-items:flex-end;justify-content:flex-start;text-align:right;padding-top:60px;}
+.hero.tp-ml .hero-content{align-items:flex-start;justify-content:center;text-align:left;}
+.hero.tp-mc .hero-content{align-items:center;justify-content:center;text-align:center;}
+.hero.tp-mr .hero-content{align-items:flex-end;justify-content:center;text-align:right;}
+.hero.tp-bl .hero-content{align-items:flex-start;justify-content:flex-end;text-align:left;padding-bottom:60px;}
+.hero.tp-bc .hero-content{align-items:center;justify-content:flex-end;text-align:center;padding-bottom:60px;}
+.hero.tp-br .hero-content{align-items:flex-end;justify-content:flex-end;text-align:right;padding-bottom:60px;}
+.hero.tp-tl .hero-sub,.hero.tp-ml .hero-sub,.hero.tp-bl .hero-sub{margin-left:0;margin-right:auto;}
+.hero.tp-tr .hero-sub,.hero.tp-mr .hero-sub,.hero.tp-br .hero-sub{margin-right:0;margin-left:auto;}
+
+/* Stats Placement */
+.hero.sp-tl .hero-stats-container{align-items:flex-start;justify-content:flex-start;padding-top:60px;}
+.hero.sp-tc .hero-stats-container{align-items:center;justify-content:flex-start;padding-top:60px;}
+.hero.sp-tr .hero-stats-container{align-items:flex-end;justify-content:flex-start;padding-top:60px;}
+.hero.sp-ml .hero-stats-container{align-items:flex-start;justify-content:center;}
+.hero.sp-mc .hero-stats-container{align-items:center;justify-content:center;}
+.hero.sp-mr .hero-stats-container{align-items:flex-end;justify-content:center;}
+.hero.sp-bl .hero-stats-container{align-items:flex-start;justify-content:flex-end;padding-bottom:60px;}
+.hero.sp-bc .hero-stats-container{align-items:center;justify-content:flex-end;padding-bottom:60px;}
+.hero.sp-br .hero-stats-container{align-items:flex-end;justify-content:flex-end;padding-bottom:60px;}
+
+.pos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:200px;margin-top:8px;}
+.pos-btn,.stats-pos-btn{padding:10px 6px;border-radius:8px;border:1.5px solid #f0dce2;background:#fff;cursor:pointer;font-size:18px;transition:all .15s;text-align:center;font-family:'Inter',sans-serif;line-height:1;touch-action:manipulation;}
+.pos-btn.selected,.stats-pos-btn.selected{background:var(--rose-deep);color:#fff;border-color:var(--rose-deep);}
+.pos-btn:hover:not(.selected),.stats-pos-btn:hover:not(.selected){background:var(--rose-light);}
+
+/* MAIN CONTENT */
+main{max-width:980px;margin:0 auto;padding:48px 16px 80px;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
+.section-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--text-dark);}
+.section-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+
+/* SORT */
+.sort-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--rose);background:var(--white);color:var(--rose-deep);transition:all .2s;font-family:'Inter',sans-serif;}
+.sort-btn:hover{background:var(--rose-light);}
+.sort-arrow{transition:transform .25s;}
+.sort-btn.asc .sort-arrow{transform:rotate(180deg);}
+
+/* PRESERVE NEWLINES AND PARAGRAPHS */
+.activity-desc, .trip-card-desc, .modal-desc, .hero-sub {
+  white-space: pre-wrap; /* critical paragraph spacing fix */
+}
+
+/* TRIP GRID */
+.trips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+
+/* CARDS */
+.trip-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .3s,transform .3s;cursor:pointer;position:relative;}
+.trip-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-4px);}
+.trip-card-banner{height:210px;display:flex;align-items:flex-end;padding:16px;position:relative;overflow:hidden;background-size:cover;background-position:center;}
+.trip-card-emoji{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-size:68px;opacity:.3;}
+.trip-card-date-badge{background:rgba(255,255,255,.92);backdrop-filter:blur(4px);border-radius:50px;padding:4px 12px;font-size:12px;font-weight:600;position:relative;z-index:1;}
+.trip-card-body{padding:20px;}
+.trip-card-country{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px;}
+.trip-card-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--text-dark);margin-bottom:8px;line-height:1.25;}
+.trip-card-desc{font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.trip-card-meta{display:flex;align-items:center;justify-content:space-between;}
+.trip-card-days{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text-soft);}
+.trip-card-actions{display:flex;gap:6px;opacity:0;transition:opacity .2s;}
+.trip-card:hover .trip-card-actions{opacity:1;}
+.icon-btn{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;background:var(--rose-light);color:var(--rose-deep);}
+.icon-btn:hover{background:var(--rose-deep);color:#fff;}
+.icon-btn.danger:hover{background:#e05c5c;}
+
+.add-card{background:transparent;border:2px dashed var(--rose);border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;cursor:pointer;transition:all .2s;min-height:280px;color:var(--rose-deep);gap:12px;}
+.add-card:hover{background:var(--rose-light);border-color:var(--rose-deep);}
+.add-card-icon{font-size:36px;opacity:.6;}
+.add-card-text{font-size:15px;font-weight:500;}
+
+/* DETAIL & MODALS */
+.overlay{position:fixed;inset:0;background:rgba(44,32,32,.48);z-index:300;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;backdrop-filter:blur(2px);}
+.overlay.open{display:flex;}
+
+.modal{background:var(--white);border-radius:24px;max-width:880px;width:100%;position:relative;animation:slideUp .3s ease;margin:auto;}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,.85);color:var(--rose-deep);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:all .2s;backdrop-filter:blur(4px);}
+.modal-close:hover{background:var(--rose-deep);color:#fff;}
+.modal-banner{height:200px;display:flex;align-items:center;justify-content:center;font-size:80px;border-radius:24px 24px 0 0;position:relative;overflow:hidden;background-size:cover;background-position:center;}
+.modal-content{padding:28px 32px 36px;}
+.modal-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-soft);margin-bottom:6px;}
+.modal-title{font-family:'Playfair Display',serif;font-size:28px;color:var(--text-dark);margin-bottom:8px;}
+.modal-dates{font-size:14px;color:var(--text-mid);margin-bottom:20px;}
+.modal-desc{font-size:15px;color:var(--text-mid);line-height:1.75;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid #f0dce2;}
+
+/* TABS */
+.tabs-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #f0dce2;}
+.tab-btn{padding:8px 18px;border-radius:50px;border:1.5px solid transparent;font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;background:var(--blush);color:var(--text-mid);}
+.tab-btn.active{color:#fff;border-color:transparent;}
+.tab-btn:hover:not(.active){border-color:var(--rose);color:var(--rose-deep);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ACTIVITY LISTS */
+.activities-list{display:flex;flex-direction:column;gap:16px;}
+.activity-card{background:var(--white);border:1.5px solid #f0dce2;border-radius:16px;overflow:hidden;transition:box-shadow .2s;}
+.activity-card:hover{box-shadow:var(--shadow);}
+.activity-img{width:100%;height:260px;object-fit:cover;display:block;}
+.activity-img-placeholder{width:100%;height:180px;background:var(--rose-light);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--rose);}
+.activity-body{padding:16px 20px;}
+.activity-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--text-dark);margin-bottom:6px;}
+.activity-desc{font-size:13px;color:var(--text-mid);line-height:1.65;margin-bottom:10px;}
+.activity-tip{background:#fff8f0;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:8px 12px;font-size:12px;color:#8a6430;margin-bottom:10px;line-height:1.55;}
+.activity-tip-label{font-weight:600;margin-bottom:2px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;}
+.map-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#1a73e8;text-decoration:none;padding:4px 10px;border-radius:50px;background:#e8f0fe;font-weight:500;transition:background .2s;margin-top:4px;}
+.map-link:hover{background:#c5d9fd;}
+.checklist{margin-top:12px;border-top:1px solid #f0dce2;padding-top:12px;}
+.checklist-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-soft);margin-bottom:8px;}
+.checklist-item{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:13px;color:var(--text-mid);}
+.checklist-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--rose-deep);cursor:pointer;flex-shrink:0;}
+.checklist-item.checked span{text-decoration:line-through;color:var(--text-soft);}
+
+/* Drag & Drop Visuals */
+.drag-handle {
+  cursor: grab;
+  user-select: none;
+}
+.drag-handle:active {
+  cursor: grabbing;
+}
+.act-editor {
+  position: relative;
+  background: #fff;
+  border: 1.5px solid #f0dce2;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 0px; 
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.act-editor.dragging {
+  opacity: 0.45;
+  border: 2px dashed var(--rose-deep) !important;
+  background: var(--rose-light) !important;
+  box-shadow: 0 8px 24px rgba(196,99,122,0.15);
+}
+.insert-divider {
+  height: 28px; 
+  margin: 6px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.insert-divider::before {
+  content: '';
+  position: absolute;
+  left: 4%; right: 4%; height: 1px;
+  border-top: 1.5px dashed var(--rose);
+  opacity: 0.4; 
+  transition: all 0.2s;
+}
+.insert-divider:hover::before, .insert-divider:active::before {
+  opacity: 0.8;
+  left: 1%; right: 1%;
+}
+.insert-btn-inner {
+  opacity: 1; 
+  transform: scale(0.95);
+  background: var(--rose-light);
+  color: var(--rose-deep);
+  border: 1.5px solid var(--rose);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 20px;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(196,99,122,0.08);
+  user-select: none;
+}
+.insert-divider:hover .insert-btn-inner, .insert-divider:active .insert-btn-inner {
+  background: var(--rose-deep);
+  color: #fff;
+  border-color: var(--rose-deep);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(196,99,122,0.22);
+}
+
+/* FORM STYLING */
+.form-modal{background:var(--white);border-radius:24px;max-width:660px;width:100%;animation:slideUp .3s ease;margin:auto;}
+.form-header{padding:24px 28px 0;display:flex;justify-content:space-between;align-items:flex-start;}
+.form-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--text-dark);}
+.form-body{padding:16px 28px 28px;}
+.form-group{margin-bottom:18px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-soft);margin-bottom:5px;}
+input[type=text],input[type=number],input[type=date],input[type=url],input[type=color],textarea,select{width:100%;padding:10px 14px;border:1.5px solid #f0dce2;border-radius:var(--radius-sm);font-size:14px;font-family:'Inter',sans-serif;color:var(--text-dark);background:var(--white);transition:border-color .2s;outline:none;}
+input:focus,textarea:focus,select:focus{border-color:var(--rose-deep);}
+textarea{resize:vertical;min-height:72px;}
+.img-input-group{display:flex;flex-direction:column;gap:8px;}
+.img-input-group .row{display:flex;gap:8px;align-items:center;}
+.img-preview{width:100%;height:90px;object-fit:cover;border-radius:8px;margin-top:6px;display:none;}
+.img-preview.show{display:block;}
+
+/* PICKERS */
+.emoji-picker{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.emoji-option{width:40px;height:40px;border-radius:10px;border:2px solid transparent;background:var(--rose-light);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.emoji-option:hover{border-color:var(--rose);}
+.emoji-option.selected{border-color:var(--rose-deep);background:#fff;}
+.color-picker{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.color-swatch{width:34px;height:34px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s;}
+.color-swatch.selected{border-color:var(--text-dark);transform:scale(1.18);}
+
+/* TAB EDITOR */
+.tab-editor-entry{background:var(--blush);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px;}
+.tab-editor-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.tab-editor-label{font-size:12px;font-weight:700;color:var(--rose-deep);flex:1;}
+.remove-tab-btn,.remove-act-btn,.remove-check-btn{background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:15px;padding:2px 4px;transition:color .2s;line-height:1;}
+.remove-tab-btn:hover,.remove-act-btn:hover,.remove-check-btn:hover{color:#e05c5c;}
+.tab-style-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+.add-sub-btn{display:inline-flex;align-items:center;gap:5px;color:var(--rose-deep);background:none;border:1.5px dashed var(--rose);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;margin-top:6px;}
+.add-sub-btn:hover{background:var(--rose-light);}
+
+/* CHECKLIST EDITOR */
+.check-editor{background:#fff8f0;border-radius:8px;padding:10px;margin-top:8px;}
+.check-item-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.check-item-row input[type=text]{flex:1;padding:6px 10px;font-size:13px;}
+
+/* HERO FORM */
+.hero-form{background:var(--white);border-radius:24px;max-width:560px;width:100%;animation:slideUp .3s ease;margin:auto;}
+
+/* DECORATIONS */
+.decor-row{display:flex;gap:8px;align-items:center;background:var(--rose-light);padding:8px 12px;border-radius:8px;margin-bottom:8px;flex-wrap:wrap;}
+.decor-row select,.decor-row input{width:100%;padding:6px 8px;font-size:13px;}
+.decor-col{flex:1;display:flex;flex-direction:column;gap:4px;min-width:70px;}
+.decor-col label{font-size:10px;margin:0;color:var(--text-mid);letter-spacing:0;}
+
+.confirm-modal{background:var(--white);border-radius:20px;max-width:380px;width:100%;padding:32px;text-align:center;animation:slideUp .3s ease;margin:auto;}
+.confirm-icon{font-size:44px;margin-bottom:12px;}
+.confirm-title{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;}
+.confirm-text{font-size:14px;color:var(--text-mid);margin-bottom:24px;line-height:1.6;}
+.confirm-actions{display:flex;gap:10px;justify-content:center;}
+
+.empty-state{text-align:center;padding:60px 24px;color:var(--text-soft);grid-column:1/-1;}
+.empty-icon{font-size:52px;margin-bottom:16px;}
+.empty-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--text-mid);margin-bottom:8px;}
+.empty-text{font-size:14px;line-height:1.7;}
+
+/* FOOTER */
+footer{text-align:center;padding:36px 24px;font-size:13px;color:var(--text-soft);border-top:1px solid #f0dce2;background:var(--white);position:relative;}
+.footer-text{cursor:pointer;display:inline-block;}
+.footer-text:hover{color:var(--rose-deep);}
+.footer-edit-hint{font-size:11px;color:var(--rose);margin-top:4px;opacity:0;transition:opacity .2s;}
+footer:hover .footer-edit-hint{opacity:1;}
+.footer-edit-input{display:none;border:1.5px solid var(--rose);border-radius:8px;padding:6px 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text-dark);width:100%;max-width:400px;margin:0 auto;outline:none;}
+.footer-edit-input.show{display:block;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text-dark);color:#fff;padding:12px 20px;border-radius:50px;font-size:14px;font-weight:500;z-index:999;transition:transform .3s;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+.form-actions{display:flex;gap:10px;justify-content:flex-end;padding-top:8px;}
+
+/* SPLASH SCREEN & GREETINGS */
+.splash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: linear-gradient(160deg, #fdf4f6 0%, #f9eef1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.splash-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.splash-card {
+  background: #fff;
+  border-radius: 32px;
+  width: 100%;
+  max-width: 460px;
+  padding: 40px 32px;
+  text-align: center;
+  box-shadow: 0 16px 60px rgba(196,99,122,0.18);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--rose-light);
+}
+.splash-avatar-row {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 24px;
+}
+.avatar-btn {
+  background: var(--rose-light);
+  border: 2px solid transparent;
+  padding: 16px;
+  border-radius: 24px;
+  cursor: pointer;
+  width: 130px;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.avatar-btn:hover, .avatar-btn:active {
+  transform: scale(1.08) translateY(-4px);
+  border-color: var(--rose-deep);
+  box-shadow: 0 8px 24px rgba(196,99,122,0.15);
+}
+.avatar-emoji {
+  font-size: 42px;
+  margin-bottom: 8px;
+  display: block;
+}
+.avatar-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+.greeting-section {
+  display: none;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.4s ease;
+}
+.greeting-section.show {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+.greeting-quote {
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+  color: var(--rose-deep);
+  margin-top: 14px;
+  line-height: 1.3;
+}
+
+@keyframes magicEntrance {
+  0% { opacity: 0; transform: translateY(24px) scale(0.92); filter: blur(5px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes romanticGlow {
+  0%, 100% { 
+    text-shadow: 0 0 12px rgba(196,99,122,0.4), 0 0 20px rgba(196,99,122,0.2); 
+    color: var(--rose-deep);
+  }
+  50% { 
+    text-shadow: 0 0 24px rgba(196,99,122,0.7), 0 0 35px rgba(232,160,176,0.5); 
+    color: #d1526d;
+  }
+}
+.magical-greet-title {
+  animation: magicEntrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) both, romanticGlow 2.5s ease-in-out infinite;
+}
+.magical-greet-body {
+  animation: magicEntrance 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.15s both;
+}
+.magical-greet-quote {
+  animation: magicEntrance 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s both;
+}
+
+/* Flying logo transformation */
+.flying-title-clone {
+  position: fixed;
+  z-index: 1000;
+  font-family: 'Playfair Display', serif;
+  color: var(--rose-deep);
+  font-weight: 600;
+  text-align: center;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.sparkle-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1100;
+  animation: sparkleBurst 1.4s forwards cubic-bezier(0.1, 0.8, 0.25, 1);
+}
+@keyframes sparkleBurst {
+  0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(1.4) rotate(var(--rot)); opacity: 0; }
+}
+
+/* MOBILE TARGETS */
+@media(max-width:640px){
+  .logo-text{display:inline-block !important; font-size:15px !important;}
+  .hero{min-height:200px;}
+  .hero-stats{gap:20px;}
+  main{padding:28px 12px 56px;}
+  .modal-content{padding:16px 14px 22px;}
+  .form-header{padding:16px 14px 0;}
+  .form-body{padding:12px 14px 22px;}
+  .form-row{grid-template-columns:1fr;}
+  .trip-card-actions{opacity:1;}
+  .section-tools{gap:6px;}
+  header{padding:0 12px;}
+  .logo{gap:6px;}
+  .logo-heart{font-size:18px;}
+  .header-actions{gap:4px;}
+  .btn-sm{padding:4px 8px; font-size:11px; min-height: 32px !important;}
+  .sync-pill{padding:4px 8px; font-size:11px;}
+  
+  /* Prevent zoom behavior on iOS */
+  input[type=text],input[type=number],input[type=date],input[type=url],input[type=email],
+  input[type=password],textarea,select{font-size:16px !important;}
+  .btn{min-height:42px;touch-action:manipulation;}
+  .icon-btn{width:36px;height:36px;}
+  .overlay{padding:8px;-webkit-overflow-scrolling:touch;}
+  .form-modal,.hero-form,.modal{border-radius:16px;max-height:calc(100vh - 16px);overflow-y:auto;}
+  .tab-btn{min-height:38px;padding:8px 14px;}
+  .add-sub-btn,.add-day-btn{min-height:38px;}
+  .login-card{padding:28px 18px 22px;}
+  .login-card input{font-size:16px;min-height:46px;}
+  .hero-edit-btn{top:10px;right:10px;padding:8px 13px;font-size:13px;}
+  .pos-grid{max-width:100%;}
+  .hero-content{padding:40px 16px;}
+}
+@media(max-width:380px){
+  .hero h1{font-size:26px;}
+  .hero-content{padding:32px 14px;}
+}
+
+/* SYNC MODE */
+.cloud-only{display:none;}
+body.cloud-mode .cloud-only{display:inline-flex;}
+.sync-pill{font-size:12px;color:#3d7a4e;background:#eaf5ee;border-radius:50px;padding:5px 11px;align-items:center;gap:5px;font-weight:500;}
+.login-overlay{position:fixed;inset:0;z-index:400;background:linear-gradient(160deg,#fdf4f6 0%,#f9eef1 100%);display:none;align-items:center;justify-content:center;padding:20px;}
+.login-overlay.open{display:flex;}
+.login-card{background:#fff;border-radius:24px;padding:40px 32px 32px;max-width:380px;width:100%;text-align:center;box-shadow:0 12px 50px rgba(196,99,122,.18);animation:slideUp .35s ease;}
+.login-card input{width:100%;padding:11px 14px;border:1.5px solid #f0dce2;border-radius:12px;font-size:14px;font-family:'Inter',sans-serif;color:var(--text-dark);outline:none;transition:border-color .2s;}
+.login-card input:focus{border-color:var(--rose-deep);}
+</style>
+</head>
+<body>
+
+<!-- CUTE GREETING SPLASH OVERLAY -->
+<div class="splash-overlay" id="welcome-splash">
+  <div class="splash-card">
+    <div style="font-size:36px; margin-bottom:8px;">🌸🏰🌸</div>
+    <!-- Step 1: Who is here? -->
+    <div id="splash-step-who">
+      <h2 style="font-family:'Playfair Display',serif; font-size:22px; color:var(--text-dark); line-height:1.3; margin-bottom:6px;">Duy & Vy</h2>
+      <h3 style="font-family:'Playfair Display',serif; font-size:22px; color:var(--rose-deep); margin-bottom:8px;">Travel Vault</h3>
+      <p style="font-size:13px; color:var(--text-soft);">Who is opening our scrapbooks today?</p>
+      <div class="splash-avatar-row">
+        <button class="avatar-btn" onclick="selectVisitor('Duy')">
+          <span class="avatar-emoji">💕</span>
+          <span class="avatar-name">Duy</span>
+        </button>
+        <button class="avatar-btn" onclick="selectVisitor('Vy')">
+          <span class="avatar-emoji">🌸</span>
+          <span class="avatar-name">Vy</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Step 2: Personalized message -->
+    <div class="greeting-section" id="splash-step-greet">
+      <h2 style="font-family:'Playfair Display',serif; font-size:26px; color:var(--text-dark); margin-bottom:10px;" id="greet-title">Hello, Sweetheart!</h2>
+      <p style="font-size:14px; color:var(--text-mid); line-height:1.6;" id="greet-body">Ready to look back at our favorite days?</p>
+      <p class="greeting-quote" id="greet-quote">"With you, every journey feels like coming home."</p>
+      
+      <button class="btn btn-primary" style="margin-top:28px; width:100%; justify-content:center; padding:12px 24px; font-size:15px; box-shadow:0 4px 14px rgba(196,99,122,0.3)" onclick="triggerFlyAway()">
+        Open Vault 🗝️
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="login-overlay" id="login-overlay">
+  <div class="login-card">
+    <div style="font-size:42px;margin-bottom:6px;">💕</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--text-dark);margin-bottom:6px;">Welcome back</h2>
+    <p style="font-size:14px;color:var(--text-mid);margin-bottom:22px;line-height:1.6;">Sign in to open your shared travel journal</p>
+    <input type="email" id="login-email" placeholder="Email" autocomplete="username" style="margin-bottom:10px;"/>
+    <input type="password" id="login-pw" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()" style="margin-bottom:6px;"/>
+    <div id="login-error" style="color:#e05c5c;font-size:13px;min-height:18px;margin-bottom:8px;text-align:left;"></div>
+    <button class="btn btn-primary" id="login-btn" style="width:100%;justify-content:center;padding:11px;" onclick="doLogin()">Sign in 💕</button>
+    <p style="font-size:12px;color:var(--text-soft);margin-top:16px;line-height:1.5;">You both sign in with the same email and password to share one journal.</p>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" id="header-logo-container" onclick="scrollTo({top:0,behavior:'smooth'})">
+    <span class="logo-heart">💕</span>
+    <span class="logo-text" id="logo-name">Duy & Vy</span>
+  </a>
+  <div class="header-actions">
+    <span class="sync-pill cloud-only" id="sync-pill" title="Your changes save and sync automatically">☁️ Synced</span>
+    <button class="btn btn-outline btn-sm" onclick="openAddForm()">＋ New Trip</button>
+    <button class="btn btn-ghost btn-sm cloud-only" onclick="doLogout()">Sign out</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero tp-tc sp-bc" id="hero-section">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-overlay" id="hero-overlay" style="background:transparent;"></div>
+  <div class="hero-floating-layer" id="hero-floating-layer"></div>
+  
+  <button class="hero-edit-btn" id="hero-edit-btn" onclick="openHeroEditor()" type="button">✏️ Edit</button>
+  
+  <!-- Separated Text Content Wrapper -->
+  <div class="hero-content" id="hero-content">
+    <div class="hero-eyebrow" id="hero-eyebrow">Our Travel Journal</div>
+    <h1 id="hero-h1"><span id="hero-h1a">Every journey</span><br><em id="hero-em">with you</em><span id="hero-h1b"> is home</span></h1>
+    <p class="hero-sub" id="hero-sub">A little scrapbook of the places we've been, the memories we've made, and all the adventures still to come. 🌸</p>
+  </div>
+
+  <!-- Separated Stats Content Wrapper -->
+  <div class="hero-stats-container" id="hero-stats-container">
+    <div class="hero-stats" id="hero-stats"></div>
+  </div>
+</div>
+
+<!-- MAIN LIST -->
+<main>
+  <div class="section-header">
+    <h2 class="section-title">Our trips 🗺️</h2>
+    <div class="section-tools">
+      <button class="sort-btn asc" id="sort-btn" onclick="toggleSort()">
+        <span>📅 By date</span><span class="sort-arrow">↑</span>
+      </button>
+      <span id="trip-count-label" style="font-size:13px;color:var(--text-soft);"></span>
+    </div>
+  </div>
+  <div class="trips-grid" id="trips-grid"></div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-text" id="footer-display" onclick="startFooterEdit()"></div>
+  <div class="footer-edit-hint">Click to edit</div>
+  <input class="footer-edit-input" id="footer-input" type="text" onblur="saveFooterEdit()" onkeydown="if(event.key==='Enter')this.blur();" />
+</footer>
+
+<!-- ── DETAIL MODAL ── -->
+<div class="overlay" id="detail-overlay" onclick="overlayClick(event,'detail-overlay')">
+<div class="modal" onclick="event.stopPropagation()">
+  <button class="modal-close" onclick="closeOverlay('detail-overlay')">✕</button>
+  <div class="modal-banner" id="det-banner"></div>
+  <div class="modal-content">
+    <div class="modal-eyebrow" id="det-country"></div>
+    <div class="modal-title" id="det-title"></div>
+    <div class="modal-dates" id="det-dates"></div>
+    <div class="modal-desc" id="det-desc"></div>
+    <!-- TABS BAR -->
+    <div class="tabs-bar" id="det-tabs-bar"></div>
+    <!-- TAB PANELS -->
+    <div id="det-tabs-content"></div>
+    <div style="display:flex;gap:10px;margin-top:24px;padding-top:20px;border-top:1px solid #f0dce2;">
+      <button class="btn btn-outline" id="det-edit-btn">✏️ Edit trip</button>
+      <button class="btn btn-ghost" id="det-delete-btn" style="color:#e05c5c;margin-left:auto;">Delete</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ── FORM MODAL ── -->
+<div class="overlay" id="form-overlay" onclick="overlayClick(event,'form-overlay')">
+<div class="form-modal" onclick="event.stopPropagation()">
+  <div class="form-header">
+    <h2 class="form-title" id="form-modal-title">Add a new trip ✈️</h2>
+    <button class="modal-close" style="position:relative;top:auto;right:auto;" onclick="closeOverlay('form-overlay')">✕</button>
+  </div>
+  <div class="form-body">
+    <div class="form-group"><label>Trip name</label><input type="text" id="f-title" placeholder="e.g. Singapore Adventure"/></div>
+    <div class="form-group">
+      <label>Country / Destination</label>
+      <select id="f-country" style="width:100%;">
+        <!-- Populated dynamically via JavaScript initialization -->
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Start date</label><input type="date" id="f-start"/></div>
+      <div class="form-group"><label>End date</label><input type="date" id="f-end"/></div>
+    </div>
+    <div class="form-group"><label>Description</label><textarea id="f-desc" placeholder="What makes this trip special?"></textarea></div>
+    <div class="form-group">
+      <label>Cover image (card banner)</label>
+      <div class="img-input-group">
+        <div class="row"><input type="url" id="f-cover-url" placeholder="Paste image URL…" oninput="previewImg('f-cover-url','f-cover-preview')"/></div>
+        <div class="row"><label style="text-transform:none;letter-spacing:0;font-size:13px;color:var(--rose-deep);cursor:pointer;"><input type="file" accept="image/*" style="display:none" onchange="fileToUrl(this,'f-cover-url','f-cover-preview')"/>📎 Or upload a photo</label></div>
+        <img id="f-cover-preview" class="img-preview" src="" alt="preview"/>
+      </div>
+    </div>
+    <div class="form-group"><label>Card icon</label><div class="emoji-picker" id="emoji-picker"></div></div>
+    <div class="form-group"><label>Card colour</label><div class="color-picker" id="color-picker"></div></div>
+    
+    <!-- Collapsible Typography Settings -->
+    <details style="margin-bottom:18px; background:var(--blush); border-radius:12px; padding:6px 12px; border:1px solid #f0dce2;">
+      <summary style="font-size:13px; font-weight:600; color:var(--rose-deep); cursor:pointer;">🎨 Custom Card Typography</summary>
+      <div style="margin-top:10px;" id="trip-typo-container"></div>
+    </details>
+
+    <!-- SPLIT TABS EDITOR FOR SEPARATED DAY EDITING -->
+    <div class="form-group" style="border-top:1.5px solid #f0dce2; padding-top:16px;">
+      <label>Days / Tabs (Edit one day at a time)</label>
+      <!-- Horizontal Navigation Bar for tab editing -->
+      <div id="tabs-editor-nav" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid #f0dce2;"></div>
+      <!-- Tab Contents Container -->
+      <div id="tabs-editor"></div>
+    </div>
+    
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeOverlay('form-overlay')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTrip()">Save trip 💾</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ── HERO EDITOR ── -->
+<div class="overlay" id="hero-overlay-modal" onclick="overlayClick(event,'hero-overlay-modal')">
+<div class="hero-form" onclick="event.stopPropagation()">
+  <div class="form-header">
+    <h2 class="form-title">Edit hero section 🌸</h2>
+    <button class="modal-close" style="position:relative;top:auto;right:auto;" onclick="closeOverlay('hero-overlay-modal')">✕</button>
+  </div>
+  <div class="form-body">
+    <div class="form-group"><label>Eyebrow text (small top line)</label><input type="text" id="he-eyebrow" placeholder="Our Travel Journal"/></div>
+    <div class="form-group"><label>Headline — first part</label><input type="text" id="he-h1a" placeholder="Every journey"/></div>
+    <div class="form-group"><label>Highlighted word(s)</label><input type="text" id="he-em" placeholder="with you"/></div>
+    <div class="form-group"><label>Headline — last part</label><input type="text" id="he-h1b" placeholder="is home"/></div>
+    <div class="form-group"><label>Subtitle / description</label><textarea id="he-sub" rows="2" placeholder="A little scrapbook…"></textarea></div>
+    <div class="form-group">
+      <label>Background image</label>
+      <div class="img-input-group">
+        <div class="row"><input type="url" id="he-img-url" placeholder="Paste image URL…" oninput="previewHeroImg()"/></div>
+        <div class="row"><label style="text-transform:none;letter-spacing:0;font-size:13px;color:var(--rose-deep);cursor:pointer;"><input type="file" accept="image/*" style="display:none" onchange="heroFileUpload(this)"/>📎 Or upload a photo</label></div>
+        <div class="form-group" style="margin-top:6px;margin-bottom:0;"><label>Or paste CSS / code</label><textarea id="he-img-css" rows="2" placeholder='e.g. linear-gradient(135deg,#f9eef1,#fdf4f6)' oninput="previewHeroImg()"></textarea></div>
+        <img id="he-img-preview" class="img-preview" style="height:100px;border-radius:10px;" src="" alt="preview"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Dark overlay opacity (0 = none, 0.7 = heavy)</label>
+      <input type="range" id="he-overlay" min="0" max="0.7" step="0.05" value="0" style="width:100%;margin-top:6px;" oninput="updateHeroOverlayPreview()"/>
+      <span id="he-overlay-val" style="font-size:12px;color:var(--text-soft);">0</span>
+    </div>
+
+    <!-- Collapsible Typography Editor block for Hero elements -->
+    <details style="margin-bottom:18px; background:var(--blush); border-radius:12px; padding:6px 12px; border:1px solid #f0dce2; margin-top: 10px;">
+      <summary style="font-size:13px; font-weight:600; color:var(--rose-deep); cursor:pointer;">🎨 Custom Typography Styles</summary>
+      <div style="margin-top:10px;" id="hero-typo-settings-block"></div>
+    </details>
+
+    <!-- Independent Positions Pickers -->
+    <div class="form-group" style="border-top: 1px solid #f0dce2; padding-top: 16px;">
+      <label>Main Text Position — tap to move text</label>
+      <div class="pos-grid" id="pos-grid">
+        <button type="button" class="pos-btn" data-pos="tl" onclick="selectTextPos('tl')">↖</button>
+        <button type="button" class="pos-btn" data-pos="tc" onclick="selectTextPos('tc')">↑</button>
+        <button type="button" class="pos-btn" data-pos="tr" onclick="selectTextPos('tr')">↗</button>
+        <button type="button" class="pos-btn" data-pos="ml" onclick="selectTextPos('ml')">←</button>
+        <button type="button" class="pos-btn selected" data-pos="mc" onclick="selectTextPos('mc')">✦</button>
+        <button type="button" class="pos-btn" data-pos="mr" onclick="selectTextPos('mr')">→</button>
+        <button type="button" class="pos-btn" data-pos="bl" onclick="selectTextPos('bl')">↙</button>
+        <button type="button" class="pos-btn" data-pos="bc" onclick="selectTextPos('bc')">↓</button>
+        <button type="button" class="pos-btn" data-pos="br" onclick="selectTextPos('br')">↘</button>
+      </div>
+    </div>
+
+    <div class="form-group" style="border-top: 1px solid #f0dce2; padding-top: 16px;">
+      <label>Trip Counting Stats Position — tap to move stats</label>
+      <div class="pos-grid" id="stats-pos-grid">
+        <button type="button" class="stats-pos-btn" data-stats-pos="tl" onclick="selectStatsPos('tl')">↖</button>
+        <button type="button" class="stats-pos-btn" data-stats-pos="tc" onclick="selectStatsPos('tc')">↑</button>
+        <button type="button" class="stats-pos-btn" data-stats-pos="tr" onclick="selectStatsPos('tr')">↗</button>
+        <button type="button" class="stats-pos-btn" data-stats-pos="ml" onclick="selectStatsPos('ml')">←</button>
+        <button type="button" class="stats-pos-btn" data-stats-pos="mc" onclick="selectStatsPos('mc')">✦</button>
+        <button type="button" class="stats-pos-btn" data-stats-pos="mr" onclick="selectStatsPos('mr')">→</button>
+        <button type="button" class="stats-pos-btn" data-stats-pos="bl" onclick="selectStatsPos('bl')">↙</button>
+        <button type="button" class="stats-pos-btn selected" data-stats-pos="bc" onclick="selectStatsPos('bc')">↓</button>
+        <button type="button" class="stats-pos-btn" data-stats-pos="br" onclick="selectStatsPos('br')">↘</button>
+      </div>
+    </div>
+
+    <!-- Shadows & Glow Customization -->
+    <div class="form-group" style="border-top: 1px solid #f0dce2; padding-top: 16px; margin-top: 16px;">
+      <label style="color: var(--rose-deep); font-size: 13px; font-weight: 700; margin-bottom: 12px; display: block;">Text Shadows & Glow Effects 🌟</label>
+      
+      <div style="background: var(--rose-light); padding: 12px; border-radius: 12px; margin-bottom: 10px;">
+        <label style="font-size: 11px; margin-bottom: 6px; display: block; font-weight: 600;">Eyebrow Shadow ("Our Travel Journal")</label>
+        <div class="form-row" style="margin-bottom: 0;">
+          <div>
+            <select id="he-eyebrow-shadow" onchange="updateShadowsLive()">
+              <option value="none">No Shadow</option>
+              <option value="soft">Soft Shadow</option>
+              <option value="medium">Medium Shadow</option>
+              <option value="strong">Strong Shadow</option>
+              <option value="glow">Intense Glow</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <label style="margin: 0; font-size: 10px; width: 45px;">Color:</label>
+            <input type="color" id="he-eyebrow-shadow-color" value="#000000" oninput="updateShadowsLive()" style="width: 50px; height: 36px; padding: 2px; border-radius: 6px; cursor: pointer; border: 1.5px solid #f0dce2;"/>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: var(--rose-light); padding: 12px; border-radius: 12px; margin-bottom: 10px;">
+        <label style="font-size: 11px; margin-bottom: 6px; display: block; font-weight: 600;">Headline Shadow ("Every journey with you is home")</label>
+        <div class="form-row" style="margin-bottom: 0;">
+          <div>
+            <select id="he-headline-shadow" onchange="updateShadowsLive()">
+              <option value="none">No Shadow</option>
+              <option value="soft">Soft Shadow</option>
+              <option value="medium">Medium Shadow</option>
+              <option value="strong">Strong Shadow</option>
+              <option value="glow">Intense Glow</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <label style="margin: 0; font-size: 10px; width: 45px;">Color:</label>
+            <input type="color" id="he-headline-shadow-color" value="#000000" oninput="updateShadowsLive()" style="width: 50px; height: 36px; padding: 2px; border-radius: 6px; cursor: pointer; border: 1.5px solid #f0dce2;"/>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: var(--rose-light); padding: 12px; border-radius: 12px; margin-bottom: 10px;">
+        <label style="font-size: 11px; margin-bottom: 6px; display: block; font-weight: 600;">Subtitle Shadow (Description paragraph)</label>
+        <div class="form-row" style="margin-bottom: 0;">
+          <div>
+            <select id="he-subtitle-shadow" onchange="updateShadowsLive()">
+              <option value="none">No Shadow</option>
+              <option value="soft">Soft Shadow</option>
+              <option value="medium">Medium Shadow</option>
+              <option value="strong">Strong Shadow</option>
+              <option value="glow">Intense Glow</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <label style="margin: 0; font-size: 10px; width: 45px;">Color:</label>
+            <input type="color" id="he-subtitle-shadow-color" value="#000000" oninput="updateShadowsLive()" style="width: 50px; height: 36px; padding: 2px; border-radius: 6px; cursor: pointer; border: 1.5px solid #f0dce2;"/>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: var(--rose-light); padding: 12px; border-radius: 12px;">
+        <label style="font-size: 11px; margin-bottom: 6px; display: block; font-weight: 600;">Stats Counting Shadow</label>
+        <div class="form-row" style="margin-bottom: 0;">
+          <div>
+            <select id="he-stats-shadow" onchange="updateShadowsLive()">
+              <option value="none">No Shadow</option>
+              <option value="soft">Soft Shadow</option>
+              <option value="medium">Medium Shadow</option>
+              <option value="strong">Strong Shadow</option>
+              <option value="glow">Intense Glow</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <label style="margin: 0; font-size: 10px; width: 45px;">Color:</label>
+            <input type="color" id="he-stats-shadow-color" value="#000000" oninput="updateShadowsLive()" style="width: 50px; height: 36px; padding: 2px; border-radius: 6px; cursor: pointer; border: 1.5px solid #f0dce2;"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLOATING DECORATIONS -->
+    <div class="form-group" style="border-top: 1px solid #f0dce2; padding-top: 20px; margin-top: 20px;">
+      <label>Floating Decorations 🎈</label>
+      <p style="font-size:12px; color:var(--text-mid); margin-bottom:12px; line-height:1.5;">Add cute floating objects to your background. Adjust coordinates to place them beautifully.</p>
+      <div id="hero-decorations-list"></div>
+      <button type="button" class="add-sub-btn" onclick="addHeroDecoration()">＋ Add decoration</button>
+    </div>
+
+    <div class="form-group" style="border-top: 1px solid #f0dce2; padding-top: 20px; margin-top: 20px;">
+      <label>Couple name (header)</label><input type="text" id="he-couple" placeholder="Duy &amp; Vy"/>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeOverlay('hero-overlay-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveHero()">Save 💾</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="overlay" id="confirm-overlay" onclick="overlayClick(event,'confirm-overlay')">
+<div class="confirm-modal" onclick="event.stopPropagation()">
+  <div class="confirm-icon">🗑️</div>
+  <div class="confirm-title">Delete this trip?</div>
+  <div class="confirm-text">This permanently removes the trip and all its memories. Can't be undone.</div>
+  <div class="confirm-actions">
+    <button class="btn btn-ghost" onclick="closeOverlay('confirm-overlay')">Keep it</button>
+    <button class="btn btn-danger btn" onclick="confirmDelete()">Yes, delete</button>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  🔒 FORMATTING ENGINE (Rich text shortcut translation)
+// ═══════════════════════════════════════════════════════
+function safeFormat(text) {
+  if (!text) return "";
+  let clean = esc(text);
+  clean = clean.replace(/<b>/gi, "<b>").replace(/<\/b>/gi, "</b>");
+  clean = clean.replace(/<i>/gi, "<i>").replace(/<\/i>/gi, "</i>");
+  clean = clean.replace(/<u>/gi, "<u>").replace(/<\/u>/gi, "</u>");
+  clean = clean.replace(/\n/g, "<br>");
+  return clean;
+}
+
+document.addEventListener("keydown", function(e) {
+  const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+  const modifier = isMac ? e.metaKey : e.ctrlKey;
+  if (!modifier) return;
+  
+  const key = e.key.toLowerCase();
+  if (key === "b" || key === "i" || key === "u") {
+    const active = document.activeElement;
+    if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA")) {
+      e.preventDefault();
+      const start = active.selectionStart;
+      const end = active.selectionEnd;
+      const val = active.value;
+      const selText = val.substring(start, end);
+      
+      let tagStart = "", tagEnd = "";
+      if (key === "b") { tagStart = "<b>"; tagEnd = "</b>"; }
+      else if (key === "i") { tagStart = "<i>"; tagEnd = "</i>"; }
+      else if (key === "u") { tagStart = "<u>"; tagEnd = "</u>"; }
+      
+      const newVal = val.substring(0, start) + tagStart + selText + tagEnd + val.substring(end);
+      active.value = newVal;
+      
+      active.selectionStart = start;
+      active.selectionEnd = start + tagStart.length + selText.length + tagEnd.length;
+      active.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════════
+//  🌍 GLOBAL COUNTRIES & US STATES DATASETS
+// ═══════════════════════════════════════════════════════
+const COUNTRIES = [
+  { name: "Afghanistan", flag: "🇦🇫" }, { name: "Albania", flag: "🇦🇱" }, { name: "Algeria", flag: "🇩🇿" },
+  { name: "Andorra", flag: "🇦🇩" }, { name: "Angola", flag: "🇦🇴" }, { name: "Antigua and Barbuda", flag: "🇦🇬" },
+  { name: "Argentina", flag: "🇦🇷" }, { name: "Armenia", flag: "🇦🇲" }, { name: "Australia", flag: "🇦🇺" },
+  { name: "Austria", flag: "🇦🇹" }, { name: "Azerbaijan", flag: "🇦🇿" }, { name: "Bahamas", flag: "🇧🇸" },
+  { name: "Bahrain", flag: "🇧🇭" }, { name: "Bangladesh", flag: "🇧🇩" }, { name: "Barbados", flag: "🇧🇧" },
+  { name: "Belarus", flag: "🇧🇾" }, { name: "Belgium", flag: "🇧🇪" }, { name: "Belize", flag: "🇧🇿" },
+  { name: "Benin", flag: "🇧🇯" }, { name: "Bhutan", flag: "🇧🇹" }, { name: "Bolivia", flag: "🇧🇴" },
+  { name: "Bosnia and Herzegovina", flag: "🇧🇦" }, { name: "Botswana", flag: "🇧🇼" }, { name: "Brazil", flag: "🇧🇷" },
+  { name: "Brunei", flag: "🇧🇳" }, { name: "Bulgaria", flag: "🇧🇬" }, { name: "Burkina Faso", flag: "🇧🇫" },
+  { name: "Burundi", flag: "🇧🇮" }, { name: "Cabo Verde", flag: "🇨🇻" }, { name: "Cambodia", flag: "🇰🇭" },
+  { name: "Cameroon", flag: "🇨🇲" }, { name: "Canada", flag: "🇨🇦" }, { name: "Central African Republic", flag: "🇨🇫" },
+  { name: "Chad", flag: "🇹🇩" }, { name: "Chile", flag: "🇨🇱" }, { name: "China", flag: "🇨🇳" },
+  { name: "Colombia", flag: "🇨🇴" }, { name: "Comoros", flag: "🇰🇲" }, { name: "Costa Rica", flag: "🇨🇷" },
+  { name: "Croatia", flag: "🇭🇷" }, { name: "Cuba", flag: "🇨🇺" }, { name: "Cyprus", flag: "🇨🇾" },
+  { name: "Czechia", flag: "🇨🇿" }, { name: "Denmark", flag: "🇩🇰" }, { name: "Ecuador", flag: "🇪🇨" },
+  { name: "Egypt", flag: "🇪🇬" }, { name: "El Salvador", flag: "🇸🇻" }, { name: "Estonia", flag: "🇪🇪" },
+  { name: "Ethiopia", flag: "🇪🇹" }, { name: "Fiji", flag: "🇫🇯" }, { name: "Finland", flag: "🇫🇮" },
+  { name: "France", flag: "🇫🇷" }, { name: "Georgia", flag: "🇬🇪" }, { name: "Germany", flag: "🇩🇪" },
+  { name: "Greece", flag: "🇬🇷" }, { name: "Hungary", flag: "🇭🇺" }, { name: "Iceland", flag: "🇮🇸" },
+  { name: "India", flag: "🇮🇳" }, { name: "Indonesia", flag: "🇮🇩" }, { name: "Ireland", flag: "🇮🇪" },
+  { name: "Italy", flag: "🇮🇹" }, { name: "Japan", flag: "🇯🇵" }, { name: "Laos", flag: "🇱🇦" },
+  { name: "Malaysia", flag: "🇲🇾" }, { name: "Maldives", flag: "🇲🇻" }, { name: "Mexico", flag: "🇲🇽" },
+  { name: "Nepal", flag: "🇳🇵" }, { name: "Netherlands", flag: "🇳🇱" }, { name: "New Zealand", flag: "🇳🇿" },
+  { name: "Norway", flag: "🇳🇴" }, { name: "Philippines", flag: "🇵🇭" }, { name: "Poland", flag: "🇵🇱" },
+  { name: "Portugal", flag: "🇵🇹" }, { name: "Romania", flag: "🇷🇴" }, { name: "Russia", flag: "🇷🇺" },
+  { name: "Singapore", flag: "🇸🇬" }, { name: "South Korea", flag: "🇰🇷" }, { name: "Spain", flag: "🇪🇸" },
+  { name: "Switzerland", flag: "🇨🇭" }, { name: "Taiwan", flag: "🇹🇼" }, { name: "Thailand", flag: "🇹🇭" },
+  { name: "Turkey", flag: "🇹🇷" }, { name: "Ukraine", flag: "🇺🇦" }, { name: "United Kingdom", flag: "🇬🇧" },
+  { name: "United States", flag: "🇺🇸" }, { name: "Vietnam", flag: "🇻🇳" }
+];
+
+const US_STATES = [
+  { name: "Alabama", icon: "🦅" }, { name: "Alaska", icon: "🐻" }, { name: "Arizona", icon: "🌵" },
+  { name: "California", icon: "🌉" }, { name: "Colorado", icon: "🏔️" }, { name: "Florida", icon: "🍊" },
+  { name: "Georgia", icon: "🍑" }, { name: "Hawaii", icon: "🏄" }, { name: "Illinois", icon: "🏙️" },
+  { name: "Massachusetts", icon: "⛵" }, { name: "Michigan", icon: "🚗" }, { name: "Nevada", icon: "🎰" },
+  { name: "New York", icon: "🗽" }, { name: "Texas", icon: "🤠" }, { name: "Washington", icon: "🍎" }
+];
+
+function populateCountriesDropdown() {
+  const select = document.getElementById("f-country");
+  if(!select) return;
+  select.innerHTML = "";
+  
+  const defOpt = document.createElement("option");
+  defOpt.value = "";
+  defOpt.textContent = "-- Select Country or US State --";
+  select.appendChild(defOpt);
+
+  const ogCountries = document.createElement("optgroup");
+  ogCountries.label = "All Countries";
+  COUNTRIES.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = `${c.name} ${c.flag}`;
+    opt.textContent = `${c.flag} ${c.name}`;
+    ogCountries.appendChild(opt);
+  });
+  select.appendChild(ogCountries);
+
+  const ogStates = document.createElement("optgroup");
+  ogStates.label = "United States - States";
+  US_STATES.forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = `${s.name}, USA ${s.icon}`;
+    opt.textContent = `${s.icon} ${s.name} (USA)`;
+    ogStates.appendChild(opt);
+  });
+  select.appendChild(ogStates);
+}
+
+function selectDropdownValue(selectId, val) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+  
+  populateCountriesDropdown();
+  
+  if (!val) {
+    select.value = "";
+    return;
+  }
+  
+  let found = false;
+  for (let i = 0; i < select.options.length; i++) {
+    if (select.options[i].value === val) {
+      select.value = val;
+      found = true;
+      break;
+    }
+  }
+  
+  if (!found) {
+    const opt = document.createElement("option");
+    opt.value = val;
+    opt.textContent = val;
+    select.appendChild(opt);
+    select.value = val;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  ⚙️  TYPOGRAPHY ENGINE UTILITIES
+// ═══════════════════════════════════════════════════════
+function getTypographyEditorHtml(prefix, label, s = {}) {
+  const font = s.font || "";
+  const bold = s.bold ? "checked" : "";
+  const italic = s.italic ? "checked" : "";
+  const underline = s.underline ? "checked" : "";
+  const size = s.size || "";
+  const color = s.color || "";
+  const colorEnabled = s.color ? "checked" : "";
+  
+  return `
+    <div class="typography-editor-block" style="background:#fff; border:1.5px solid #f0dce2; border-radius:12px; padding:12px; margin-bottom:12px;">
+      <span style="font-size:11px; font-weight:700; color:var(--text-soft); text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:8px;">${label} Typography 🎨</span>
+      <div class="form-row" style="margin-bottom:8px; display:grid; grid-template-columns:1.5fr 1fr; gap:8px;">
+        <div>
+          <label style="font-size:10px;">Font Family</label>
+          <select id="${prefix}-font" style="padding:6px 10px; font-size:13px;">
+            <option value="" style="font-family:'Inter'">Default (Inter)</option>
+            <option value="'Playfair Display', serif" ${font === "'Playfair Display', serif" ? "selected" : ""} style="font-family:'Playfair Display'">Playfair Display 🌹</option>
+            <option value="'Caveat', cursive" ${font === "'Caveat', cursive" ? "selected" : ""} style="font-family:'Caveat'">Caveat Handwriting ✍️</option>
+            <option value="'Pacifico', cursive" ${font === "'Pacifico', cursive" ? "selected" : ""} style="font-family:'Pacifico'">Pacifico Script 🏄</option>
+            <option value="'Special Elite', monospace" ${font === "'Special Elite', monospace" ? "selected" : ""} style="font-family:'Special Elite'">Typewriter ⌨️</option>
+            <option value="Georgia, serif" ${font === "Georgia, serif" ? "selected" : ""} style="font-family:Georgia">Georgia 📚</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:10px;">Font Color</label>
+          <div style="display:flex; gap:4px; align-items:center;">
+            <input type="checkbox" id="${prefix}-color-enable" ${colorEnabled} style="width:14px; height:14px; accent-color:var(--rose-deep);" title="Enable color override"/>
+            <input type="color" id="${prefix}-color" value="${color || "#c4637a"}" style="flex:1; height:32px; padding:1px; cursor:pointer; border-radius:6px; border:1px solid #f0dce2;"/>
+          </div>
+        </div>
+      </div>
+      <div class="form-row" style="margin-bottom:0; display:grid; grid-template-columns:1fr 1fr; gap:8px; align-items:center;">
+        <div>
+          <label style="font-size:10px;">Size (px)</label>
+          <input type="number" id="${prefix}-size" value="${size}" min="10" max="100" placeholder="Auto" style="padding:6px 10px; font-size:13px;"/>
+        </div>
+        <div>
+          <label style="font-size:10px;">Style Formats</label>
+          <div style="display:flex; gap:8px; align-items:center; justify-content:space-between;">
+            <label style="cursor:pointer; display:inline-flex; align-items:center; gap:2px; font-size:11px;">
+              <input type="checkbox" id="${prefix}-bold" ${bold} style="accent-color:var(--rose-deep);"/> <b>B</b>
+            </label>
+            <label style="cursor:pointer; display:inline-flex; align-items:center; gap:2px; font-size:11px;">
+              <input type="checkbox" id="${prefix}-italic" ${italic} style="accent-color:var(--rose-deep);"/> <i>I</i>
+            </label>
+            <label style="cursor:pointer; display:inline-flex; align-items:center; gap:2px; font-size:11px;">
+              <input type="checkbox" id="${prefix}-underline" ${underline} style="accent-color:var(--rose-deep);"/> <u>U</u>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function collectTypography(prefix) {
+  const fontEl = document.getElementById(`${prefix}-font`);
+  const colorEl = document.getElementById(`${prefix}-color`);
+  const colorEnabledEl = document.getElementById(`${prefix}-color-enable`);
+  const sizeEl = document.getElementById(`${prefix}-size`);
+  const boldEl = document.getElementById(`${prefix}-bold`);
+  const italicEl = document.getElementById(`${prefix}-italic`);
+  const underlineEl = document.getElementById(`${prefix}-underline`);
+  
+  if (!fontEl) return null;
+  
+  return {
+    font: fontEl.value,
+    color: (colorEnabledEl && colorEnabledEl.checked) ? colorEl.value : "",
+    size: sizeEl.value ? parseInt(sizeEl.value, 10) : "",
+    bold: boldEl.checked,
+    italic: italicEl.checked,
+    underline: underlineEl.checked
+  };
+}
+
+function getStyleString(s) {
+  if (!s) return "";
+  let str = "";
+  if (s.font) str += `font-family: ${s.font} !important;`;
+  if (s.bold) str += `font-weight: 700 !important;`;
+  if (s.italic) str += `font-style: italic !important;`;
+  if (s.underline) str += `text-decoration: underline !important;`;
+  if (s.size) str += `font-size: ${s.size}px !important;`;
+  if (s.color) str += `color: ${s.color} !important;`;
+  return str;
+}
+
+function applyCustomStyles(element, s) {
+  if (!element) return;
+  if (!s) {
+    element.style.fontFamily = "";
+    element.style.fontWeight = "";
+    element.style.fontStyle = "";
+    element.style.textDecoration = "";
+    element.style.fontSize = "";
+    element.style.color = "";
+    return;
+  }
+  element.style.fontFamily = s.font || "";
+  element.style.fontWeight = s.bold ? "700" : "";
+  element.style.fontStyle = s.italic ? "italic" : "";
+  element.style.textDecoration = s.underline ? "underline" : "";
+  element.style.fontSize = s.size ? s.size + "px" : "";
+  element.style.color = s.color || "";
+}
+
+// ═══════════════════════════════════════════════════════
+//  ☁️ SYNC SYSTEM CONFIG & LOGIC
+// ═══════════════════════════════════════════════════════
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyA8_VC8I-OPLgfoS8vYSmy5dNyiFtE3nM4",
+  authDomain: "duy-and-vy-travel-vault.firebaseapp.com",
+  databaseURL: "https://duy-and-vy-travel-vault-default-rtdb.firebaseio.com",
+  projectId: "duy-and-vy-travel-vault",
+  storageBucket: "duy-and-vy-travel-vault.firebasestorage.app",
+  messagingSenderId: "544769463128",
+  appId: "1:544769463128:web:6b7f552e62196411788b2d"
+};
+
+let db = null, fbAuth = null, fbStorage = null, useCloud = false;
+(function initFirebase(){
+  try{
+    if(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey.indexOf("PASTE")===-1 && typeof firebase!=="undefined"){
+      firebase.initializeApp(FIREBASE_CONFIG);
+      fbAuth = firebase.auth();
+      db = firebase.firestore();
+      try{ fbStorage = firebase.storage(); }catch(e){ fbStorage = null; }
+      try{ db.enablePersistence({synchronizeTabs:true}).catch(()=>{}); }catch(e){}
+      useCloud = true;
+    }
+  }catch(err){ console.error("Firebase init failed — using on-device mode.", err); useCloud = false; }
+})();
+
+// ═══════════════════════════════════════════════════════
+// DATA LAYERS
+// ═══════════════════════════════════════════════════════
+const TRIPS_KEY = "duyvy_trips_v4";
+const SITE_KEY  = "duyvy_site_v2";
+
+const DECOR_ASSETS = [
+  { id: "hd-heart", name: "Hand-drawn Heart 💖", svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,85 C50,85 15,55 15,30 C15,15 30,5 45,15 C50,18 50,18 50,18 C50,18 50,18 55,15 C70,5 85,15 85,30 C85,55 50,85 50,85 Z" fill="#ff8aa1" stroke="#4b3124" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>' },
+  { id: "hd-plane", name: "Cartoon Airplane ✈️", svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M85,50 C85,40 25,40 15,45 C10,47 10,53 15,55 C25,60 85,60 85,50 Z" fill="#fcf7ef" stroke="#4b3124" stroke-width="5"/><path d="M55,45 L40,25 H50 L65,45 Z" fill="#fcf7ef" stroke="#4b3124" stroke-width="5" stroke-linejoin="round"/><path d="M50,55 L35,70 H45 L60,55 Z" fill="#fcf7ef" stroke="#4b3124" stroke-width="5" stroke-linejoin="round"/><path d="M20,45 L15,30 H25 L30,45 Z" fill="#fcf7ef" stroke="#4b3124" stroke-width="5" stroke-linejoin="round"/><circle cx="65" cy="50" r="2.5" fill="#4b3124"/><circle cx="55" cy="50" r="2.5" fill="#4b3124"/><circle cx="45" cy="50" r="2.5" fill="#4b3124"/></svg>' },
+  { id: "hd-suitcase", name: "Retro Suitcase 🧳", svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="35" width="70" height="50" rx="8" fill="#d8a176" stroke="#4b3124" stroke-width="5"/><path d="M35,35 V25 C35,20 65,20 65,25 V35" fill="none" stroke="#4b3124" stroke-width="5" stroke-linecap="round"/><line x1="30" y1="35" x2="30" y2="85" stroke="#4b3124" stroke-width="5"/><line x1="70" y1="35" x2="70" y2="85" stroke="#4b3124" stroke-width="5"/><path d="M15,50 V43 C15,38.5 18.5,35 23,35 H30" fill="none" stroke="#4b3124" stroke-width="5"/><path d="M85,50 V43 C85,38.5 81.5,35 77,35 H70" fill="none" stroke="#4b3124" stroke-width="5"/><path d="M15,70 V77 C15,81.5 18.5,85 23,85 H30" fill="none" stroke="#4b3124" stroke-width="5"/><path d="M85,70 V77 C85,81.5 81.5,85 77,85 H70" fill="none" stroke="#4b3124" stroke-width="5"/></svg>' },
+  { id: "hd-compass", name: "Compass 🧭", svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="18" r="8" fill="none" stroke="#4b3124" stroke-width="5"/><circle cx="50" cy="60" r="35" fill="#fcf7ef" stroke="#4b3124" stroke-width="5"/><circle cx="50" cy="60" r="26" fill="none" stroke="#4b3124" stroke-width="2" stroke-dasharray="2 4"/><path d="M50,35 L56,60 L50,85 L44,60 Z" fill="#e86a78" stroke="#4b3124" stroke-width="3" stroke-linejoin="round"/><path d="M50,35 L56,60 L50,60 Z" fill="#cc4f5d"/><circle cx="50" cy="60" r="4" fill="#4b3124"/><text x="50" y="34" font-family="sans-serif" font-size="11" font-weight="bold" fill="#4b3124" text-anchor="middle">N</text><text x="50" y="93" font-family="sans-serif" font-size="11" font-weight="bold" fill="#4b3124" text-anchor="middle">S</text></svg>' },
+  { id: "hd-swirl", name: "Swirl Path 〰️", svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10,80 C20,95 45,95 55,75 C65,55 35,40 30,60 C25,80 55,85 80,60" fill="none" stroke="#4b3124" stroke-width="4" stroke-dasharray="8 6" stroke-linecap="round"/></svg>' },
+  { id: "hd-cloud", name: "Fluffy Cloud ☁️", svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M25,65 C20,65 15,60 15,53 C15,47 20,42 26,42 C28,35 35,30 43,30 C52,30 59,37 60,45 C65,43 71,46 73,51 C77,52 80,56 80,61 C80,67 75,72 68,72 L25,72 Z" fill="#f0f4f8" stroke="#4b3124" stroke-width="5" stroke-linejoin="round"/></svg>' },
+  { id: "hd-star", name: "Cute Star ⭐", svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,15 L62,38 L88,42 L69,60 L74,85 L50,73 L26,85 L31,60 L12,42 L38,38 Z" fill="#fbe251" stroke="#4b3124" stroke-width="5" stroke-linejoin="round"/></svg>' },
+  { id: "hd-sparkle", name: "Retro Sparkle ✨", svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,15 C50,35 35,50 15,50 C35,50 50,65 50,85 C50,65 65,50 85,50 C65,50 50,35 50,15 Z" fill="#fff9db" stroke="#4b3124" stroke-width="5" stroke-linejoin="round"/></svg>' },
+  { id: "hd-balloon", name: "Lovely Balloon 🎈", svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,20 C33,20 20,33 20,50 C20,65 31,76 45,79 L42,87 L58,87 L55,79 C69,76 80,65 80,50 C80,33 67,20 50,20 Z" fill="#e86a78" stroke="#4b3124" stroke-width="5"/><path d="M48,87 C48,93 52,93 52,97" fill="none" stroke="#4b3124" stroke-width="4"/><ellipse cx="35" cy="38" rx="4" ry="8" fill="#fff" transform="rotate(-15 35 38)"/></svg>' },
+  { id: "hd-camera", name: "Retro Camera 📷", svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="35" width="70" height="48" rx="8" fill="#a3b899" stroke="#4b3124" stroke-width="5"/><rect x="35" y="23" width="30" height="12" rx="4" fill="#a3b899" stroke="#4b3124" stroke-width="5"/><circle cx="50" cy="59" r="18" fill="#fff" stroke="#4b3124" stroke-width="5"/><circle cx="50" cy="59" r="10" fill="#4b3124"/><circle cx="28" cy="45" r="4" fill="#ff8aa1"/><rect x="70" y="42" width="6" height="6" rx="1" fill="#4b3124"/></svg>' }
+];
+
+const EMOJIS = ["🌸","✈️","🗺️","🌊","🏔️","🌅","🎡","🍜","🌙","🎭","🏯","🌿","🎆","🏝️","🌺","🛕","🎠","🍡"];
+const DECOR_EMOJIS = [
+  "✈️", "🛩️", "🛫", "🛬", "🪂", "🛩", "🛫", "🛬", "🪂", "✈", 
+  "🧳", "🧭", "🗺️", "📍", "🕶️", "🎒", "🛍️", "🎟️", "🌍", "🌎", "🌏", "🏖️", "🏝️", "🌋", "🗻",
+  "🛸", "🚀", "🚁", "🏎️", "🏎", "🏍️", "🚜", "🚚", "🚓", "🚑", "🚒", "🚙", "🚗", 
+  "🚖", "🚲", "🛵", "🚇", "🛳️", "⛵", "🚂", "🚌", "🚡", "🚠", "🎡", "🏰", "⛺", "🎠", "🗽", "🗼", "🏟️", "🏛️", "⛩️", "🛕", "☀️", "🌙", "⭐", "🪐", "☁️", "🌈", "⚡", "🌸", "🌿", "🌻", "🌷", "🍀", "💕", "✨", "🎀", "🎈", "✉️", "💌", "💖", "💗", "💓", "💞", "💍", "💎", "🍩", "🍹", "🍿", "🍦", "🥂", "🍷", "🍺", "☕", "🍵", "🥞", "🧁", "🎂", "🍫", "🍬", "🍭", "🍪", "🍮", "🧇", "🍰", "🧋", "🍯", "🍣", "🍜", "🍕", "🍟", "🥐", "🥑", "🍔", "🌮", "🥪", "🥨", "🥯", "🧀", 
+  "🍙", "🍡", "🍤", "🥚", "🍓", "🍒", "🍑", "🍉", "🍇", "🍍", "🍋", "🍌", "🥭", "🥝", "🥥", "🍏", "🧸", "🐾", "🐶", "🐹", "🐭", "🐨", "🐷", "🐸", "🐵", "🐮", "🐑", "🐧", "🦆", "🦉", "🐢", "🐬", "🐙", "🐣", "🦌", "🦕", "🐯", "🦁", "🐱", "🐰", 
+  "🦊", "🐻", "🐼", "🦔", "🦦", "🦋", "🐝", "📸", "🎨", "✏️", "🛹"
+];
+const COLORS = [
+  {name:"Blush",    bg:"#fce4ec", accent:"#e47a90"},
+  {name:"Lavender", bg:"#ede7f6", accent:"#9575cd"},
+  {name:"Sage",     bg:"#e8f5e9", accent:"#66bb6a"},
+  {name:"Sky",      bg:"#e3f2fd", accent:"#64b5f6"},
+  {name:"Peach",    bg:"#fff3e0", accent:"#ffa726"},
+  {name:"Mint",     bg:"#e0f2f1", accent:"#4db6ac"},
+  {name:"Rose gold",bg:"#fbe9e7", accent:"#ef9a9a"}
+];
+const TAB_SHAPES = [
+  {label:"Pill",  style:"border-radius:50px;"},
+  {label:"Round", style:"border-radius:12px;"},
+  {label:"Square",style:"border-radius:6px;"}
+];
+
+function loadTrips(){try{return JSON.parse(localStorage.getItem(TRIPS_KEY))||defaultTrips();}catch{return defaultTrips();}}
+function loadSite(){try{return JSON.parse(localStorage.getItem(SITE_KEY))||defaultSite();}catch{return defaultSite();}}
+function safeSetItem(key,obj){
+  try{localStorage.setItem(key,JSON.stringify(obj));return true;}
+  catch(err){
+    showToast("⚠️ Storage full — try using image links instead of uploads");
+    return false;
+  }
+}
+function saveTrips(t){return safeSetItem(TRIPS_KEY,t);}
+function saveSite(s){return safeSetItem(SITE_KEY,s);}
+
+function defaultSite(){
+  return {
+    eyebrow: "Our Travel Journal",
+    h1a: "Every journey",
+    em: "with you",
+    h1b: " is home",
+    sub: "A little scrapbook of the places we have been, the memories we have made, and all the adventures still to come. 🌸",
+    bgUrl: "", bgCss: "linear-gradient(160deg, #fdf4f6 0%, #f9eef1 100%)", overlayOpacity: 0,
+    textPos: "mc", statsPos: "bc", 
+    eyebrowShadow: "soft", eyebrowShadowColor: "#e47a90",
+    headlineShadow: "medium", headlineShadowColor: "#6b4f54",
+    subtitleShadow: "none", subtitleShadowColor: "#000000",
+    statsShadow: "none", statsShadowColor: "#000000",
+    coupleNames: "Duy & Vy",
+    footer: "Made with ♥ for Duy & Vy · Every memory, forever saved",
+    floatingObjects: [
+      { assetId: "hd-plane", x: 15, y: 30, size: 90 },
+      { assetId: "hd-swirl", x: 25, y: 40, size: 80 },
+      { assetId: "hd-heart", x: 80, y: 20, size: 50 },
+      { assetId: "hd-suitcase", x: 85, y: 70, size: 85 }
+    ],
+    styles: {
+      eyebrow: { font: "'Playfair Display', serif", color: "#c4637a", bold: true },
+      headline: { font: "'Playfair Display', serif" },
+      subtitle: { font: "'Inter', sans-serif" },
+      statsNum: { font: "'Playfair Display', serif" },
+      statsLabel: { font: "'Inter', sans-serif" }
+    }
+  };
+}
+
+function defaultTrips(){
+  return [{
+    id: "sg2026",
+    title: "Singapore Adventure",
+    country: "Singapore 🇸🇬",
+    startDate: "2026-12-18",
+    endDate: "2026-12-22",
+    desc: "SINGAPORE FOR TWO ♥ DUY & VY\nDec 18-22, 2026 | 5 days, 4 nights\n\nHotel: Grand Park City Hall, 10 Coleman Street, Singapore\nConcert: BTS ARIRANG - National Stadium, Dec 20 at 7pm\nCamera: Fujifilm X-T50 + Sigma 18-50mm f/2.8",
+    emoji: "✈️",
+    color: { name: "Blush", bg: "#fce4ec", accent: "#e47a90" },
+    coverUrl: "",
+    tabs: [
+      {
+        id: "t1",
+        label: "Day 1 - Changi Jewel",
+        color: "#e47a90",
+        shape: "border-radius:50px;",
+        activities: [
+          {
+            id: "sg-a1-1",
+            title: "3:20 PM - Arrival Changi & Bag Drop",
+            desc: "Expect ~40-60 min for immigration + bags. Connect eSIM, grab water. Drop bags at Jewel baggage storage so we can explore hands-free. Collect them on the way to our hotel tonight!",
+            tip: "UK-style Type-G plug adapter is required. Get local tourist eSIM before flying!",
+            mapUrl: "https://maps.google.com/?q=Changi+Airport+Singapore",
+            imgUrl: "",
+            checklist: [{ text: "Submit online SG Arrival Card (ICA website)", done: false }]
+          },
+          {
+            id: "sg-a1-2",
+            title: "4:30 PM - Jewel Changi Photo Hunt",
+            desc: "The HSBC Rain Vortex is the world's tallest indoor waterfall, ringed by Shiseido Forest Valley. Spend 2.5-3 hours shooting couple photos!\n\nPHOTO SPOTS:\n- Level 1 waterfall base\n- Forest Valley terraced misty trails\n- Canopy Bridge straight down look\n- Skytrain T2↔T3 eye-level pass",
+            tip: "Canopy Park (Level 5) is worth the entry for colorful backdrops, Sky Nets, and Mazes!",
+            mapUrl: "https://maps.google.com/?q=Jewel+Changi+Airport",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a1-3",
+            title: "8:00 PM - Rain Vortex Light Show",
+            desc: "Waterfall turns into a gorgeous light & music show. Find a spot at Level 1 railing or the bridge.",
+            tip: "Use f/2.8 wide open. Slow shutter braced on the rail for silky water; fast shutter for crisp droplets!",
+            mapUrl: "https://maps.google.com/?q=HSBC+Rain+Vortex",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a1-4",
+            title: "9:30 PM - Old Hill Street Station & Clarke Quay",
+            desc: "Drop at hotel (Grand Park City Hall) then take a 10-min walk to Clarke Quay. On the way, photograph the Old Hill Street Police Station and its 927 rainbow shutters glowing at night!",
+            tip: "For late-night cravings: Song Fa Bak Kut Teh for peppery pork-rib soup!",
+            mapUrl: "https://maps.google.com/?q=Old+Hill+Street+Police+Station",
+            imgUrl: "",
+            checklist: []
+          }
+        ]
+      },
+      {
+        id: "t2",
+        label: "Day 2 - Universal Studios",
+        color: "#e47a90",
+        shape: "border-radius:50px;",
+        activities: [
+          {
+            id: "sg-a2-1",
+            title: "8:30 AM - Sentosa Transit & Breakfast",
+            desc: "Kaya toast, eggs, and kopi near our hotel. Take MRT to HarbourFront, then Sentosa Express to Resorts World. Be at the gates for opening at 10 AM!",
+            tip: "Pre-buy Universal tickets + Express Pass online to avoid huge December queues.",
+            mapUrl: "https://maps.google.com/?q=Sentosa+Express",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a2-2",
+            title: "10:00 AM - Ride First, Photos Second",
+            desc: "Sprint to big rides first: Battlestar Galactica Coasters, Revenge of the Mummy, and Transformers!\n\nBEST PHOTO BACKDROPS:\n- Universal Globe (Classic)\n- Far Far Away Fairytale Castle\n- Minion Land & New York streets",
+            tip: "Shortest character lines (Minions, Shrek) are in the first 45 min and the final hour.",
+            mapUrl: "https://maps.google.com/?q=Universal+Studios+Singapore",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a2-3",
+            title: "2:30 PM - WaterWorld Show & Wet Rides",
+            desc: "Watch WaterWorld stunt show (sit in wet zone if you want a laugh!). Ride Jurassic Park Rapids Adventure - you will get fully soaked.",
+            tip: "Keep Fujifilm camera completely dry. Use a waterproof poncho!",
+            mapUrl: "https://maps.google.com/?q=WaterWorld+Singapore",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a2-4",
+            title: "9:00 PM - Lake Hollywood Christmas Fireworks",
+            desc: "Capture clean photos of Far Far Away Castle at Golden Hour. Friday/Saturday evenings in December close with festive fireworks over Lake Hollywood!",
+            tip: "Swap: If you prefer moody sunset over fireworks, head to Henderson Waves Bridge at 6:45 PM instead!",
+            mapUrl: "https://maps.google.com/?q=Universal+Studios+Singapore",
+            imgUrl: "",
+            checklist: []
+          }
+        ]
+      },
+      {
+        id: "t3",
+        label: "Day 3 - Concert Day",
+        color: "#e47a90",
+        shape: "border-radius:50px;",
+        activities: [
+          {
+            id: "sg-a3-1",
+            title: "7:45 AM - Fort Canning Tree Tunnel",
+            desc: "Spiral staircase framed by a beautiful green canopy circle - Singapore's top couple spot. 10-15 min walk from Grand Park City Hall. Arrive early for soft morning light.",
+            tip: "Bring phone tripod + remote shutter for shots of us together.",
+            mapUrl: "https://maps.google.com/?q=Fort+Canning+Tree+Tunnel",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a3-2",
+            title: "10:30 AM - National Museum of Singapore",
+            desc: "Visit the digital 'Story of the Forest' installation. A spiral ramp with sweeping animal projections that make amazing portraits.",
+            tip: "A slow shutter braced against the wall captures the projections floating around Vy!",
+            mapUrl: "https://maps.google.com/?q=National+Museum+of+Singapore",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a3-3",
+            title: "12:30 PM - Violet Oon Peranakan Feast",
+            desc: "Splurge lunch at National Kitchen by Violet Oon inside the National Gallery. Incredible Peranakan Chili Chicken Curry in a stunning heritage room.",
+            tip: "Book this table in advance!",
+            mapUrl: "https://maps.google.com/?q=National+Kitchen+by+Violet+Oon",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a3-4",
+            title: "7:00 PM - BTS ARIRANG Concert!",
+            desc: "National Stadium gates open 1.5-2 hrs before. Grab early dinner at Kallang Wave Mall next door.\n\nCONCERT RULES:\n- Professional cameras with detachable lenses are BANNED. Leave the Fujifilm at our hotel!\n- Bags must be under A4 size limit.\n- Pack lightstick, power bank, and printed tickets!",
+            tip: "Take Stadium MRT early to beat crowd jams. Have an unforgettable night!",
+            mapUrl: "https://maps.google.com/?q=Singapore+National+Stadium",
+            imgUrl: "",
+            checklist: []
+          }
+        ]
+      },
+      {
+        id: "t4",
+        label: "Day 4 - Marina Bay",
+        color: "#e47a90",
+        shape: "border-radius:50px;",
+        activities: [
+          {
+            id: "sg-a4-1",
+            title: "12:00 PM - Merlion Park & Waterfront Walk",
+            desc: "Merlion with MBS in the background. Walk across DNA-shaped Helix Bridge and capture cool geometric portrait frames.",
+            tip: "Try the classic forced-perspective 'catching the spout' Merlion photo!",
+            mapUrl: "https://maps.google.com/?q=Merlion+Park+Singapore",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a4-2",
+            title: "2:30 PM - Cloud Forest & Flower Dome",
+            desc: "Escape the heat inside cooled domes. Cloud Forest has misty waterfalls and elevated walk trails. Flower Dome features Christmas train displays.",
+            tip: "AC fogs up camera lenses immediately! Carry microfiber cloth and let gear adjust for 5 mins.",
+            mapUrl: "https://maps.google.com/?q=Gardens by the Bay",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a4-3",
+            title: "7:45 PM - Christmas Wonderland at Supertrees",
+            desc: "Supertree Grove transforms into Singapore's biggest festive event. Includes Garden Rhapsody light show (7:45 & 8:45), foam-snow 'Blizzard Time', and the 50-meter Merry Lane light tunnel!",
+            tip: "Tickets are required for entry inside the Supertrees Grove during December evenings. Buy early!",
+            mapUrl: "https://maps.google.com/?q=Supertree+Grove",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a4-4",
+            title: "9:00 PM - Spectra Light Show & Satay Dinner",
+            desc: "Spectra fountain light show on waterfront. Stroll to Satay by the Bay for smoky charcoal-grilled skewers with peanut sauce right under the stars!",
+            tip: "Spectra is completely free to view from MBS waterfront terrace.",
+            mapUrl: "https://maps.google.com/?q=Satay by the Bay",
+            imgUrl: "",
+            checklist: []
+          }
+        ]
+      },
+      {
+        id: "t5",
+        label: "Day 5 - Chinatown",
+        color: "#e47a90",
+        shape: "border-radius:50px;",
+        activities: [
+          {
+            id: "sg-a5-1",
+            title: "9:00 AM - Chinatown Heritage Tour",
+            desc: "Explore colorfully restored shophouses, Buddha Tooth Relic Temple, and Sri Mariamman Hindu Temple.",
+            tip: "Dress code: cover shoulders & knees for temple entries.",
+            mapUrl: "https://maps.google.com/?q=Buddha Tooth Relic Temple",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a5-2",
+            title: "11:30 AM - Final Hawker Feast",
+            desc: "Tian Tian Hainanese Chicken Rice at Maxwell Food Centre, or Hawker Chan soya sauce chicken at Chinatown Complex.",
+            tip: "'Choped' rule: a tissue packet on a table means the seat is reserved by locals!",
+            mapUrl: "https://maps.google.com/?q=Maxwell Food Centre",
+            imgUrl: "",
+            checklist: []
+          },
+          {
+            id: "sg-a5-3",
+            title: "5:30 PM - Depart to HCMC",
+            desc: "Collect luggage from hotel, Grab to Changi Airport by 3:00 PM. Flight departure back home. Hẹn gặp lại, Singapore!",
+            tip: "Double check that all power banks are stored inside carry-on luggage, never in checked bags!",
+            mapUrl: "https://maps.google.com/?q=Changi Airport Singapore",
+            imgUrl: "",
+            checklist: []
+          }
+        ]
+      },
+      {
+        id: "t6",
+        label: "🎒 Packing List",
+        color: "#c9a96e",
+        shape: "border-radius:12px;",
+        activities: [
+          {
+            id: "sg-a6-1",
+            title: "Essential Documents & Money Check",
+            desc: "Make sure both of you have these printed or screenshotted on your phones before heading to Tan Son Nhat!",
+            tip: "Keep physical copies of your passports separate from your wallets.",
+            mapUrl: "",
+            imgUrl: "",
+            checklist: [
+              { text: "Passports (valid 6+ months)", done: false },
+              { text: "SG Arrival Card submitted (within 3 days before)", done: false },
+              { text: "Flight Tickets HCMC ↔ SIN", done: false },
+              { text: "Grand Park City Hall Hotel confirmation", done: false },
+              { text: "BTS concert tickets (printed backup!)", done: false },
+              { text: "SGD cash + debit/credit cards", done: false }
+            ]
+          },
+          {
+            id: "sg-a6-2",
+            title: "Tech, Camera & Charging Kits",
+            desc: "Don't forget that Singapore sockets require a specialized G-type plug adapter!",
+            tip: "Power banks must go inside carry-on bags. They are strictly banned in checked-in luggage!",
+            mapUrl: "",
+            imgUrl: "",
+            checklist: [
+              { text: "Fujifilm X-T50 body + Sigma 18-50mm f/2.8", done: false },
+              { text: "Camera spare batteries (x2-3) + charger", done: false },
+              { text: "UK Type-G 3-pin plug adapter", done: false },
+              { text: "Phone travel tripod + remote clicker", done: false },
+              { text: "High capacity power bank", done: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: "t7",
+        label: "🍜 Taste of SG Food Spots",
+        color: "#8faa8f",
+        shape: "border-radius:12px;",
+        activities: [
+          {
+            id: "sg-a7-1",
+            title: "The Essential Culinary Hits Checklist",
+            desc: "Check off these legendary local flavors as you find them around Singapore!",
+            tip: "Hawker stalls are cash-only. Keep small $2, $5, and $10 notes handy!",
+            mapUrl: "",
+            imgUrl: "",
+            checklist: [
+              { text: "Hainanese Chicken Rice (Tian Tian @ Maxwell)", done: false },
+              { text: "Peppery Bak Kut Teh (Song Fa @ Clarke Quay)", done: false },
+              { text: "Smoky Satay Skewers (Satay by the Bay)", done: false },
+              { text: "Kaya Toast, Soft Eggs & Kopi (Ya Kun @ CHIJMES)", done: false },
+              { text: "Chili Crab Splurge (Jumbo Seafood)", done: false },
+              { text: "Peranakan Feasting (Violet Oon @ National Gallery)", done: false }
+            ]
+          }
+        ]
+      }
+    ],
+    styles: {}
+  }];
+}
+
+let trips = [];
+let site  = defaultSite();
+let sortAsc = true;
+let editingId = null;
+let deletingId = null;
+let selectedEmoji = EMOJIS[1];
+let selectedColor = COLORS[0];
+let tabEditorCount = 0;
+let actEditorCount = 0;
+let currentDetailTripId = null;
+let activeFormTabIdx = 0;
+
+// ═══════════════════════════════════════════════════════
+// RENDER INTERFACES
+// ═══════════════════════════════════════════════════════
+function renderAll(){renderHero();renderGrid();renderFooter();}
+
+function getShadowStyle(style, color) {
+  if (!style || style === "none") return "none";
+  if (style === "soft") return `1px 1px 3px ${color}`;
+  if (style === "medium") return `2px 2px 6px ${color}`;
+  if (style === "strong") return `3px 3px 10px ${color}`;
+  if (style === "glow") return `0 0 10px ${color}, 0 0 4px ${color}`;
+  return "none";
+}
+
+function renderHero(){
+  const s = site;
+  document.getElementById("hero-eyebrow").innerHTML = safeFormat(s.eyebrow||"");
+  document.getElementById("hero-h1a").innerHTML = safeFormat(s.h1a!==undefined ? s.h1a : "Every journey");
+  document.getElementById("hero-em").innerHTML = safeFormat(s.em||"");
+  document.getElementById("hero-h1b").innerHTML = safeFormat(s.h1b!==undefined ? s.h1b : " is home");
+  const emEl = document.getElementById("hero-em");
+  emEl.style.display = s.em ? "" : "none";
+  document.getElementById("hero-sub").innerHTML = safeFormat(s.sub||"");
+
+  const bg   = document.getElementById("hero-bg");
+  const ov   = document.getElementById("hero-overlay");
+  const hero = document.getElementById("hero-section");
+
+  applyCustomStyles(document.getElementById("hero-eyebrow"), s.styles?.eyebrow);
+  applyCustomStyles(document.getElementById("hero-h1"), s.styles?.headline);
+  applyCustomStyles(document.getElementById("hero-sub"), s.styles?.subtitle);
+
+  if(s.bgUrl){
+    bg.innerHTML = ""; bg.className = "hero-bg"; bg.removeAttribute("style");
+    const img = document.createElement("img"); img.className = "hero-img"; img.alt = ""; img.src = s.bgUrl;
+    bg.appendChild(img); hero.classList.add("has-bg-img","custom-bg");
+  } else if(s.bgCss){
+    bg.innerHTML = ""; bg.className = "hero-bg has-css-bg"; bg.style.background = s.bgCss;
+    hero.classList.add("custom-bg");
+    hero.classList.toggle("has-bg-img", s.bgCss.includes("url(")||s.bgCss.includes("gradient"));
+  } else {
+    bg.innerHTML = ""; bg.className = "hero-bg"; bg.removeAttribute("style");
+    hero.classList.remove("has-bg-img","custom-bg");
+  }
+
+  const op = parseFloat(s.overlayOpacity)||0;
+  ov.style.background = op>0 ? "rgba(0,0,0,"+op+")" : "transparent";
+
+  const POS=["tp-tl","tp-tc","tp-tr","tp-ml","tp-mc","tp-mr","tp-bl","tp-bc","tp-br"];
+  POS.forEach(c=>hero.classList.remove(c));
+  hero.classList.add("tp-"+(s.textPos||"mc"));
+
+  const SP=["sp-tl","sp-tc","sp-tr","sp-ml","sp-mc","sp-mr","sp-bl","sp-bc","sp-br"];
+  SP.forEach(c=>hero.classList.remove(c));
+  hero.classList.add("sp-"+(s.statsPos||"bc"));
+
+  const floatingLayer = document.getElementById("hero-floating-layer");
+  if(floatingLayer) {
+    floatingLayer.innerHTML = "";
+    (s.floatingObjects || []).forEach(obj => {
+      const el = document.createElement("div");
+      el.className = "floating-obj";
+      
+      const assetId = obj.assetId || obj.emoji; 
+      const handDrawn = DECOR_ASSETS.find(a => a.id === assetId);
+      
+      if (handDrawn) {
+        el.innerHTML = handDrawn.svg;
+        el.style.width = obj.size + "px";
+        el.style.height = obj.size + "px";
+      } else {
+        el.textContent = assetId;
+        el.style.fontSize = obj.size + "px";
+      }
+      
+      el.style.left = obj.x + "%";
+      el.style.top = obj.y + "%";
+      el.style.animationDelay = (Math.random() * 2) + "s";
+      floatingLayer.appendChild(el);
+    });
+  }
+
+  document.getElementById("logo-name").textContent = s.coupleNames||"Duy & Vy";
+  document.title = (s.coupleNames||"Duy & Vy")+" — Our Travel Journal";
+  renderStats();
+  applyShadows();
+}
+
+function applyShadows() {
+  const s = site;
+  const eyebrow = document.getElementById("hero-eyebrow");
+  const h1 = document.getElementById("hero-h1");
+  const sub = document.getElementById("hero-sub");
+  const stats = document.getElementById("hero-stats");
+  
+  const eyeS = getShadowStyle(s.eyebrowShadow, s.eyebrowShadowColor);
+  const h1S = getShadowStyle(s.headlineShadow, s.headlineShadowColor);
+  const subS = getShadowStyle(s.subtitleShadow, s.subtitleShadowColor);
+  const statS = getShadowStyle(s.statsShadow, s.statsShadowColor);
+
+  if(eyebrow) eyebrow.style.textShadow = eyeS;
+  if(h1) h1.style.textShadow = h1S;
+  if(sub) sub.style.textShadow = subS;
+  
+  if(stats) {
+    stats.style.textShadow = statS;
+    stats.querySelectorAll(".stat-num").forEach(el => el.style.textShadow = statS);
+    stats.querySelectorAll(".stat-label").forEach(el => el.style.textShadow = statS);
+  }
+}
+
+function updateShadowsLive() {
+  const eyebrowStyle = document.getElementById("he-eyebrow-shadow").value;
+  const eyebrowColor = document.getElementById("he-eyebrow-shadow-color").value;
+  const headlineStyle = document.getElementById("he-headline-shadow").value;
+  const headlineColor = document.getElementById("he-headline-shadow-color").value;
+  const subtitleStyle = document.getElementById("he-subtitle-shadow").value;
+  const subtitleColor = document.getElementById("he-subtitle-shadow-color").value;
+  const statsStyle = document.getElementById("he-stats-shadow").value;
+  const statsColor = document.getElementById("he-stats-shadow-color").value;
+  
+  const eyebrow = document.getElementById("hero-eyebrow");
+  const h1 = document.getElementById("hero-h1");
+  const sub = document.getElementById("hero-sub");
+  const stats = document.getElementById("hero-stats");
+  
+  const eyeS = getShadowStyle(eyebrowStyle, eyebrowColor);
+  const h1S = getShadowStyle(headlineStyle, headlineColor);
+  const subS = getShadowStyle(subtitleStyle, subtitleColor);
+  const statS = getShadowStyle(statsStyle, statsColor);
+
+  if(eyebrow) eyebrow.style.textShadow = eyeS;
+  if(h1) h1.style.textShadow = h1S;
+  if(sub) sub.style.textShadow = subS;
+  if(stats) {
+    stats.style.textShadow = statS;
+    stats.querySelectorAll(".stat-num").forEach(el => el.style.textShadow = statS);
+    stats.querySelectorAll(".stat-label").forEach(el => el.style.textShadow = statS);
+  }
+}
+
+function renderStats(){
+  const countries = new Set(trips.map(t=>t.country)).size;
+  let totalDays=0;
+  trips.forEach(t=>{
+    if(t.startDate&&t.endDate){totalDays+=Math.max(1,Math.round((new Date(t.endDate)-new Date(t.startDate))/86400000)+1);}
+  });
+  const container = document.getElementById("hero-stats");
+  if(container) {
+    container.innerHTML = `
+      <div class="stat"><div class="stat-num">${trips.length}</div><div class="stat-label">Trips together</div></div>
+      <div class="stat"><div class="stat-num">${countries}</div><div class="stat-label">Countries</div></div>
+      <div class="stat"><div class="stat-num">${totalDays}</div><div class="stat-label">Days exploring</div></div>`;
+      
+    container.querySelectorAll(".stat-num").forEach(el => applyCustomStyles(el, site.styles?.statsNum));
+    container.querySelectorAll(".stat-label").forEach(el => applyCustomStyles(el, site.styles?.statsLabel));
+  }
+}
+
+function renderFooter(){
+  document.getElementById("footer-display").innerHTML = site.footer||"Made with ♥ for Duy & Vy";
+}
+
+function sortedTrips(){
+  return [...trips].sort((a,b)=>{
+    const da = a.startDate||"9999", db = b.startDate||"9999";
+    return sortAsc ? da.localeCompare(db) : db.localeCompare(da);
+  });
+}
+
+function toggleSort(){
+  sortAsc = !sortAsc;
+  const btn = document.getElementById("sort-btn");
+  btn.classList.toggle("asc", sortAsc);
+  renderGrid();
+}
+
+function fmtDate(s,e){
+  const o={month:"short",day:"numeric",year:"numeric"};
+  if(!s&&!e) return "";
+  if(!e) return new Date(s+"T00:00:00").toLocaleDateString("en-US",o);
+  const sd=new Date(s+"T00:00:00"), ed=new Date(e+"T00:00:00");
+  if(sd.getFullYear()===ed.getFullYear()&&sd.getMonth()===ed.getMonth())
+    return sd.toLocaleDateString("en-US",{month:"short",day:"numeric"})+" – "+ed.getDate()+", "+ed.getFullYear();
+  return sd.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})+" – "+ed.toLocaleDateString("en-US",o);
+}
+
+function countDays(t){
+  if(t.tabs&&t.tabs.length) return t.tabs.length;
+  if(!t.startDate||!t.endDate) return 0;
+  return Math.max(1,Math.round((new Date(t.endDate)-new Date(t.startDate))/86400000)+1);
+}
+
+function renderGrid(){
+  const grid = document.getElementById("trips-grid");
+  const list = sortedTrips();
+  document.getElementById("trip-count-label").textContent = trips.length ? trips.length+" trip"+(trips.length>1?"s":"") : "";
+  if(!trips.length){
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🌸</div><div class="empty-title">Your journey starts here</div><div class="empty-text">Add your first trip and fill this journal with beautiful memories.</div></div><div class="add-card" onclick="openAddForm()"><div class="add-card-icon">＋</div><div class="add-card-text">Add your first trip</div></div>`;
+    return;
+  }
+  let html = list.map(t=>{
+    const bg = t.color?.bg||"#fce4ec";
+    const ac = t.color?.accent||"#e47a90";
+    const ds = fmtDate(t.startDate,t.endDate);
+    const nd = countDays(t);
+    return `<div class="trip-card" onclick="openDetail('${t.id}')">
+      <div class="trip-card-banner" style="background:${bg};" data-cover="${esc(t.coverUrl||"")}" data-bg="${esc(bg)}">
+        ${!t.coverUrl?`<span class="trip-card-emoji">${t.emoji||"✈️"}</span>`:""}
+        ${ds?`<span class="trip-card-date-badge" style="color:${ac}">${ds}</span>`:""}
+      </div>
+      <div class="trip-card-body">
+        <div class="trip-card-country" style="${getStyleString(t.styles?.country)}">${safeFormat(t.country||"")}</div>
+        <div class="trip-card-title" style="${getStyleString(t.styles?.title)}">${safeFormat(t.title)}</div>
+        <div class="trip-card-desc" style="${getStyleString(t.styles?.desc)}">${safeFormat(t.desc||"")}</div>
+        <div class="trip-card-meta">
+          <div class="trip-card-days" style="color:${ac}">📅 ${nd} day${nd===1?"":"s"}</div>
+          <div class="trip-card-actions">
+            <button class="icon-btn" title="Edit" onclick="event.stopPropagation();openEditForm('${t.id}')">✏️</button>
+            <button class="icon-btn danger" title="Delete" onclick="event.stopPropagation();askDelete('${t.id}')">🗑️</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+  html += `<div class="add-card" onclick="openAddForm()"><div class="add-card-icon">＋</div><div class="add-card-text">Add another trip</div></div>`;
+  grid.innerHTML = html;
+  grid.querySelectorAll(".trip-card-banner[data-cover]").forEach(el=>{
+    const url = el.dataset.cover;
+    if(url){
+      el.style.backgroundImage = 'url("'+url+'")';
+      el.style.backgroundSize = "cover";
+      el.style.backgroundPosition = "center";
+    }
+  });
+}
+
+function openDetail(id){
+  const t = trips.find(x=>x.id===id); if(!t) return;
+  currentDetailTripId = id;
+  const bg = t.color?.bg||"#fce4ec", ac = t.color?.accent||"#e47a90";
+  const ban = document.getElementById("det-banner");
+  if(t.coverUrl){
+    ban.style.backgroundImage='url("'+t.coverUrl+'")';
+    ban.style.backgroundSize="cover";
+    ban.style.backgroundPosition="center";
+    ban.style.backgroundColor="";
+    ban.innerHTML="";
+  } else {
+    ban.style.backgroundImage="";
+    ban.style.backgroundColor=bg;
+    ban.innerHTML=`<span style="font-size:80px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.1))">${t.emoji||"✈️"}</span>`;
+  }
+  
+  const countryEl = document.getElementById("det-country");
+  const titleEl = document.getElementById("det-title");
+  const descEl = document.getElementById("det-desc");
+  
+  countryEl.innerHTML=safeFormat(t.country||"");
+  titleEl.innerHTML=safeFormat(t.title);
+  descEl.innerHTML=safeFormat(t.desc||"");
+  
+  applyCustomStyles(countryEl, t.styles?.country);
+  applyCustomStyles(titleEl, t.styles?.title);
+  applyCustomStyles(descEl, t.styles?.desc);
+
+  document.getElementById("det-dates").innerHTML=`📅 ${fmtDate(t.startDate,t.endDate)||"Dates TBD"}`;
+  document.getElementById("det-dates").style.color=ac;
+  
+  renderDetailTabs(t, ac);
+  document.getElementById("det-edit-btn").onclick=()=>{closeOverlay("detail-overlay");setTimeout(()=>openEditForm(id),100);};
+  document.getElementById("det-delete-btn").onclick=()=>{closeOverlay("detail-overlay");setTimeout(()=>askDelete(id),100);};
+  openOverlay("detail-overlay");
+}
+
+function renderDetailTabs(t, ac){
+  const bar = document.getElementById("det-tabs-bar");
+  const content = document.getElementById("det-tabs-content");
+  const tabs = t.tabs||[];
+  if(!tabs.length){bar.innerHTML="";content.innerHTML="";return;}
+  function render(idx){
+    bar.innerHTML = tabs.map((tab,i)=>{
+      const col = tab.color||ac;
+      const shp = tab.shape||"border-radius:50px;";
+      const active = i===idx;
+      return `<button class="tab-btn${active?' active':''}" style="${active?'background:'+col+';color:#fff;'+shp:''+shp}" onclick="renderDetailTabs._switch(${i})">${esc(tab.label||("Day "+(i+1)))}</button>`;
+    }).join("");
+    const tab = tabs[idx];
+    const acts = tab.activities||[];
+    content.innerHTML = `<div class="activities-list">${acts.map((a,ai)=>actCardHTML(a,ai,idx)).join("")}</div>`;
+    content.querySelectorAll(".checklist-item input").forEach(cb=>{
+      cb.addEventListener("change",function(){
+        const item = cb.closest(".checklist-item");
+        item.classList.toggle("checked", cb.checked);
+        const ai = parseInt(cb.dataset.actIdx,10);
+        const ci = parseInt(cb.dataset.itemIdx,10);
+        const trip = trips.find(x=>x.id===currentDetailTripId);
+        if(trip && trip.tabs[idx] && trip.tabs[idx].activities[ai] && trip.tabs[idx].activities[ai].checklist[ci]){
+          trip.tabs[idx].activities[ai].checklist[ci].done = cb.checked;
+          if(useCloud){ db.collection("trips").doc(trip.id).set(trip).catch(e=>{console.error(e);showToast(fbWriteError(e));}); }
+          else { saveTrips(trips); }
+        }
+      });
+    });
+  }
+  renderDetailTabs._switch = function(i){render(i);};
+  render(0);
+}
+
+function actCardHTML(a, actIdx, tabIdx){
+  const mapBtn = a.mapUrl ? `<a class="map-link" href="${esc(a.mapUrl)}" target="_blank" rel="noopener">🗺️ Open in Maps</a>` : "";
+  const imgEl = a.imgUrl ? `<img class="activity-img" src="${esc(a.imgUrl)}" alt="" onerror="this.style.display='none';var p=this.nextElementSibling;if(p&&p.classList.contains('activity-img-placeholder'))p.style.display='flex';" />` : "";
+  const tipEl = a.tip ? `<div class="activity-tip" style="${getStyleString(a.styles?.tip)}"><div class="activity-tip-label">💡 Tip</div>${safeFormat(a.tip)}</div>` : "";
+  const checklistEl = (a.checklist&&a.checklist.length) ? `
+    <div class="checklist">
+      <div class="checklist-title">Checklist</div>
+      ${a.checklist.map((c,ci)=>`<div class="checklist-item${c.done?' checked':''}"><input type="checkbox" data-act-idx="${actIdx}" data-item-idx="${ci}" ${c.done?'checked':''}><span>${esc(c.text)}</span></div>`).join("")}
+    </div>` : "";
+
+  const poseCount = (a.poses && a.poses.length) ? a.poses.length : 0;
+  const poseBtnLabel = poseCount > 0 ? "📸 Pose Guide (" + poseCount + ")" : "📸 Pose Guide";
+  const posesBtn = `<button class="btn btn-sm btn-outline btn-sage" onclick="openPosesModal(${tabIdx}, ${actIdx})">${poseBtnLabel}</button>`;
+
+  return `<div class="activity-card">
+    ${imgEl}
+    <div class="activity-img-placeholder" style="${imgEl?'display:none':'display:flex'}">📍</div>
+    <div class="activity-body">
+      <div class="activity-title" style="${getStyleString(a.styles?.title)}">${safeFormat(a.title||'Activity')}</div>
+      ${a.desc?`<div class="activity-desc" style="${getStyleString(a.styles?.desc)}">${safeFormat(a.desc)}</div>`:""}
+      ${tipEl}
+      <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:4px; margin-bottom:4px;">
+        ${mapBtn}
+        ${posesBtn}
+      </div>
+      ${checklistEl}
+    </div>
+  </div>`;
+}
+
+function buildEmojiPicker(){
+  document.getElementById("emoji-picker").innerHTML=EMOJIS.map(e=>
+    `<button type="button" class="emoji-option${e===selectedEmoji?' selected':''}" onclick="selectEmoji('${e}')">${e}</button>`).join("");
+}
+function buildColorPicker(){
+  document.getElementById("color-picker").innerHTML=COLORS.map((c,i)=>
+    `<div class="color-swatch${c.name===selectedColor.name?' selected':''}" style="background:${c.bg};border-color:${c.name===selectedColor.name?c.accent:'transparent'}" title="${c.name}" onclick="selectColor(${i})"></div>`).join("");
+}
+function selectEmoji(e){selectedEmoji=e;buildEmojiPicker();}
+function selectColor(i){selectedColor=COLORS[i];buildColorPicker();}
+
+function compressImage(file, cb, maxDim, quality){
+  maxDim = maxDim || 1200;
+  quality = quality || 0.72;
+  let done = false;
+  const finish = url => { if(done) return; done = true; cb(url); };
+  const reader = new FileReader();
+  reader.onerror = () => finish("");
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    if(!/^image\//.test(file.type) || /gif|svg/.test(file.type)){ finish(dataUrl); return; }
+    const guard = setTimeout(()=>finish(dataUrl), 8000);
+    const img = new Image();
+    img.onload = () => {
+      clearTimeout(guard);
+      try{
+        let {width:w, height:h} = img;
+        if(!w || !h){ finish(dataUrl); return; }
+        if(w > maxDim || h > maxDim){
+          const scale = Math.min(maxDim/w, maxDim/h);
+          w = Math.round(w*scale); h = Math.round(h*scale);
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0,0,w,h);
+        ctx.drawImage(img,0,0,w,h);
+        const out = canvas.toDataURL("image/jpeg", quality);
+        finish(out && out.length < dataUrl.length ? out : dataUrl);
+      }catch(err){ finish(dataUrl); }
+    };
+    img.onerror = () => { clearTimeout(guard); finish(dataUrl); };
+    img.src = dataUrl;
+  };
+  reader.readAsDataURL(file);
+}
+
+function previewImg(urlId,previewId){
+  const url=document.getElementById(urlId).value.trim();
+  const img=document.getElementById(previewId);
+  if(url){img.src=url;img.classList.add("show");}else{img.classList.remove("show");}
+}
+
+// ═══════════════════════════════════════════════════════
+//  ⚙️  DRAG & DROP + INSERTION ENGINE
+// ═══════════════════════════════════════════════════════
+function enableDrag(handle) {
+  const card = handle.closest(".act-editor");
+  if (card) card.setAttribute("draggable", "true");
+}
+
+function disableDrag(handle) {
+  const card = handle.closest(".act-editor");
+  if (card) card.removeAttribute("draggable");
+}
+
+function setupActCardDragEvents(card) {
+  card.addEventListener("dragstart", e => {
+    card.classList.add("dragging");
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", card.id);
+  });
+  card.addEventListener("dragend", () => {
+    card.classList.remove("dragging");
+    card.removeAttribute("draggable");
+    refreshAllDividers();
+  });
+}
+
+function setupActsContainerDropEvents(container) {
+  container.addEventListener("dragover", e => {
+    e.preventDefault();
+    const draggingCard = document.querySelector(".act-editor.dragging");
+    if (!draggingCard) return;
+    
+    const afterElement = getDragAfterElement(container, e.clientY);
+    if (afterElement == null) {
+      container.appendChild(draggingCard);
+    } else {
+      container.insertBefore(draggingCard, afterElement);
+    }
+  });
+
+  container.addEventListener("drop", e => {
+    e.preventDefault();
+    refreshAllDividers();
+  });
+}
+
+function getDragAfterElement(container, y) {
+  const draggableElements = [...container.querySelectorAll(".act-editor:not(.dragging)")];
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    if (offset < 0 && offset > closest.offset) {
+      return { offset: offset, element: child };
+    } else {
+      return closest;
+    }
+  }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+function refreshDividersInContainer(container) {
+  if (!container) return;
+  container.querySelectorAll(".insert-divider").forEach(d => d.remove());
+  
+  const cards = container.querySelectorAll(".act-editor");
+  if (cards.length === 0) {
+    const div = createInsertDivider(container.id, null);
+    container.appendChild(div);
+    return;
+  }
+  
+  cards.forEach(card => {
+    const div = createInsertDivider(container.id, card);
+    container.insertBefore(div, card);
+  });
+  
+  const finalDiv = createInsertDivider(container.id, null);
+  container.appendChild(finalDiv);
+}
+
+function refreshAllDividers() {
+  document.querySelectorAll(".acts-editor").forEach(container => {
+    refreshDividersInContainer(container);
+  });
+}
+
+function createInsertDivider(containerId, beforeElement) {
+  const div = document.createElement("div");
+  div.className = "insert-divider";
+  div.innerHTML = `<span class="insert-btn-inner">＋ Insert Activity Here</span>`;
+  div.onclick = () => {
+    actEditorCount++;
+    const aId = "act-ed-" + actEditorCount;
+    const card = document.createElement("div");
+    card.className = "act-editor";
+    card.id = aId;
+    
+    setupActCardDragEvents(card);
+    card.innerHTML = getActEditorInnerHtml(aId, {});
+    
+    const container = document.getElementById(containerId);
+    if (beforeElement) {
+      container.insertBefore(card, beforeElement);
+    } else {
+      container.appendChild(card);
+    }
+    
+    refreshDividersInContainer(container);
+    showToast("🌸 New activity card inserted!");
+  };
+  return div;
+}
+
+let pendingUploads = 0;
+function setUploadBusy(on){ pendingUploads = Math.max(0, pendingUploads + (on ? 1 : -1)); }
+
+function uploadImage(file, opts){
+  opts = opts || {};
+  const big = !!(useCloud && fbStorage);
+  setUploadBusy(true);
+  let finished = false;
+  const done = (url, err) => { if(finished) return; finished = true; setUploadBusy(false); if(opts.onDone) opts.onDone(url, err||null); };
+  
+  const safetyTimeout = setTimeout(() => {
+    if (!finished) {
+      console.warn("Upload process exceeded safety timeout, forcing completion.");
+      done(null, new Error("Safety timeout"));
+    }
+  }, 25000); 
+  
+  try {
+    compressImage(file, dataUrl => {
+      if(opts.onPreview) opts.onPreview(dataUrl);
+      if(!big){
+        clearTimeout(safetyTimeout);
+        done(dataUrl);
+        return;
+      }
+      try {
+        const name = "uploads/" + Date.now() + "_" + Math.random().toString(36).slice(2,9) + ".jpg";
+        const ref = fbStorage.ref(name);
+        
+        const uploadPromise = ref.putString(dataUrl, "data_url", {contentType:"image/jpeg"})
+          .then(() => ref.getDownloadURL());
+          
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error("Upload timed out")), 12000)
+        );
+        
+        Promise.race([uploadPromise, timeoutPromise])
+          .then(url => {
+            clearTimeout(safetyTimeout);
+            done(url);
+          })
+          .catch(err => {
+            console.warn("Storage upload failed, falling back to local Base64:", err);
+            clearTimeout(safetyTimeout);
+            done(dataUrl); 
+          });
+      } catch(err) {
+        console.warn("Storage upload threw error, falling back to local Base64:", err);
+        clearTimeout(safetyTimeout);
+        done(dataUrl);
+      }
+    }, big ? 2000 : 1200, big ? 0.85 : 0.72);
+  } catch (err) {
+    console.error("Error during image compress/upload:", err);
+    clearTimeout(safetyTimeout);
+    done(null, err);
+  }
+}
+
+function fileToUrl(input,urlId,previewId){
+  const file=input.files[0]; if(!file) return;
+  const img=document.getElementById(previewId);
+  uploadImage(file, {
+    onPreview: d => { img.src=d; img.classList.add("show"); },
+    onDone: (url, err) => {
+      if(url){ document.getElementById(urlId).value=url; if(useCloud && fbStorage){ img.src=url; } }
+      else { showToast("⚠️ Photo upload failed — check connection or paste a link"); }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//   👉  SEPARATE TAB EDITING SYSTEM
+// ═══════════════════════════════════════════════════════
+function addTabEditor(tabData){
+  tabEditorCount++;
+  const tId="tab-ed-"+tabEditorCount;
+  const d=tabData||{};
+  const col=d.color||"#e47a90";
+  const shpIdx=TAB_SHAPES.findIndex(s=>s.style===(d.shape||TAB_SHAPES[0].style));
+  const container=document.getElementById("tabs-editor");
+  const div=document.createElement("div");
+  div.className="tab-editor-entry"; div.id=tId;
+  div.innerHTML=`
+    <div class="tab-editor-header">
+      <span class="tab-editor-label">Tab ${container.children.length+1}</span>
+      <button type="button" class="remove-tab-btn" onclick="document.getElementById('${tId}').remove(); activeFormTabIdx = Math.max(0, activeFormTabIdx - 1); renumberTabs()">✕ Delete Day</button>
+    </div>
+    <div class="form-row" style="margin-bottom:10px">
+      <div><label>Label</label><input type="text" data-tab-label value="${esc(d.label||"")}" placeholder="e.g. Day 1 – Jewel Changi"/></div>
+      <div><label>Color</label><input type="color" data-tab-color value="${col}"/></div>
+    </div>
+    <div class="tab-style-row">
+      <span style="font-size:12px;color:var(--text-soft);margin-right:4px">Shape:</span>
+      ${TAB_SHAPES.map((s,i)=>`<button type="button" class="btn btn-sm${(shpIdx<0?i===0:i===shpIdx)?' btn-primary':' btn-outline'}" onclick="selectTabShape(this,'${tId}','${s.style}')" data-shape="${s.style}">${s.label}</button>`).join("")}
+    </div>
+    <input type="hidden" data-tab-shape value="${esc(d.shape||TAB_SHAPES[0].style)}"/>
+    <div style="margin-top:10px">
+      <label style="margin-bottom:8px">Activities / moments</label>
+      <div class="acts-editor" id="acts-${tId}"></div>
+      <button type="button" class="add-sub-btn" onclick="addActEditor('acts-${tId}')">＋ Add activity to end</button>
+    </div>`;
+  container.appendChild(div);
+
+  const labelInput = div.querySelector("[data-tab-label]");
+  if(labelInput) {
+    labelInput.addEventListener("input", () => {
+      renumberTabs();
+    });
+  }
+
+  const actsContainer = div.querySelector(".acts-editor");
+  setupActsContainerDropEvents(actsContainer);
+
+  (d.activities||[]).forEach(a=>addActEditor("acts-"+tId, a));
+  
+  refreshDividersInContainer(actsContainer);
+  renumberTabs();
+}
+
+function renumberTabs(){
+  const nav = document.getElementById("tabs-editor-nav");
+  const container = document.getElementById("tabs-editor");
+  if(!nav || !container) return;
+  
+  nav.innerHTML = "";
+  const entries = container.querySelectorAll(".tab-editor-entry");
+  
+  if (activeFormTabIdx >= entries.length && entries.length > 0) {
+    activeFormTabIdx = entries.length - 1;
+  }
+  
+  entries.forEach((el, i) => {
+    const lbl = el.querySelector(".tab-editor-label");
+    if(lbl) lbl.textContent = "Day " + (i+1);
+    
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = `tab-btn ${i === activeFormTabIdx ? "active" : ""}`;
+    if(i === activeFormTabIdx) {
+      btn.style.background = "var(--rose-deep)";
+      btn.style.color = "#fff";
+    }
+    
+    const inputVal = el.querySelector("[data-tab-label]")?.value.trim() || ("Day " + (i+1));
+    btn.textContent = inputVal;
+    btn.onclick = () => {
+      activeFormTabIdx = i;
+      renumberTabs();
+    };
+    nav.appendChild(btn);
+    
+    el.style.display = i === activeFormTabIdx ? "block" : "none";
+  });
+  
+  const addBtn = document.createElement("button");
+  addBtn.type = "button";
+  addBtn.className = "tab-btn";
+  addBtn.style.border = "1.5px dashed var(--rose)";
+  addBtn.style.color = "var(--rose-deep)";
+  addBtn.textContent = "＋ Add day";
+  addBtn.onclick = () => {
+    addTabEditor();
+    activeFormTabIdx = container.querySelectorAll(".tab-editor-entry").length - 1;
+    renumberTabs();
+  };
+  nav.appendChild(addBtn);
+}
+
+function selectTabShape(btn,tId,shape){
+  const entry=document.getElementById(tId);
+  entry.querySelectorAll(".tab-style-row .btn").forEach(b=>{b.classList.remove("btn-primary");b.classList.add("btn-outline");});
+  btn.classList.remove("btn-outline");btn.classList.add("btn-primary");
+  entry.querySelector("[data-tab-shape]").value=shape;
+}
+
+function getActEditorInnerHtml(aId, a) {
+  return `
+    <div class="act-editor-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div class="drag-handle" title="Drag to reorder" onmousedown="enableDrag(this)" onmouseup="disableDrag(this)" ontouchstart="enableDrag(this)" ontouchend="disableDrag(this)" style="cursor:grab; display:flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:var(--rose-light); color:var(--rose-deep); font-size:13px; font-weight:bold;">⠿</div>
+        <span class="act-editor-label">Activity</span>
+      </div>
+      <button type="button" class="remove-act-btn" onclick="const p = this.closest('.acts-editor'); document.getElementById('${aId}').remove(); refreshDividersInContainer(p)">✕ Remove Activity</button>
+    </div>
+    <div class="form-group" style="margin-bottom:10px"><label>Title</label><input type="text" data-act-title value="${esc(a.title||"")}"/></div>
+    <div class="form-group" style="margin-bottom:10px"><label>Description</label><textarea data-act-desc rows="2">${esc(a.desc||"")}</textarea></div>
+    <div class="form-group" style="margin-bottom:10px"><label>💡 Tip (highlighted)</label><textarea data-act-tip rows="2">${esc(a.tip||"")}</textarea></div>
+    
+    <details style="margin-bottom:12px; background:var(--blush); border-radius:12px; padding:6px 12px; border:1px solid #f0dce2;">
+      <summary style="font-size:12px; font-weight:600; color:var(--rose-deep); cursor:pointer;">🎨 Custom Moment Typography</summary>
+      <div style="margin-top:10px;">
+        ${getTypographyEditorHtml(aId + "-title", "Moment Title", a.styles?.title)}
+        ${getTypographyEditorHtml(aId + "-desc", "Moment Description", a.styles?.desc)}
+        ${getTypographyEditorHtml(aId + "-tip", "Moment Tip text", a.styles?.tip)}
+      </div>
+    </details>
+
+    <div class="form-group" style="margin-bottom:10px">
+      <label>Image</label>
+      <div class="img-input-group">
+        <div class="row"><input type="url" data-act-img-url placeholder="Paste image URL…" value="${esc(a.imgUrl||"")}" oninput="previewActImg(this)"/></div>
+        <div class="row"><label style="text-transform:none;letter-spacing:0;font-size:12px;color:var(--rose-deep);cursor:pointer;"><input type="file" accept="image/*" style="display:none" onchange="actFileUpload(this)"/>📎 Upload photo</label></div>
+        <img class="img-preview${a.imgUrl?' show':''}" src="${esc(a.imgUrl||"")}" alt="preview"/>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:10px"><label>🗺️ Google Maps link</label><input type="url" data-act-map placeholder="https://maps.google.com/…" value="${esc(a.mapUrl||"")}"/></div>
+    <div class="form-group" style="margin-bottom:6px">
+      <label>Checklist</label>
+      <div class="check-editor" id="check-${aId}"></div>
+      <button type="button" class="add-sub-btn" style="margin-top:6px" onclick="addCheckItem('check-${aId}')">＋ Add item</button>
+    </div>`;
+}
+
+function addActEditor(containerId, actData){
+  actEditorCount++;
+  const aId="act-ed-"+actEditorCount;
+  const a=actData||{};
+  const container=document.getElementById(containerId); if(!container) return;
+  const div=document.createElement("div");
+  div.className="act-editor"; div.id=aId;
+  
+  setupActCardDragEvents(div);
+  
+  div.innerHTML=getActEditorInnerHtml(aId, a);
+  container.appendChild(div);
+  (a.checklist||[]).forEach(c=>addCheckItem("check-"+aId, c));
+  
+  refreshDividersInContainer(container);
+}
+
+function previewActImg(input){
+  const url=input.value.trim();
+  const img=input.closest(".img-input-group").querySelector(".img-preview");
+  if(url){img.src=url;img.classList.add("show");}else{img.classList.remove("show");}
+}
+function actFileUpload(input){
+  const file=input.files[0]; if(!file) return;
+  const group=input.closest(".img-input-group");
+  const urlField=group.querySelector("[data-act-img-url]");
+  const img=group.querySelector(".img-preview");
+  uploadImage(file, {
+    onPreview: d => { img.src=d; img.classList.add("show"); },
+    onDone: (url, err) => {
+      if(url){ urlField.value=url; if(useCloud && fbStorage){ img.src=url; } }
+      else { showToast("⚠️ Photo upload failed — check connection or paste a link"); }
+    }
+  });
+}
+
+function addCheckItem(containerId, item){
+  const c=item||{text:"",done:false};
+  const container=document.getElementById(containerId); if(!container) return;
+  const div=document.createElement("div"); div.className="check-item-row";
+  div.dataset.done = c.done ? "1" : "0";
+  div.innerHTML=`<input type="text" data-check-text value="${esc(c.text)}" placeholder="e.g. Pack sunscreen"/><button type="button" class="remove-check-btn" onclick="this.parentElement.remove()">✕</button>`;
+  container.appendChild(div);
+}
+
+function collectTabs(){
+  const tabs=[];
+  document.querySelectorAll("#tabs-editor .tab-editor-entry").forEach(tabEl=>{
+    const label=tabEl.querySelector("[data-tab-label]")?.value.trim()||"";
+    const color=tabEl.querySelector("[data-tab-color]")?.value||"#e47a90";
+    const shape=tabEl.querySelector("[data-tab-shape]")?.value||TAB_SHAPES[0].style;
+    const activities=[];
+    tabEl.querySelectorAll(".act-editor").forEach(actEl=>{
+      const aId = actEl.id;
+      const imgUrlEl=actEl.querySelector("[data-act-img-url]");
+      const checklist = [];
+      actEl.querySelector(".check-editor")?.querySelectorAll(".check-item-row").forEach(row=>{
+        const txt=row.querySelector("[data-check-text]")?.value.trim()||"";
+        if(txt) checklist.push({text:txt,done:row.dataset.done==="1"});
+      });
+      activities.push({
+        id:"a"+Date.now()+Math.random().toString(36).slice(2,6),
+        title:actEl.querySelector("[data-act-title]")?.value.trim()||"",
+        desc:actEl.querySelector("[data-act-desc]")?.value.trim()||"",
+        tip:actEl.querySelector("[data-act-tip]")?.value.trim()||"",
+        imgUrl:imgUrlEl?.value.trim()||"",
+        mapUrl:actEl.querySelector("[data-act-map]")?.value.trim()||"",
+        checklist,
+        styles: {
+          title: collectTypography(aId + "-title"),
+          desc: collectTypography(aId + "-desc"),
+          tip: collectTypography(aId + "-tip")
+        }
+      });
+    });
+    tabs.push({id:"tab"+Date.now()+Math.random().toString(36).slice(2,5), label, color, shape, activities});
+  });
+  return tabs;
+}
+
+function openAddForm(){
+  editingId=null;
+  activeFormTabIdx=0; 
+  selectedEmoji=EMOJIS[1];selectedColor=COLORS[0];
+  document.getElementById("form-modal-title").textContent="Add a new trip ✈️";
+  selectDropdownValue("f-country", "");
+  ["f-title","f-desc","f-cover-url"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("f-start").value="";document.getElementById("f-end").value="";
+  const pv=document.getElementById("f-cover-preview");pv.src="";pv.classList.remove("show");
+  
+  document.getElementById("trip-typo-container").innerHTML = 
+    getTypographyEditorHtml("f-typo-title", "Trip Title", {}) +
+    getTypographyEditorHtml("f-typo-country", "Destination Header", {}) +
+    getTypographyEditorHtml("f-typo-desc", "Card Description", {});
+
+  document.getElementById("tabs-editor").innerHTML="";
+  buildEmojiPicker();buildColorPicker();
+  renumberTabs(); 
+  openOverlay("form-overlay");
+}
+
+function openEditForm(id){
+  const t=trips.find(x=>x.id===id); if(!t) return;
+  editingId=id;
+  activeFormTabIdx=0; 
+  selectedEmoji=t.emoji||EMOJIS[1];selectedColor=t.color||COLORS[0];
+  document.getElementById("form-modal-title").textContent="Edit trip ✏️";
+  document.getElementById("f-title").value=t.title||"";
+  selectDropdownValue("f-country", t.country||"");
+  document.getElementById("f-start").value=t.startDate||"";
+  document.getElementById("f-end").value=t.endDate||"";
+  document.getElementById("f-desc").value=t.desc||"";
+  document.getElementById("f-cover-url").value=t.coverUrl||"";
+  const pv=document.getElementById("f-cover-preview");
+  if(t.coverUrl){pv.src=t.coverUrl;pv.classList.add("show");}else{pv.src="";pv.classList.remove("show");}
+  
+  document.getElementById("trip-typo-container").innerHTML = 
+    getTypographyEditorHtml("f-typo-title", "Trip Title", t.styles?.title) +
+    getTypographyEditorHtml("f-typo-country", "Destination Header", t.styles?.country) +
+    getTypographyEditorHtml("f-typo-desc", "Card Description", t.styles?.desc);
+
+  document.getElementById("tabs-editor").innerHTML="";
+  tabEditorCount=0;actEditorCount=0;
+  (t.tabs||[]).forEach(tab=>addTabEditor(tab));
+  buildEmojiPicker();buildColorPicker();
+  openOverlay("form-overlay");
+}
+
+function saveTrip(){
+  const title=document.getElementById("f-title").value.trim();
+  if(!title){showToast("Please enter a trip name 🌸");document.getElementById("f-title").focus();return;}
+  if(pendingUploads>0){showToast("⏳ A photo is still uploading — one moment…");return;}
+  const trip={
+    id:editingId||"trip_"+Date.now(),
+    title,
+    country:document.getElementById("f-country").value.trim(),
+    startDate:document.getElementById("f-start").value,
+    endDate:document.getElementById("f-end").value,
+    desc:document.getElementById("f-desc").value.trim(),
+    emoji:selectedEmoji,
+    color:selectedColor,
+    coverUrl:document.getElementById("f-cover-url").value.trim(),
+    styles: {
+      title: collectTypography("f-typo-title"),
+      country: collectTypography("f-typo-country"),
+      desc: collectTypography("f-typo-desc")
+    },
+    tabs:collectTabs()
+  };
+  persistTrip(trip);
+  closeOverlay("form-overlay");
+  showToast(editingId?"✅ Trip updated!":"🎉 New trip added!");
+}
+
+function docByteSize(obj){
+  try{ return new Blob([JSON.stringify(obj)]).size; }
+  catch(e){ return JSON.stringify(obj).length; }
+}
+function tooBigToSync(obj){ return docByteSize(obj) > 950000; }
+function fbWriteError(e){
+  const m = ((e&&e.message)||"")+"";
+  if(/too large|exceeds the maximum|invalid-argument|longer than/i.test(m))
+    return "⚠️ Too many/large photos to sync this — try image links instead";
+  return "⚠️ Sync failed — check your connection";
+}
+function persistTrip(trip){
+  if(useCloud){
+    if(tooBigToSync(trip)){ showToast("⚠️ This trip has too many/large photos to sync — use image links or fewer photos"); return; }
+    db.collection("trips").doc(trip.id).set(trip).catch(e=>{console.error(e);showToast(fbWriteError(e));});
+  } else {
+    const idx=trips.findIndex(x=>x.id===trip.id);
+    if(idx>=0) trips[idx]=trip; else trips.push(trip);
+    saveTrips(trips); renderAll();
+  }
+}
+function persistDelete(id){
+  if(useCloud){
+    db.collection("trips").doc(id).delete().catch(e=>{console.error(e);showToast(fbWriteError(e));});
+  } else {
+    trips=trips.filter(t=>t.id!==id); saveTrips(trips); renderAll();
+  }
+}
+function persistSite(){
+  if(useCloud){
+    if(tooBigToSync(site)){ showToast("⚠️ That hero image is too large to sync — try a smaller one or an image link"); return; }
+    db.collection("meta").doc("site").set(site).catch(e=>{console.error(e);showToast(fbWriteError(e));});
+  } else {
+    saveSite(site);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// HERO EDITOR
+// ═══════════════════════════════════════════════════════
+function openHeroEditor(){
+  const s=site;
+  document.getElementById("he-eyebrow").value=s.eyebrow||"";
+  document.getElementById("he-h1a").value=s.h1a!==undefined ? s.h1a : (s.h1||"Every journey");
+  document.getElementById("he-em").value=s.em||"";
+  document.getElementById("he-h1b").value=(s.h1b!==undefined ? s.h1b : " is home").trim();
+  document.getElementById("he-sub").value=s.sub||"";
+  document.getElementById("he-img-url").value=s.bgUrl||"";
+  document.getElementById("he-img-css").value=s.bgCss||"";
+  document.getElementById("he-overlay").value=s.overlayOpacity||0;
+  document.getElementById("he-overlay-val").textContent=s.overlayOpacity||0;
+  document.getElementById("he-couple").value=s.coupleNames||"";
+  
+  document.getElementById("hero-typo-settings-block").innerHTML = 
+    getTypographyEditorHtml("he-typo-eyebrow", "Eyebrow", s.styles?.eyebrow) +
+    getTypographyEditorHtml("he-typo-headline", "Headline", s.styles?.headline) +
+    getTypographyEditorHtml("he-typo-subtitle", "Subtitle", s.styles?.subtitle) +
+    getTypographyEditorHtml("he-typo-stats-num", "Stats Numbers", s.styles?.statsNum) +
+    getTypographyEditorHtml("he-typo-stats-label", "Stats Labels", s.styles?.statsLabel);
+
+  document.getElementById("he-eyebrow-shadow").value = s.eyebrowShadow || "none";
+  document.getElementById("he-eyebrow-shadow-color").value = s.eyebrowShadowColor || "#000000";
+  document.getElementById("he-headline-shadow").value = s.headlineShadow || "none";
+  document.getElementById("he-headline-shadow-color").value = s.headlineShadowColor || "#000000";
+  document.getElementById("he-subtitle-shadow").value = s.subtitleShadow || "none";
+  document.getElementById("he-subtitle-shadow-color").value = s.subtitleShadowColor || "#000000";
+  document.getElementById("he-stats-shadow").value = s.statsShadow || "none";
+  document.getElementById("he-stats-shadow-color").value = s.statsShadowColor || "#000000";
+
+  const pv=document.getElementById("he-img-preview");
+  if(s.bgUrl){pv.src=s.bgUrl;pv.classList.add("show");}else{pv.src="";pv.classList.remove("show");}
+  
+  const pos=s.textPos||"mc";
+  document.querySelectorAll(".pos-btn").forEach(b=>{
+    b.classList.toggle("selected", b.dataset.pos===pos);
+  });
+
+  const statsPos=s.statsPos||"bc";
+  document.querySelectorAll(".stats-pos-btn").forEach(b=>{
+    b.classList.toggle("selected", b.dataset.statsPos===statsPos);
+  });
+
+  document.getElementById("hero-decorations-list").innerHTML = "";
+  (s.floatingObjects || []).forEach(obj => addHeroDecoration(obj));
+
+  openOverlay("hero-overlay-modal");
+}
+
+function selectTextPos(pos){
+  document.querySelectorAll(".pos-btn").forEach(b=>{
+    b.classList.toggle("selected", b.dataset.pos===pos);
+  });
+  const hero=document.getElementById("hero-section");
+  const POS=["tp-tl","tp-tc","tp-tr","tp-ml","tp-mc","tp-mr","tp-bl","tp-bc","tp-br"];
+  POS.forEach(c=>hero.classList.remove(c));
+  hero.classList.add("tp-"+pos);
+}
+
+function selectStatsPos(pos){
+  document.querySelectorAll(".stats-pos-btn").forEach(b=>{
+    b.classList.toggle("selected", b.dataset.statsPos===pos);
+  });
+  const hero=document.getElementById("hero-section");
+  const SP=["sp-tl","sp-tc","sp-tr","sp-ml","sp-mc","sp-mr","sp-bl","sp-bc","sp-br"];
+  SP.forEach(c=>hero.classList.remove(c));
+  hero.classList.add("sp-"+pos);
+}
+
+function previewHeroImg(){
+  const url=document.getElementById("he-img-url").value.trim();
+  const pv=document.getElementById("he-img-preview");
+  if(url){pv.src=url;pv.classList.add("show");}else{pv.src="";pv.classList.remove("show");}
+}
+function heroFileUpload(input){
+  const file=input.files[0]; if(!file) return;
+  const pv=document.getElementById("he-img-preview");
+  uploadImage(file, {
+    onPreview: d => { pv.src=d; pv.classList.add("show"); },
+    onDone: (url, err) => {
+      if(url){ document.getElementById("he-img-url").value=url; if(useCloud && fbStorage){ pv.src=url; } }
+      else { showToast("⚠️ Photo upload failed — check connection or paste a link"); }
+    }
+  });
+}
+function updateHeroOverlayPreview(){
+  const val=document.getElementById("he-overlay").value;
+  document.getElementById("he-overlay-val").textContent=val;
+}
+
+function addHeroDecoration(obj = {}) {
+  const list = document.getElementById("hero-decorations-list");
+  const row = document.createElement("div");
+  row.className = "decor-row";
+  
+  const currentAssetId = obj.assetId || obj.emoji || "hd-heart";
+  
+  let optionsHtml = '<optgroup label="Hand-Drawn Styles">';
+  optionsHtml += DECOR_ASSETS.map(a => `<option value="${a.id}" ${currentAssetId===a.id?'selected':''}>${a.name}</option>`).join("");
+  optionsHtml += "</optgroup><optgroup label=\"Standard Emojis\">";
+  optionsHtml += DECOR_EMOJIS.map(e => `<option value="${e}" ${currentAssetId===e?'selected':''}>${e}</option>`).join("");
+  optionsHtml += "</optgroup>";
+  
+  row.innerHTML = `
+    <select data-decor-asset onchange="updateHeroDecorationsLive()" style="max-width: 140px; font-size: 14px;">
+      ${optionsHtml}
+    </select>
+    <div class="decor-col">
+      <label>X (%)</label>
+      <input type="number" data-decor-x value="${obj.x !== undefined ? obj.x : 50}" min="-20" max="120" oninput="updateHeroDecorationsLive()">
+    </div>
+    <div class="decor-col">
+      <label>Y (%)</label>
+      <input type="number" data-decor-y value="${obj.y !== undefined ? obj.y : 50}" min="-20" max="120" oninput="updateHeroDecorationsLive()">
+    </div>
+    <div class="decor-col">
+      <label>Size (px)</label>
+      <input type="number" data-decor-size value="${obj.size || 60}" min="10" max="300" oninput="updateHeroDecorationsLive()">
+    </div>
+    <button type="button" class="remove-check-btn" style="margin-left:auto; padding:4px 8px; font-size:14px;" onclick="this.closest('.decor-row').remove(); updateHeroDecorationsLive()">✕</button>
+  `;
+  list.appendChild(row);
+  updateHeroDecorationsLive();
+}
+
+// Fixed minor trailing character data blocks in list parsing
+function collectHeroDecorations() {
+  const list = [];
+  document.querySelectorAll("#hero-decorations-list .decor-row").forEach(row => {
+    list.push({
+      assetId: row.querySelector("[data-decor-asset]").value,
+      x: parseFloat(row.querySelector("[data-decor-x]").value) || 0,
+      y: parseFloat(row.querySelector("[data-decor-y]").value) || 0,
+      size: parseFloat(row.querySelector("[data-decor-size]").value) || 60
+    });
+  });
+  return list;
+}
+
+function updateHeroDecorationsLive() {
+  const decors = collectHeroDecorations();
+  const floatingLayer = document.getElementById("hero-floating-layer");
+  if(!floatingLayer) return;
+  floatingLayer.innerHTML = "";
+  decors.forEach(obj => {
+    const el = document.createElement("div");
+    el.className = "floating-obj";
+    
+    const handDrawn = DECOR_ASSETS.find(a => a.id === obj.assetId);
+    if (handDrawn) {
+      el.innerHTML = handDrawn.svg;
+      el.style.width = obj.size + "px";
+      el.style.height = obj.size + "px";
+    } else {
+      el.textContent = obj.assetId;
+      el.style.fontSize = obj.size + "px";
+    }
+    
+    el.style.left = obj.x + "%";
+    el.style.top = obj.y + "%";
+    el.style.animation = "none"; 
+    floatingLayer.appendChild(el);
+  });
+}
+
+function saveHero(){
+  if(pendingUploads>0){showToast("⏳ The image is still uploading — one moment…");return;}
+  site.eyebrow=document.getElementById("he-eyebrow").value.trim();
+  site.h1a=document.getElementById("he-h1a").value.trim();
+  site.em=document.getElementById("he-em").value.trim();
+  const h1bRaw=document.getElementById("he-h1b").value.trim();
+  site.h1b=h1bRaw ? " "+h1bRaw : "";
+  delete site.h1;
+  site.sub=document.getElementById("he-sub").value.trim();
+  site.bgUrl=document.getElementById("he-img-url").value.trim();
+  site.bgCss=document.getElementById("he-img-css").value.trim();
+  site.overlayOpacity=parseFloat(document.getElementById("he-overlay").value)||0;
+  site.coupleNames=document.getElementById("he-couple").value.trim();
+  
+  const selPos=document.querySelector(".pos-btn.selected");
+  site.textPos=selPos ? selPos.dataset.pos : "mc";
+  const selStatsPos=document.querySelector(".stats-pos-btn.selected");
+  site.statsPos=selStatsPos ? selStatsPos.dataset.statsPos : "bc";
+  
+  site.eyebrowShadow = document.getElementById("he-eyebrow-shadow").value;
+  site.eyebrowShadowColor = document.getElementById("he-eyebrow-shadow-color").value;
+  site.headlineShadow = document.getElementById("he-headline-shadow").value;
+  site.headlineShadowColor = document.getElementById("he-headline-shadow-color").value;
+  site.subtitleShadow = document.getElementById("he-subtitle-shadow").value;
+  site.subtitleShadowColor = document.getElementById("he-subtitle-shadow-color").value;
+  site.statsShadow = document.getElementById("he-stats-shadow").value;
+  site.statsShadowColor = document.getElementById("he-stats-shadow-color").value;
+
+  site.styles = {
+    eyebrow: collectTypography("he-typo-eyebrow"),
+    headline: collectTypography("he-typo-headline"),
+    subtitle: collectTypography("he-typo-subtitle"),
+    statsNum: collectTypography("he-typo-stats-num"),
+    statsLabel: collectTypography("he-typo-stats-label")
+  };
+
+  site.floatingObjects = collectHeroDecorations();
+
+  persistSite();
+  closeOverlay("hero-overlay-modal");
+  renderHero(); 
+  showToast("✅ Hero updated!");
+}
+
+// ═══════════════════════════════════════════════════════
+// FOOTER EDITOR
+// ═══════════════════════════════════════════════════════
+function startFooterEdit(){
+  const inp=document.getElementById("footer-input");
+  inp.value=site.footer||"";
+  inp.classList.add("show");
+  document.getElementById("footer-display").style.display="none";
+  inp.focus();inp.select();
+}
+function saveFooterEdit(){
+  const val=document.getElementById("footer-input").value.trim();
+  if(val) site.footer=val;
+  persistSite();
+  document.getElementById("footer-input").classList.remove("show");
+  document.getElementById("footer-display").style.display="";
+  renderFooter();
+  showToast("✅ Footer saved!");
+}
+
+function askDelete(id){deletingId=id;openOverlay("confirm-overlay");}
+function confirmDelete(){
+  persistDelete(deletingId);
+  closeOverlay("confirm-overlay");showToast("🗑️ Trip removed");
+}
+
+// Clean functional overlays handlers logic tree maps
+function openOverlay(id){document.getElementById(id).classList.add("open");}
+function closeOverlay(id){
+  document.getElementById(id).classList.remove("open");
+  if(id === "hero-overlay-modal") renderHero(); 
+}
+function overlayClick(e,id){if(e.target===document.getElementById(id))closeOverlay(id);}
+
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2800);
+}
+
+// ═══════════════════════════════════════════════════════
+//  🌸  SPLASH SCREEN GREETING INTERACTION
+// ═══════════════════════════════════════════════════════
+let chosenVisitor = "";
+
+function selectVisitor(name) {
+  chosenVisitor = name;
+  
+  const greetTitle = document.getElementById("greet-title");
+  const greetBody = document.getElementById("greet-body");
+  const greetQuote = document.getElementById("greet-quote");
+  
+  greetTitle.className = "";
+  greetBody.className = "";
+  greetQuote.className = "";
+  void greetTitle.offsetWidth; 
+  
+  greetTitle.classList.add("magical-greet-title");
+  greetBody.classList.add("magical-greet-body");
+  greetQuote.classList.add("magical-greet-quote");
+  
+  if (name === "Vy") {
+    greetTitle.innerHTML = "Welcome, Vy! 🌸";
+    greetBody.innerHTML = `<span style="font-size: 15px; color: var(--text-mid); line-height: 1.7; display: inline-block; max-width: 350px; margin-bottom: 8px;">Our little scrapbook of memories has been waiting for you, sweetheart. Ready to add more beautiful adventures?</span>`;
+    greetQuote.innerHTML = `<span style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--rose-deep); line-height: 1.55; letter-spacing: 0.01em; display: inline-block; padding: 14px 24px; border-top: 1.5px dashed var(--rose); border-bottom: 1.5px dashed var(--rose); margin-top: 16px; background: rgba(253, 244, 246, 0.6); border-radius: 12px; box-shadow: inset 0 0 10px rgba(196,99,122,0.03);">“My favorite place in the world is right next to you.”</span>`;
+    createSparkleRain("🌸", "✨", "💖", "🍀", "🦋", "🎈");
+  } else {
+    greetTitle.innerHTML = "Welcome, Vy! 💕";
+    greetBody.innerHTML = `<span style="font-family: 'Caveat', cursive; font-size: 32px; font-weight: 700; color: var(--rose-deep); text-shadow: 1px 1.5px 3px rgba(196,99,122,0.18); display: inline-block; margin-bottom: 8px;">Thank you for choosing me, Vy ✨</span>`;
+    greetQuote.innerHTML = `<span style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--text-mid); line-height: 1.55; letter-spacing: 0.01em; display: inline-block; padding: 14px 24px; border-top: 1.5px dashed var(--rose); border-bottom: 1.5px dashed var(--rose); margin-top: 16px; background: rgba(253, 244, 246, 0.6); border-radius: 12px; box-shadow: inset 0 0 10px rgba(196,99,122,0.03);">“Every adventure is better when shared with you.”</span>`;
+    createSparkleRain("💕", "✨", "⭐", "🎈", "💌", "🌹");
+  }
+  
+  document.getElementById("splash-step-who").style.display = "none";
+  const greetSec = document.getElementById("splash-step-greet");
+  greetSec.classList.add("show");
+}
+
+function createSparkleRain(...symbols) {
+  const container = document.getElementById("welcome-splash");
+  for (let i = 0; i < 45; i++) {
+    setTimeout(() => {
+      const p = document.createElement("div");
+      p.className = "sparkle-particle";
+      p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      p.style.left = (15 + Math.random() * 70) + "vw";
+      p.style.top = (35 + Math.random() * 35) + "vh";
+      p.style.fontSize = (18 + Math.random() * 16) + "px";
+      
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 90 + Math.random() * 240;
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+      const rot = -180 + Math.random() * 360;
+      
+      p.style.setProperty("--tx", `${tx}px`);
+      p.style.setProperty("--ty", `${ty}px`);
+      p.style.setProperty("--rot", `${rot}deg`);
+      
+      container.appendChild(p);
+      setTimeout(() => p.remove(), 1400);
+    }, i * 20);
+  }
+}
+
+function triggerFlyAway() {
+  const realLogo = document.getElementById("header-logo-container");
+  const splashOverlay = document.getElementById("welcome-splash");
+  
+  if (!realLogo || !splashOverlay) {
+    sessionStorage.setItem("welcomed", "true");
+    splashOverlay.classList.remove("open");
+    return;
+  }
+  
+  const clone = document.createElement("div");
+  clone.className = "flying-title-clone";
+  clone.innerHTML = `<span style="font-size: 24px; margin-right: 12px;">💕</span> Duy & Vy`;
+  
+  clone.style.left = "50%";
+  clone.style.top = "45%";
+  clone.style.transform = "translate(-50%, -50%) scale(2.2)";
+  clone.style.opacity = "1";
+  clone.style.transition = "all 1.4s cubic-bezier(0.25, 1, 0.5, 1)";
+  document.body.appendChild(clone);
+  
+  realLogo.style.opacity = "0";
+  
+  document.querySelector(".splash-card").style.transition = "opacity 0.4s";
+  document.querySelector(".splash-card").style.opacity = "0";
+  splashOverlay.style.background = "transparent";
+  splashOverlay.style.transition = "background 0.8s";
+  
+  setTimeout(() => {
+    const rect = realLogo.getBoundingClientRect();
+    
+    clone.style.left = rect.left + "px";
+    clone.style.top = rect.top + "px";
+    clone.style.transform = "translate(0, 0) scale(1)";
+    clone.style.fontSize = "18px";
+    
+    splashOverlay.style.opacity = "0";
+  }, 100);
+  
+  setTimeout(() => {
+    realLogo.style.opacity = "1";
+    clone.style.opacity = "0";
+    splashOverlay.classList.remove("open");
+    setTimeout(() => {
+      clone.remove();
+    }, 300);
+    
+    sessionStorage.setItem("welcomed", "true");
+    showToast(`✨ Welcome home, Vy!`);
+  }, 1500);
+}
+
+function handleWelcomeIntro() {
+  const isWelcomed = sessionStorage.getItem("welcomed");
+  if (!isWelcomed) {
+    document.getElementById("welcome-splash").classList.add("open");
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// CLOUD SYNC LOGINS
+// ═══════════════════════════════════════════════════════
+function friendlyAuthError(err){
+  const c=(err&&err.code)||"";
+  if(c.includes("invalid-email")) return "That email doesn't look right.";
+  if(c.includes("wrong-password")||c.includes("user-not-found")||c.includes("invalid-credential")||c.includes("invalid-login")) return "Wrong email or password.";
+  if(c.includes("too-many-requests")) return "Too many tries — wait a moment and retry.";
+  if(c.includes("network")) return "No connection — check your internet.";
+  return (err&&err.message)||"Something went wrong. Try again.";
+}
+
+function doLogin() {
+  const email=document.getElementById("login-email").value.trim();
+  const pw=document.getElementById("login-pw").value;
+  const errEl=document.getElementById("login-error");
+  const btn=document.getElementById("login-btn");
+  errEl.textContent="";
+  if(!email||!pw){ errEl.textContent="Enter your email and password."; return; }
+  btn.textContent="Signing in…";
+  fbAuth.signInWithEmailAndPassword(email,pw)
+    .then(() => {
+      sessionStorage.removeItem("welcomed");
+    })
+    .catch(err=>{ errEl.textContent=friendlyAuthError(err); btn.textContent="Sign in 💕"; });
+}
+function doLogout(){ if(fbAuth) { fbAuth.signOut(); sessionStorage.removeItem("welcomed"); } }
+
+let cloudSubscribed=false;
+function subscribeCloud(){
+  if(cloudSubscribed) return;
+  cloudSubscribed=true;
+  db.collection("trips").onSnapshot(snap=>{
+    trips = snap.docs.map(d=>d.data());
+    document.getElementById("sync-pill").textContent="☁️ Synced";
+    renderAll();
+    
+    if (posesCurrentTabIdx !== null && posesCurrentActIdx !== null && document.getElementById("poses-overlay").classList.contains("open")) {
+      if (posesCurrentViewMode === "view") renderPosesView(); else renderPosesEdit();
+    }
+
+    if(currentDetailTripId && document.getElementById("detail-overlay").classList.contains("open")
+       && !trips.find(x=>x.id===currentDetailTripId)){
+      closeOverlay("detail-overlay");
+    }
+  }, err=>{ console.error(err); document.getElementById("sync-pill").textContent="⚠️ Offline"; });
+  
+  db.collection("meta").doc("site").onSnapshot(doc=>{
+    if(doc.exists){ site = doc.data(); renderHero(); renderFooter(); }
+  }, err=>console.error(err));
+}
+
+function seedIfNeeded(){
+  return db.collection("meta").doc("site").get().then(doc=>{
+    if(!doc.exists){
+      const batch=db.batch();
+      batch.set(db.collection("meta").doc("site"), defaultSite());
+      defaultTrips().forEach(t=> batch.set(db.collection("trips").doc(t.id), t));
+      return batch.commit();
+    }
+  }).catch(e=>console.error("Seed check failed",e));
+}
+
+// ═══════════════════════════════════════════════════════
+// INITIALIZATION
+// ═══════════════════════════════════════════════════════
+function init(){
+  populateCountriesDropdown();
+  if(useCloud){
+    document.body.classList.add("cloud-mode");
+    renderHero(); renderFooter();
+    document.getElementById("trips-grid").innerHTML='<div class="empty-state">☁️ Syncing your journal…</div>';
+    fbAuth.onAuthStateChanged(user=>{
+      if(user){
+        document.getElementById("login-overlay").classList.remove("open");
+        seedIfNeeded().then(subscribeCloud).then(() => {
+          handleWelcomeIntro();
+        });
+      } else {
+        cloudSubscribed=false;
+        document.getElementById("login-overlay").classList.add("open");
+        document.getElementById("welcome-splash").classList.remove("open");
+      }
+    });
+  } else {
+    trips = loadTrips();
+    site  = loadSite();
+    renderAll();
+    handleWelcomeIntro();
+  }
+}
+init();
+</script>
+</body>
+
+<!-- ── CLEAN POSE GUIDE EXTENSION PACK ── -->
+<script>
+(function() {
+  // 1. INJECT MODAL CSS STYLES
+  const style = document.createElement("style");
+  style.textContent = `
+    .poses-modal {background:var(--white); border-radius:24px; max-width:680px; width:100%; position:relative; animation:slideUp .3s ease; margin:auto;}
+    .poses-container {padding:28px 32px 36px;}
+    .poses-masonry {display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:16px; margin-top:16px;}
+    .pose-img-wrapper {position:relative; border-radius:var(--radius-sm); overflow:hidden; box-shadow:0 2px 12px rgba(196,99,122,0.06); background:var(--rose-light); transition:transform .2s;}
+    .pose-img-wrapper:hover {transform:scale(1.02);}
+    .pose-display-img {width:100%; height:auto; display:block; object-fit:cover;}
+    .pose-edit-list {display:flex; flex-direction:column; gap:12px; margin-top:16px; max-height:360px; overflow-y:auto; padding-right:4px;}
+    .pose-edit-item {display:flex; align-items:center; gap:12px; background:var(--blush); padding:10px; border-radius:var(--radius-sm); border:1px solid #f0dce2;}
+    .pose-preview-thumb {width:54px; height:54px; object-fit:cover; border-radius:6px; background:#fff;}
+    .pose-url-text {flex:1; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text-mid);}
+    .pose-controls {display:flex; gap:4px;}
+
+    /* PIXEL PERFECT HEIGHT & MARGIN ALIGNMENT FOR DESKTOP & MOBILE */
+    .map-link, .btn-sage {
+      height: 30px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      line-height: 1 !important;
+      box-sizing: border-box !important;
+      margin: 0 !important;
+    }
+    .map-link {
+      padding: 0 12px !important;
+      font-size: 12px !important;
+      border: 1.5px solid transparent !important;
+    }
+    @media(max-width:640px){
+      .map-link, .btn-sage {
+        min-height: 32px !important;
+        height: 32px !important;
+      }
+      .map-link {
+        padding: 0 8px !important;
+        font-size: 11px !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // 2. INJECT MODAL WINDOW HTML
+  const modalDiv = document.createElement("div");
+  modalDiv.id = "poses-overlay";
+  modalDiv.className = "overlay";
+  modalDiv.onclick = function(event) { overlayClick(event, "poses-overlay"); };
+  modalDiv.innerHTML = `
+    <div class="poses-modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeOverlay(&quot;poses-overlay&quot;)">✕</button>
+      <div class="poses-container">
+        <div class="modal-eyebrow">Scrapbook Inspiration</div>
+        <div class="modal-title" style="margin-bottom:6px;">Suggested Poses 📸</div>
+        <p style="font-size:13px; color:var(--text-mid); margin-bottom:20px;">
+          View collection layout inspirations for photo memories, or manage shared image links below.
+        </p>
+        
+        <div style="display:flex; gap:8px; margin-bottom:20px;">
+          <button class="btn btn-sm btn-primary" id="poses-mode-view-btn" onclick="togglePosesMode(&quot;view&quot;)">🌸 View Poses</button>
+          <button class="btn btn-sm btn-outline" id="poses-mode-edit-btn" onclick="togglePosesMode(&quot;edit&quot;)">✏️ Manage Links</button>
+        </div>
+
+        <div id="poses-view-panel">
+          <div id="poses-display-grid" class="poses-masonry"></div>
+        </div>
+
+        <div id="poses-edit-panel" style="display:none;">
+          <div class="form-group" style="background:var(--rose-light); padding:14px; border-radius:12px; margin-bottom:16px;">
+            <label>Add new link from Postimages</label>
+            <div style="display:flex; gap:8px; margin-top:6px;">
+              <input type="url" id="new-pose-url" placeholder="Paste direct image link ending with .jpg, .png, etc..." style="flex:1;" />
+              <button class="btn btn-primary" onclick="addNewPoseLink()">Add Photo</button>
+            </div>
+          </div>
+          <label>Current Collection Gallery</label>
+          <div id="poses-management-list" class="pose-edit-list"></div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; margin-top:24px; padding-top:16px; border-top:1px solid #f0dce2;">
+          <button class="btn btn-ghost" onclick="closeOverlay(&quot;poses-overlay&quot;)">Close</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modalDiv);
+
+  // 3. TRACK STATE CONTROLS
+  window.posesCurrentTabIdx = null;
+  window.posesCurrentActIdx = null;
+  window.posesCurrentViewMode = "view";
+
+  // 4. OVERRIDE CORE CARD GENERATOR TO INCLUDE THE BUTTON
+  window.actCardHTML = function(a, actIdx, tabIdx) {
+    const mapBtn = a.mapUrl ? `<a class="map-link" href="${esc(a.mapUrl)}" target="_blank" rel="noopener">🗺️ Open in Maps</a>` : "";
+    const imgEl = a.imgUrl ? `<img class="activity-img" src="${esc(a.imgUrl)}" alt="" onerror="this.style.display=&quot;none&quot;;var p=this.nextElementSibling;if(p&&p.classList.contains(&quot;activity-img-placeholder&quot;))p.style.display=&quot;flex&quot;;" />` : "";
+    const tipEl = a.tip ? `<div class="activity-tip" style="${getStyleString(a.styles?.tip)}"><div class="activity-tip-label">💡 Tip</div>${safeFormat(a.tip)}</div>` : "";
+    
+    let checklistHtml = "";
+    if (a.checklist && a.checklist.length) {
+      checklistHtml = `
+        <div class="checklist">
+          <div class="checklist-title">Checklist</div>
+          ${a.checklist.map((c, ci) => `
+            <div class="checklist-item ${c.done ? "checked" : ""}">
+              <input type="checkbox" data-act-idx="${actIdx}" data-item-idx="${ci}" ${c.done ? "checked" : ""}>
+              <span>${esc(c.text)}</span>
+            </div>
+          `).join("")}
+        </div>`;
+    }
+    
+    const poseCount = (a.poses && a.poses.length) ? a.poses.length : 0;
+    const poseBtnLabel = poseCount > 0 ? "📸 Pose Guide (" + poseCount + ")" : "📸 Pose Guide";
+    const posesBtn = `<button class="btn btn-sm btn-outline btn-sage" onclick="openPosesModal(${tabIdx}, ${actIdx})">${poseBtnLabel}</button>`;
+
+    return `
+      <div class="activity-card">
+        ${imgEl}
+        <div class="activity-img-placeholder" style="${imgEl ? "display:none" : "display:flex"}">📍</div>
+        <div class="activity-body">
+          <div class="activity-title" style="${getStyleString(a.styles?.title)}">${safeFormat(a.title || "Activity")}</div>
+          ${a.desc ? `<div class="activity-desc" style="${getStyleString(a.styles?.desc)}">${safeFormat(a.desc)}</div>` : ""}
+          ${tipEl}
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:4px; margin-bottom:4px;">
+            ${mapBtn}
+            ${posesBtn}
+          </div>
+          ${checklistHtml}
+        </div>
+      </div>`;
+  };
+
+  // 5. OVERRIDE TRAFFIC RENDERER TO PASS POSITION VALUES
+  window.renderDetailTabs = function(t, ac) {
+    const bar = document.getElementById("det-tabs-bar");
+    const content = document.getElementById("det-tabs-content");
+    const tabs = t.tabs || [];
+    if (!tabs.length) { bar.innerHTML = ""; content.innerHTML = ""; return; }
+    
+    function render(idx) {
+      bar.innerHTML = tabs.map((tab, i) => {
+        const col = tab.color || ac;
+        const shp = tab.shape || "border-radius:50px;";
+        const active = i === idx;
+        return `<button class="tab-btn ${active ? "active" : ""}" style="${active ? "background:" + col + ";color:#fff;" + shp : "" + shp}" onclick="renderDetailTabs._switch(${i})">${esc(tab.label || ("Day " + (i + 1)))}</button>`;
+      }).join("");
+      
+      const tab = tabs[idx];
+      const acts = tab.activities || [];
+      content.innerHTML = `<div class="activities-list">${acts.map((a, ai) => actCardHTML(a, ai, idx)).join("")}</div>`;
+      
+      content.querySelectorAll(".checklist-item input").forEach(cb => {
+        cb.addEventListener("change", function() {
+          const item = cb.closest(".checklist-item");
+          item.classList.toggle("checked", cb.checked);
+          const ai = parseInt(cb.dataset.actIdx, 10);
+          const ci = parseInt(cb.dataset.itemIdx, 10);
+          const trip = trips.find(x => x.id === currentDetailTripId);
+          if (trip && trip.tabs[idx] && trip.tabs[idx].activities[ai] && trip.tabs[idx].activities[ai].checklist[ci]) {
+            trip.tabs[idx].activities[ai].checklist[ci].done = cb.checked;
+            if (useCloud) { db.collection("trips").doc(trip.id).set(trip).catch(e => { console.error(e); showToast(fbWriteError(e)); }); }
+            else { saveTrips(trips); }
+          }
+        });
+      });
+    }
+    renderDetailTabs._switch = function(i) { render(i); };
+    render(0);
+  };
+
+  // 6. PROTECT INTERFACES SO REGULAR FORM EDITS PRESERVE DATA LINKS
+  if (window.getActEditorInnerHtml) {
+    const originalGetActEditorInnerHtml = window.getActEditorInnerHtml;
+    window.getActEditorInnerHtml = function(aId, a) {
+      let baseHtml = originalGetActEditorInnerHtml(aId, a);
+      const savedPosesJSON = a.poses ? esc(JSON.stringify(a.poses)) : "[]";
+      baseHtml = baseHtml.replace("<div class=\"form-group\" style=\"margin-bottom:6px\">", `<input type="hidden" data-act-poses-pool value="${esc(savedPosesJSON)}" /><div class="form-group" style="margin-bottom:6px">`);
+      return baseHtml;
+    };
+  }
+
+  window.collectTabs = function() {
+    const tabs = [];
+    document.querySelectorAll("#tabs-editor .tab-editor-entry").forEach(tabEl => {
+      const label = tabEl.querySelector("[data-tab-label]")?.value.trim() || "";
+      const color = tabEl.querySelector("[data-tab-color]")?.value || "#e47a90";
+      const shape = tabEl.querySelector("[data-tab-shape]")?.value || TAB_SHAPES[0].style;
+      const activities = [];
+      
+      tabEl.querySelectorAll(".act-editor").forEach(actEl => {
+        const aId = actEl.id;
+        const imgUrlEl = actEl.querySelector("[data-act-img-url]");
+        const checklist = [];
+        
+        actEl.querySelector(".check-editor")?.querySelectorAll(".check-item-row").forEach(row => {
+          const txt = row.querySelector("[data-check-text]")?.value.trim() || "";
+          if (txt) checklist.push({ text: txt, done: row.dataset.done === "1" });
+        });
+        
+        let parsedPoses = [];
+        try {
+          const poolVal = actEl.querySelector("[data-act-poses-pool]")?.value;
+          parsedPoses = poolVal ? JSON.parse(poolVal) : [];
+        } catch(e) { parsedPoses = []; }
+
+        activities.push({
+          id: "a" + Date.now() + Math.random().toString(36).slice(2, 6),
+          title: actEl.querySelector("[data-act-title]")?.value.trim() || "",
+          desc: actEl.querySelector("[data-act-desc]")?.value.trim() || "",
+          tip: actEl.querySelector("[data-act-tip]")?.value.trim() || "",
+          imgUrl: imgUrlEl?.value.trim() || "",
+          mapUrl: actEl.querySelector("[data-act-map]")?.value.trim() || "",
+          checklist: checklist,
+          poses: parsedPoses,
+          styles: {
+            title: collectTypography(aId + "-title"),
+            desc: collectTypography(aId + "-desc"),
+            tip: collectTypography(aId + "-tip")
+          }
+        });
+      });
+      tabs.push({ id: "tab" + Date.now() + Math.random().toString(36).slice(2, 5), label, color, shape, activities });
+    });
+    return tabs;
+  };
+
+  // 7. POSES LOGIC CORE ENGINE
+  window.openPosesModal = function(tabIdx, actIdx) {
+    posesCurrentTabIdx = tabIdx;
+    posesCurrentActIdx = actIdx;
+    document.getElementById("new-pose-url").value = "";
+    togglePosesMode("view");
+    openOverlay("poses-overlay");
+  };
+
+  window.togglePosesMode = function(mode) {
+    posesCurrentViewMode = mode;
+    const viewBtn = document.getElementById("poses-mode-view-btn");
+    const editBtn = document.getElementById("poses-mode-edit-btn");
+    const viewPanel = document.getElementById("poses-view-panel");
+    const editPanel = document.getElementById("poses-edit-panel");
+
+    if (mode === "view") {
+      viewBtn.className = "btn btn-sm btn-primary";
+      editBtn.className = "btn btn-sm btn-outline";
+      viewPanel.style.display = "block";
+      editPanel.style.display = "none";
+      renderPosesView();
+    } else {
+      viewBtn.className = "btn btn-sm btn-outline";
+      editBtn.className = "btn btn-sm btn-primary";
+      viewPanel.style.display = "none";
+      editPanel.style.display = "block";
+      renderPosesEdit();
+    }
+  };
+
+  window.getActiveActivityContext = function() {
+    const trip = trips.find(x => x.id === currentDetailTripId);
+    if (!trip) return null;
+    const tab = trip.tabs ? trip.tabs[posesCurrentTabIdx] : null;
+    if (!tab) return null;
+    const act = tab.activities ? tab.activities[posesCurrentActIdx] : null;
+    return { trip, act };
+  };
+
+  window.renderPosesView = function() {
+    const grid = document.getElementById("poses-display-grid");
+    const context = getActiveActivityContext();
+    if (!context || !context.act) return;
+    
+    const poses = context.act.poses || [];
+    if (poses.length === 0) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1; padding:24px;"><div class="empty-icon">📸</div><div class="empty-title">No pose collection yet</div><div class="empty-text">Click Manage Links mode above to add photography pose references for Vy.</div></div>`;
+      return;
+    }
+
+    grid.innerHTML = poses.map(url => `
+      <div class="pose-img-wrapper">
+        <a href="${esc(url)}" target="_blank" title="Click to view full size">
+          <img src="${esc(url)}" class="pose-display-img" alt="Pose idea" onerror="this.parentElement.innerHTML=&quot;<div style='padding:24px; text-align:center; font-size:11px; color:var(--text-soft);'>Invalid Link Image</div>&quot;;" />
+        </a>
+      </div>
+    `).join("");
+  };
+
+  window.renderPosesEdit = function() {
+    const list = document.getElementById("poses-management-list");
+    const context = getActiveActivityContext();
+    if (!context || !context.act) return;
+
+    const poses = context.act.poses || [];
+    if (poses.length === 0) {
+      list.innerHTML = `<div style="text-align:center; padding:32px; font-size:13px; color:var(--text-soft);">No links inside this pool. Paste a Postimages reference URL link above.</div>`;
+      return;
+    }
+
+    list.innerHTML = poses.map((url, index) => `
+      <div class="pose-edit-item">
+        <img src="${esc(url)}" class="pose-preview-thumb" onerror="this.src=&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='54' height='54'><rect width='54' height='54' fill='%23f9eef1'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23c4637a' font-size='10'>Photo</text></svg>&quot;;" />
+        <div class="pose-url-text">${esc(url)}</div>
+        <div class="pose-controls">
+          <button class="icon-btn" title="Move Up" onclick="movePoseLink(${index}, -1)" ${index === 0 ? "disabled style='opacity:0.35; cursor:not-allowed;'" : ""}>↑</button>
+          <button class="icon-btn" title="Move Down" onclick="movePoseLink(${index}, 1)" ${index === poses.length - 1 ? "disabled style='opacity:0.35; cursor:not-allowed;'" : ""}>↓</button>
+          <button class="icon-btn danger" title="Delete Link" onclick="removePoseLink(${index})">✕</button>
+        </div>
+      </div>
+    `).join("");
+  };
+
+  window.addNewPoseLink = function() {
+    const input = document.getElementById("new-pose-url");
+    const rawText = input.value.trim();
+    if (!rawText) {
+      showToast("Please paste image links first 🌸");
+      return;
+    }
+
+    const context = getActiveActivityContext();
+    if (!context) return;
+
+    if (!context.act.poses) context.act.poses = [];
+
+    const regex = /(https?:\/\/[^\s[\]&"<>]+?\.(?:jpg|jpeg|png|gif|webp|bmp))/gi;
+    const matches = rawText.match(regex);
+
+    if (matches && matches.length > 0) {
+      matches.forEach(function(url) {
+        if (!context.act.poses.includes(url)) {
+          context.act.poses.push(url);
+        }
+      });
+      input.value = "";
+      saveTripFromPosesContext(context.trip);
+      renderPosesEdit();
+      showToast("✨ Bulk imported " + matches.length + " poses successfully!");
+    } else {
+      if (rawText.startsWith("http")) {
+        if (!context.act.poses.includes(rawText)) {
+          context.act.poses.push(rawText);
+        }
+        input.value = "";
+        saveTripFromPosesContext(context.trip);
+        renderPosesEdit();
+        showToast("✨ Added single pose link!");
+      } else {
+        showToast("⚠️ No valid image URLs detected in the pasted text.");
+      }
+    }
+  };
+
+  window.removePoseLink = function(index) {
+    const context = getActiveActivityContext();
+    if (!context || !context.act.poses) return;
+
+    context.act.poses.splice(index, 1);
+    saveTripFromPosesContext(context.trip);
+    renderPosesEdit();
+    showToast("🗑️ Pose removed from pool");
+  };
+
+  window.movePoseLink = function(index, direction) {
+    const context = getActiveActivityContext();
+    if (!context || !context.act.poses) return;
+
+    const targetIdx = index + direction;
+    if (targetIdx < 0 || targetIdx >= context.act.poses.length) return;
+
+    const temp = context.act.poses[index];
+    context.act.poses[index] = context.act.poses[targetIdx];
+    context.act.poses[targetIdx] = temp;
+
+    saveTripFromPosesContext(context.trip);
+    renderPosesEdit();
+  };
+
+  window.saveTripFromPosesContext = function(trip) {
+    if (typeof useCloud !== "undefined" && useCloud) {
+      db.collection("trips").doc(trip.id).set(trip).then(() => {
+        const ac = trip.color?.accent || "#e47a90";
+        renderDetailTabs(trip, ac);
+      }).catch(e => {
+        console.error(e);
+        showToast(fbWriteError(e));
+      });
+    } else {
+      saveTrips(trips);
+      const ac = trip.color?.accent || "#e47a90";
+      renderDetailTabs(trip, ac);
+      renderGrid();
+    }
+  };
+
+  if (typeof currentDetailTripId !== "undefined" && currentDetailTripId) {
+    const activeTrip = trips.find(x => x.id === currentDetailTripId);
+    if (activeTrip) renderDetailTabs(activeTrip, activeTrip.color?.accent || "#e47a90");
+  }
+})();
+</script>
+</html>

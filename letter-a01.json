@@ -1,0 +1,3086 @@
+[
+  {
+    "id": 0,
+    "words": [
+      {
+        "id": 0,
+        "text": "Vy",
+        "timestamp": 1.18,
+        "duration": 0.43
+      },
+      {
+        "id": 1,
+        "text": "à,",
+        "timestamp": 1.62,
+        "duration": 0.34
+      },
+      {
+        "id": 2,
+        "text": "có",
+        "timestamp": 2.54,
+        "duration": 0.37
+      },
+      {
+        "id": 3,
+        "text": "một",
+        "timestamp": 2.92,
+        "duration": 0.33
+      },
+      {
+        "id": 4,
+        "text": "câu",
+        "timestamp": 3.26,
+        "duration": 0.63
+      },
+      {
+        "id": 5,
+        "text": "hỏi",
+        "timestamp": 3.9,
+        "duration": 0.79
+      },
+      {
+        "id": 6,
+        "text": "em",
+        "timestamp": 4.7,
+        "duration": 0.43
+      },
+      {
+        "id": 7,
+        "text": "từng",
+        "timestamp": 5.14,
+        "duration": 0.47
+      },
+      {
+        "id": 8,
+        "text": "hỏi",
+        "timestamp": 5.62,
+        "duration": 0.41
+      },
+      {
+        "id": 9,
+        "text": "anh...",
+        "timestamp": 6.04,
+        "duration": 0.42
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "words": [
+      {
+        "id": 0,
+        "text": "Hôm",
+        "timestamp": 7.68,
+        "duration": 0.35
+      },
+      {
+        "id": 1,
+        "text": "nay",
+        "timestamp": 8.04,
+        "duration": 0.35
+      },
+      {
+        "id": 2,
+        "text": "anh",
+        "timestamp": 8.4,
+        "duration": 0.29
+      },
+      {
+        "id": 3,
+        "text": "muốn",
+        "timestamp": 8.7,
+        "duration": 0.51
+      },
+      {
+        "id": 4,
+        "text": "trả",
+        "timestamp": 9.22,
+        "duration": 0.49
+      },
+      {
+        "id": 5,
+        "text": "lời",
+        "timestamp": 9.72,
+        "duration": 0.39
+      },
+      {
+        "id": 6,
+        "text": "em,",
+        "timestamp": 10.12,
+        "duration": 0.6
+      },
+      {
+        "id": 7,
+        "text": "thật",
+        "timestamp": 12.1,
+        "duration": 0.67
+      },
+      {
+        "id": 8,
+        "text": "hơn",
+        "timestamp": 12.78,
+        "duration": 0.67
+      },
+      {
+        "id": 9,
+        "text": "tất",
+        "timestamp": 13.46,
+        "duration": 0.67
+      },
+      {
+        "id": 10,
+        "text": "cả.",
+        "timestamp": 14.14,
+        "duration": 1.82
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "words": [
+      {
+        "id": 0,
+        "text": "Em",
+        "timestamp": 16.02,
+        "duration": 0.15
+      },
+      {
+        "id": 1,
+        "text": "hỏi",
+        "timestamp": 16.18,
+        "duration": 0.19
+      },
+      {
+        "id": 2,
+        "text": "sao",
+        "timestamp": 16.38,
+        "duration": 0.13
+      },
+      {
+        "id": 3,
+        "text": "chưa",
+        "timestamp": 16.52,
+        "duration": 0.33
+      },
+      {
+        "id": 4,
+        "text": "từng",
+        "timestamp": 16.86,
+        "duration": 0.63
+      },
+      {
+        "id": 5,
+        "text": "chạm",
+        "timestamp": 17.5,
+        "duration": 0.53
+      },
+      {
+        "id": 6,
+        "text": "tay",
+        "timestamp": 18.04,
+        "duration": 0.46
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "words": [
+      {
+        "id": 0,
+        "text": "Mà",
+        "timestamp": 18.74,
+        "duration": 0.13
+      },
+      {
+        "id": 1,
+        "text": "nỗi",
+        "timestamp": 18.88,
+        "duration": 0.17
+      },
+      {
+        "id": 2,
+        "text": "nhớ",
+        "timestamp": 19.06,
+        "duration": 0.17
+      },
+      {
+        "id": 3,
+        "text": "cứ",
+        "timestamp": 19.24,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "thế",
+        "timestamp": 19.56,
+        "duration": 0.67
+      },
+      {
+        "id": 5,
+        "text": "dâng",
+        "timestamp": 20.24,
+        "duration": 0.53
+      },
+      {
+        "id": 6,
+        "text": "đầy",
+        "timestamp": 20.78,
+        "duration": 0.42
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "words": [
+      {
+        "id": 0,
+        "text": "Anh",
+        "timestamp": 21.46,
+        "duration": 0.15
+      },
+      {
+        "id": 1,
+        "text": "cũng",
+        "timestamp": 21.62,
+        "duration": 0.27
+      },
+      {
+        "id": 2,
+        "text": "không",
+        "timestamp": 21.9,
+        "duration": 0.43
+      },
+      {
+        "id": 3,
+        "text": "rõ",
+        "timestamp": 22.34,
+        "duration": 0.27
+      },
+      {
+        "id": 4,
+        "text": "từ",
+        "timestamp": 22.62,
+        "duration": 0.31
+      },
+      {
+        "id": 5,
+        "text": "khi",
+        "timestamp": 22.94,
+        "duration": 0.39
+      },
+      {
+        "id": 6,
+        "text": "nào",
+        "timestamp": 23.34,
+        "duration": 0.34
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "words": [
+      {
+        "id": 0,
+        "text": "Một",
+        "timestamp": 23.98,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "dòng",
+        "timestamp": 24.32,
+        "duration": 0.31
+      },
+      {
+        "id": 2,
+        "text": "tin",
+        "timestamp": 24.64,
+        "duration": 0.35
+      },
+      {
+        "id": 3,
+        "text": "lại",
+        "timestamp": 25,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "thành",
+        "timestamp": 25.32,
+        "duration": 0.35
+      },
+      {
+        "id": 5,
+        "text": "cơn",
+        "timestamp": 25.68,
+        "duration": 0.31
+      },
+      {
+        "id": 6,
+        "text": "say",
+        "timestamp": 26,
+        "duration": 0.36
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "words": [
+      {
+        "id": 0,
+        "text": "Rồi",
+        "timestamp": 26.68,
+        "duration": 0.31
+      },
+      {
+        "id": 1,
+        "text": "một",
+        "timestamp": 27,
+        "duration": 0.25
+      },
+      {
+        "id": 2,
+        "text": "ngày",
+        "timestamp": 27.26,
+        "duration": 0.31
+      },
+      {
+        "id": 3,
+        "text": "nghe",
+        "timestamp": 27.58,
+        "duration": 0.43
+      },
+      {
+        "id": 4,
+        "text": "giọng",
+        "timestamp": 28.02,
+        "duration": 0.39
+      },
+      {
+        "id": 5,
+        "text": "em",
+        "timestamp": 28.42,
+        "duration": 0.29
+      },
+      {
+        "id": 6,
+        "text": "vang",
+        "timestamp": 28.72,
+        "duration": 0.4
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "words": [
+      {
+        "id": 0,
+        "text": "Cả",
+        "timestamp": 29.4,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "thế",
+        "timestamp": 29.74,
+        "duration": 0.33
+      },
+      {
+        "id": 2,
+        "text": "gian",
+        "timestamp": 30.08,
+        "duration": 0.67
+      },
+      {
+        "id": 3,
+        "text": "bỗng",
+        "timestamp": 30.76,
+        "duration": 0.33
+      },
+      {
+        "id": 4,
+        "text": "hóa",
+        "timestamp": 31.1,
+        "duration": 0.27
+      },
+      {
+        "id": 5,
+        "text": "nhẹ",
+        "timestamp": 31.38,
+        "duration": 0.29
+      },
+      {
+        "id": 6,
+        "text": "nhàng",
+        "timestamp": 31.68,
+        "duration": 0.46
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "words": [
+      {
+        "id": 0,
+        "text": "Giọng",
+        "timestamp": 32.44,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "nói",
+        "timestamp": 32.781,
+        "duration": 0.39
+      },
+      {
+        "id": 2,
+        "text": "ấy",
+        "timestamp": 33.181,
+        "duration": 0.29
+      },
+      {
+        "id": 3,
+        "text": "ghim",
+        "timestamp": 33.481,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "vào",
+        "timestamp": 33.801,
+        "duration": 0.21
+      },
+      {
+        "id": 5,
+        "text": "tâm",
+        "timestamp": 34.021,
+        "duration": 0.29
+      },
+      {
+        "id": 6,
+        "text": "trí",
+        "timestamp": 34.321,
+        "duration": 0.44
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "words": [
+      {
+        "id": 0,
+        "text": "Giữ",
+        "timestamp": 34.801,
+        "duration": 0.37
+      },
+      {
+        "id": 1,
+        "text": "bình",
+        "timestamp": 35.181,
+        "duration": 0.31
+      },
+      {
+        "id": 2,
+        "text": "yên",
+        "timestamp": 35.501,
+        "duration": 0.65
+      },
+      {
+        "id": 3,
+        "text": "qua",
+        "timestamp": 36.161,
+        "duration": 0.33
+      },
+      {
+        "id": 4,
+        "text": "những",
+        "timestamp": 36.501,
+        "duration": 0.35
+      },
+      {
+        "id": 5,
+        "text": "vội",
+        "timestamp": 36.861,
+        "duration": 0.33
+      },
+      {
+        "id": 6,
+        "text": "vàng",
+        "timestamp": 37.201,
+        "duration": 0.36
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "words": [
+      {
+        "id": 0,
+        "text": "Đường",
+        "timestamp": 37.881,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "về",
+        "timestamp": 38.221,
+        "duration": 0.31
+      },
+      {
+        "id": 2,
+        "text": "khuya",
+        "timestamp": 38.541,
+        "duration": 0.43
+      },
+      {
+        "id": 3,
+        "text": "anh",
+        "timestamp": 38.981,
+        "duration": 0.25
+      },
+      {
+        "id": 4,
+        "text": "cứ",
+        "timestamp": 39.241,
+        "duration": 0.33
+      },
+      {
+        "id": 5,
+        "text": "lo",
+        "timestamp": 39.581,
+        "duration": 0.33
+      },
+      {
+        "id": 6,
+        "text": "lo",
+        "timestamp": 39.921,
+        "duration": 0.36
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "words": [
+      {
+        "id": 0,
+        "text": "Ghé",
+        "timestamp": 40.601,
+        "duration": 0.29
+      },
+      {
+        "id": 1,
+        "text": "mua",
+        "timestamp": 40.901,
+        "duration": 0.37
+      },
+      {
+        "id": 2,
+        "text": "bánh",
+        "timestamp": 41.281,
+        "duration": 0.29
+      },
+      {
+        "id": 3,
+        "text": "chẳng",
+        "timestamp": 41.581,
+        "duration": 0.37
+      },
+      {
+        "id": 4,
+        "text": "vì",
+        "timestamp": 41.961,
+        "duration": 0.19
+      },
+      {
+        "id": 5,
+        "text": "lý",
+        "timestamp": 42.161,
+        "duration": 0.45
+      },
+      {
+        "id": 6,
+        "text": "do",
+        "timestamp": 42.621,
+        "duration": 0.38
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chỉ",
+        "timestamp": 43.281,
+        "duration": 0.37
+      },
+      {
+        "id": 1,
+        "text": "vì",
+        "timestamp": 43.661,
+        "duration": 0.27
+      },
+      {
+        "id": 2,
+        "text": "trong",
+        "timestamp": 43.941,
+        "duration": 0.37
+      },
+      {
+        "id": 3,
+        "text": "đầu",
+        "timestamp": 44.321,
+        "duration": 0.35
+      },
+      {
+        "id": 4,
+        "text": "anh",
+        "timestamp": 44.681,
+        "duration": 0.19
+      },
+      {
+        "id": 5,
+        "text": "lúc",
+        "timestamp": 44.881,
+        "duration": 0.31
+      },
+      {
+        "id": 6,
+        "text": "đó",
+        "timestamp": 45.201,
+        "duration": 0.68
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "words": [
+      {
+        "id": 0,
+        "text": "Bóng",
+        "timestamp": 46.021,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "hình",
+        "timestamp": 46.361,
+        "duration": 0.37
+      },
+      {
+        "id": 2,
+        "text": "em",
+        "timestamp": 46.741,
+        "duration": 0.29
+      },
+      {
+        "id": 3,
+        "text": "cứ",
+        "timestamp": 47.041,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "mãi",
+        "timestamp": 47.361,
+        "duration": 0.27
+      },
+      {
+        "id": 5,
+        "text": "nhỏ",
+        "timestamp": 47.641,
+        "duration": 0.41
+      },
+      {
+        "id": 6,
+        "text": "to",
+        "timestamp": 48.061,
+        "duration": 0.38
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "words": [
+      {
+        "id": 0,
+        "text": "Nhớ",
+        "timestamp": 48.721,
+        "duration": 0.43
+      },
+      {
+        "id": 1,
+        "text": "em",
+        "timestamp": 49.161,
+        "duration": 0.25
+      },
+      {
+        "id": 2,
+        "text": "như",
+        "timestamp": 49.421,
+        "duration": 0.27
+      },
+      {
+        "id": 3,
+        "text": "sao",
+        "timestamp": 49.701,
+        "duration": 0.37
+      },
+      {
+        "id": 4,
+        "text": "rơi",
+        "timestamp": 50.081,
+        "duration": 0.21
+      },
+      {
+        "id": 5,
+        "text": "vào",
+        "timestamp": 50.301,
+        "duration": 0.13
+      },
+      {
+        "id": 6,
+        "text": "lồng",
+        "timestamp": 50.441,
+        "duration": 0.29
+      },
+      {
+        "id": 7,
+        "text": "ngực",
+        "timestamp": 50.741,
+        "duration": 0.24
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "words": [
+      {
+        "id": 0,
+        "text": "Càng",
+        "timestamp": 51.761,
+        "duration": 0.35
+      },
+      {
+        "id": 1,
+        "text": "đếm",
+        "timestamp": 52.121,
+        "duration": 0.35
+      },
+      {
+        "id": 2,
+        "text": "lại",
+        "timestamp": 52.481,
+        "duration": 0.15
+      },
+      {
+        "id": 3,
+        "text": "càng",
+        "timestamp": 52.641,
+        "duration": 0.15
+      },
+      {
+        "id": 4,
+        "text": "thấy",
+        "timestamp": 52.801,
+        "duration": 0.33
+      },
+      {
+        "id": 5,
+        "text": "thổn",
+        "timestamp": 53.141,
+        "duration": 0.33
+      },
+      {
+        "id": 6,
+        "text": "thức",
+        "timestamp": 53.481,
+        "duration": 0.38
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chẳng",
+        "timestamp": 54.121,
+        "duration": 0.27
+      },
+      {
+        "id": 1,
+        "text": "cần",
+        "timestamp": 54.401,
+        "duration": 0.21
+      },
+      {
+        "id": 2,
+        "text": "chạm",
+        "timestamp": 54.621,
+        "duration": 0.23
+      },
+      {
+        "id": 3,
+        "text": "tay,",
+        "timestamp": 54.861,
+        "duration": 0.29
+      },
+      {
+        "id": 4,
+        "text": "chẳng",
+        "timestamp": 55.161,
+        "duration": 0.33
+      },
+      {
+        "id": 5,
+        "text": "chung",
+        "timestamp": 55.501,
+        "duration": 0.35
+      },
+      {
+        "id": 6,
+        "text": "bầu",
+        "timestamp": 55.861,
+        "duration": 0.29
+      },
+      {
+        "id": 7,
+        "text": "trời",
+        "timestamp": 56.161,
+        "duration": 0.38
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chỉ",
+        "timestamp": 56.701,
+        "duration": 0.17
+      },
+      {
+        "id": 1,
+        "text": "cần",
+        "timestamp": 56.881,
+        "duration": 0.29
+      },
+      {
+        "id": 2,
+        "text": "nụ",
+        "timestamp": 57.181,
+        "duration": 0.35
+      },
+      {
+        "id": 3,
+        "text": "cười",
+        "timestamp": 57.541,
+        "duration": 0.37
+      },
+      {
+        "id": 4,
+        "text": "em",
+        "timestamp": 57.921,
+        "duration": 0.13
+      },
+      {
+        "id": 5,
+        "text": "thắp",
+        "timestamp": 58.061,
+        "duration": 0.15
+      },
+      {
+        "id": 6,
+        "text": "sáng",
+        "timestamp": 58.221,
+        "duration": 0.33
+      },
+      {
+        "id": 7,
+        "text": "muôn",
+        "timestamp": 58.561,
+        "duration": 0.33
+      },
+      {
+        "id": 8,
+        "text": "nơi",
+        "timestamp": 58.901,
+        "duration": 0.34
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "words": [
+      {
+        "id": 0,
+        "text": "Hai",
+        "timestamp": 59.281,
+        "duration": 0.25
+      },
+      {
+        "id": 1,
+        "text": "chữ",
+        "timestamp": 59.541,
+        "duration": 0.37
+      },
+      {
+        "id": 2,
+        "text": "\"tin",
+        "timestamp": 59.921,
+        "duration": 0.35
+      },
+      {
+        "id": 3,
+        "text": "anh\"",
+        "timestamp": 60.281,
+        "duration": 0.29
+      },
+      {
+        "id": 4,
+        "text": "nhẹ",
+        "timestamp": 60.581,
+        "duration": 0.29
+      },
+      {
+        "id": 5,
+        "text": "như",
+        "timestamp": 60.881,
+        "duration": 0.23
+      },
+      {
+        "id": 6,
+        "text": "gió",
+        "timestamp": 61.121,
+        "duration": 0.47
+      },
+      {
+        "id": 7,
+        "text": "qua",
+        "timestamp": 61.601,
+        "duration": 0.48
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "words": [
+      {
+        "id": 0,
+        "text": "Mà",
+        "timestamp": 62.101,
+        "duration": 0.19
+      },
+      {
+        "id": 1,
+        "text": "ấm",
+        "timestamp": 62.301,
+        "duration": 0.33
+      },
+      {
+        "id": 2,
+        "text": "hơn",
+        "timestamp": 62.641,
+        "duration": 0.33
+      },
+      {
+        "id": 3,
+        "text": "muôn",
+        "timestamp": 62.981,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "ngàn",
+        "timestamp": 63.301,
+        "duration": 0.33
+      },
+      {
+        "id": 5,
+        "text": "lời",
+        "timestamp": 63.641,
+        "duration": 0.15
+      },
+      {
+        "id": 6,
+        "text": "ngợi",
+        "timestamp": 63.801,
+        "duration": 0.51
+      },
+      {
+        "id": 7,
+        "text": "ca",
+        "timestamp": 64.321,
+        "duration": 0.6
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chưa",
+        "timestamp": 65.181,
+        "duration": 0.29
+      },
+      {
+        "id": 1,
+        "text": "gặp",
+        "timestamp": 65.481,
+        "duration": 0.19
+      },
+      {
+        "id": 2,
+        "text": "bao",
+        "timestamp": 65.681,
+        "duration": 0.29
+      },
+      {
+        "id": 3,
+        "text": "giờ",
+        "timestamp": 65.981,
+        "duration": 0.25
+      },
+      {
+        "id": 4,
+        "text": "nhưng",
+        "timestamp": 66.241,
+        "duration": 0.27
+      },
+      {
+        "id": 5,
+        "text": "tình",
+        "timestamp": 66.521,
+        "duration": 0.19
+      },
+      {
+        "id": 6,
+        "text": "là",
+        "timestamp": 66.721,
+        "duration": 0.31
+      },
+      {
+        "id": 7,
+        "text": "thật",
+        "timestamp": 67.041,
+        "duration": 0.24
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "words": [
+      {
+        "id": 0,
+        "text": "Nhận",
+        "timestamp": 67.721,
+        "duration": 0.31
+      },
+      {
+        "id": 1,
+        "text": "ra",
+        "timestamp": 68.041,
+        "duration": 0.37
+      },
+      {
+        "id": 2,
+        "text": "em",
+        "timestamp": 68.421,
+        "duration": 0.27
+      },
+      {
+        "id": 3,
+        "text": "giữa",
+        "timestamp": 68.701,
+        "duration": 0.33
+      },
+      {
+        "id": 4,
+        "text": "thế",
+        "timestamp": 69.041,
+        "duration": 0.67
+      },
+      {
+        "id": 5,
+        "text": "gian",
+        "timestamp": 69.721,
+        "duration": 1.03
+      },
+      {
+        "id": 6,
+        "text": "tất",
+        "timestamp": 70.761,
+        "duration": 0.33
+      },
+      {
+        "id": 7,
+        "text": "bật",
+        "timestamp": 71.101,
+        "duration": 0.28
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "words": [
+      {
+        "id": 0,
+        "text": "Sáng",
+        "timestamp": 72.781,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "thức",
+        "timestamp": 73.121,
+        "duration": 0.33
+      },
+      {
+        "id": 2,
+        "text": "dậy",
+        "timestamp": 73.461,
+        "duration": 0.35
+      },
+      {
+        "id": 3,
+        "text": "đọc",
+        "timestamp": 73.821,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "tin",
+        "timestamp": 74.141,
+        "duration": 0.55
+      },
+      {
+        "id": 5,
+        "text": "bình",
+        "timestamp": 74.701,
+        "duration": 0.33
+      },
+      {
+        "id": 6,
+        "text": "an",
+        "timestamp": 75.041,
+        "duration": 0.42
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "words": [
+      {
+        "id": 0,
+        "text": "Tối",
+        "timestamp": 75.501,
+        "duration": 0.35
+      },
+      {
+        "id": 1,
+        "text": "đi",
+        "timestamp": 75.861,
+        "duration": 0.31
+      },
+      {
+        "id": 2,
+        "text": "về",
+        "timestamp": 76.181,
+        "duration": 0.33
+      },
+      {
+        "id": 3,
+        "text": "gửi",
+        "timestamp": 76.521,
+        "duration": 0.29
+      },
+      {
+        "id": 4,
+        "text": "chút",
+        "timestamp": 76.821,
+        "duration": 0.55
+      },
+      {
+        "id": 5,
+        "text": "nồng",
+        "timestamp": 77.381,
+        "duration": 0.31
+      },
+      {
+        "id": 6,
+        "text": "nàn",
+        "timestamp": 77.701,
+        "duration": 0.46
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "words": [
+      {
+        "id": 0,
+        "text": "Mấy",
+        "timestamp": 78.201,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "tấm",
+        "timestamp": 78.541,
+        "duration": 0.35
+      },
+      {
+        "id": 2,
+        "text": "hình",
+        "timestamp": 78.901,
+        "duration": 0.29
+      },
+      {
+        "id": 3,
+        "text": "trao",
+        "timestamp": 79.201,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "nhau",
+        "timestamp": 79.521,
+        "duration": 0.57
+      },
+      {
+        "id": 5,
+        "text": "mỗi",
+        "timestamp": 80.101,
+        "duration": 0.27
+      },
+      {
+        "id": 6,
+        "text": "ngày",
+        "timestamp": 80.381,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "words": [
+      {
+        "id": 0,
+        "text": "Thành",
+        "timestamp": 80.901,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "thói",
+        "timestamp": 81.241,
+        "duration": 0.33
+      },
+      {
+        "id": 2,
+        "text": "quen",
+        "timestamp": 81.581,
+        "duration": 0.63
+      },
+      {
+        "id": 3,
+        "text": "giữa",
+        "timestamp": 82.221,
+        "duration": 0.39
+      },
+      {
+        "id": 4,
+        "text": "đời",
+        "timestamp": 82.621,
+        "duration": 0.21
+      },
+      {
+        "id": 5,
+        "text": "thênh",
+        "timestamp": 82.841,
+        "duration": 0.31
+      },
+      {
+        "id": 6,
+        "text": "thang",
+        "timestamp": 83.161,
+        "duration": 0.44
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "words": [
+      {
+        "id": 0,
+        "text": "Bàn",
+        "timestamp": 83.641,
+        "duration": 0.31
+      },
+      {
+        "id": 1,
+        "text": "làm",
+        "timestamp": 83.961,
+        "duration": 0.35
+      },
+      {
+        "id": 2,
+        "text": "việc",
+        "timestamp": 84.321,
+        "duration": 0.35
+      },
+      {
+        "id": 3,
+        "text": "anh",
+        "timestamp": 84.681,
+        "duration": 0.29
+      },
+      {
+        "id": 4,
+        "text": "đặt",
+        "timestamp": 84.981,
+        "duration": 0.31
+      },
+      {
+        "id": 5,
+        "text": "hình",
+        "timestamp": 85.301,
+        "duration": 0.39
+      },
+      {
+        "id": 6,
+        "text": "em",
+        "timestamp": 85.701,
+        "duration": 0.6
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "words": [
+      {
+        "id": 0,
+        "text": "Đến",
+        "timestamp": 86.341,
+        "duration": 0.35
+      },
+      {
+        "id": 1,
+        "text": "công",
+        "timestamp": 86.701,
+        "duration": 0.31
+      },
+      {
+        "id": 2,
+        "text": "ty",
+        "timestamp": 87.021,
+        "duration": 0.35
+      },
+      {
+        "id": 3,
+        "text": "lại",
+        "timestamp": 87.381,
+        "duration": 0.29
+      },
+      {
+        "id": 4,
+        "text": "mở",
+        "timestamp": 87.681,
+        "duration": 0.31
+      },
+      {
+        "id": 5,
+        "text": "ra",
+        "timestamp": 88.001,
+        "duration": 0.33
+      },
+      {
+        "id": 6,
+        "text": "xem",
+        "timestamp": 88.341,
+        "duration": 0.44
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "words": [
+      {
+        "id": 0,
+        "text": "Mệt",
+        "timestamp": 89.061,
+        "duration": 0.31
+      },
+      {
+        "id": 1,
+        "text": "mỏi",
+        "timestamp": 89.381,
+        "duration": 0.35
+      },
+      {
+        "id": 2,
+        "text": "đến",
+        "timestamp": 89.741,
+        "duration": 0.33
+      },
+      {
+        "id": 3,
+        "text": "mấy",
+        "timestamp": 90.081,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "chỉ",
+        "timestamp": 90.401,
+        "duration": 0.33
+      },
+      {
+        "id": 5,
+        "text": "cần",
+        "timestamp": 90.741,
+        "duration": 0.23
+      },
+      {
+        "id": 6,
+        "text": "nhìn",
+        "timestamp": 90.981,
+        "duration": 0.27
+      },
+      {
+        "id": 7,
+        "text": "ngắm",
+        "timestamp": 91.261,
+        "duration": 0.46
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "words": [
+      {
+        "id": 0,
+        "text": "Yêu",
+        "timestamp": 91.761,
+        "duration": 0.37
+      },
+      {
+        "id": 1,
+        "text": "thương",
+        "timestamp": 92.141,
+        "duration": 0.29
+      },
+      {
+        "id": 2,
+        "text": "này",
+        "timestamp": 92.441,
+        "duration": 0.35
+      },
+      {
+        "id": 3,
+        "text": "lại",
+        "timestamp": 92.801,
+        "duration": 0.27
+      },
+      {
+        "id": 4,
+        "text": "nhân",
+        "timestamp": 93.081,
+        "duration": 0.37
+      },
+      {
+        "id": 5,
+        "text": "lên",
+        "timestamp": 93.461,
+        "duration": 0.19
+      },
+      {
+        "id": 6,
+        "text": "gấp",
+        "timestamp": 93.661,
+        "duration": 0.31
+      },
+      {
+        "id": 7,
+        "text": "trăm",
+        "timestamp": 93.981,
+        "duration": 0.46
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chẳng",
+        "timestamp": 94.781,
+        "duration": 0.21
+      },
+      {
+        "id": 1,
+        "text": "phải",
+        "timestamp": 95.001,
+        "duration": 0.19
+      },
+      {
+        "id": 2,
+        "text": "ai",
+        "timestamp": 95.201,
+        "duration": 0.13
+      },
+      {
+        "id": 3,
+        "text": "cũng",
+        "timestamp": 95.341,
+        "duration": 0.15
+      },
+      {
+        "id": 4,
+        "text": "khiến",
+        "timestamp": 95.501,
+        "duration": 0.65
+      },
+      {
+        "id": 5,
+        "text": "lòng",
+        "timestamp": 96.161,
+        "duration": 0.23
+      },
+      {
+        "id": 6,
+        "text": "anh",
+        "timestamp": 96.401,
+        "duration": 0.29
+      },
+      {
+        "id": 7,
+        "text": "thương",
+        "timestamp": 96.701,
+        "duration": 0.48
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "words": [
+      {
+        "id": 0,
+        "text": "Mong",
+        "timestamp": 97.201,
+        "duration": 0.31
+      },
+      {
+        "id": 1,
+        "text": "một",
+        "timestamp": 97.521,
+        "duration": 0.33
+      },
+      {
+        "id": 2,
+        "text": "tin",
+        "timestamp": 97.861,
+        "duration": 0.33
+      },
+      {
+        "id": 3,
+        "text": "nhắn",
+        "timestamp": 98.201,
+        "duration": 0.33
+      },
+      {
+        "id": 4,
+        "text": "giữa",
+        "timestamp": 98.542,
+        "duration": 0.35
+      },
+      {
+        "id": 5,
+        "text": "vạn",
+        "timestamp": 98.902,
+        "duration": 0.19
+      },
+      {
+        "id": 6,
+        "text": "nẻo",
+        "timestamp": 99.102,
+        "duration": 0.33
+      },
+      {
+        "id": 7,
+        "text": "đường",
+        "timestamp": 99.442,
+        "duration": 0.46
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "words": [
+      {
+        "id": 0,
+        "text": "Muốn",
+        "timestamp": 100.242,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "vượt",
+        "timestamp": 100.582,
+        "duration": 0.33
+      },
+      {
+        "id": 2,
+        "text": "nửa",
+        "timestamp": 100.922,
+        "duration": 0.35
+      },
+      {
+        "id": 3,
+        "text": "vòng",
+        "timestamp": 101.282,
+        "duration": 0.29
+      },
+      {
+        "id": 4,
+        "text": "trái",
+        "timestamp": 101.582,
+        "duration": 0.23
+      },
+      {
+        "id": 5,
+        "text": "đất",
+        "timestamp": 101.822,
+        "duration": 0.21
+      },
+      {
+        "id": 6,
+        "text": "xa",
+        "timestamp": 102.042,
+        "duration": 0.25
+      },
+      {
+        "id": 7,
+        "text": "xôi",
+        "timestamp": 102.302,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "words": [
+      {
+        "id": 0,
+        "text": "Để",
+        "timestamp": 102.822,
+        "duration": 0.17
+      },
+      {
+        "id": 1,
+        "text": "được",
+        "timestamp": 103.002,
+        "duration": 0.27
+      },
+      {
+        "id": 2,
+        "text": "nhìn",
+        "timestamp": 103.282,
+        "duration": 0.33
+      },
+      {
+        "id": 3,
+        "text": "thấy",
+        "timestamp": 103.622,
+        "duration": 0.29
+      },
+      {
+        "id": 4,
+        "text": "người",
+        "timestamp": 103.922,
+        "duration": 0.21
+      },
+      {
+        "id": 5,
+        "text": "anh",
+        "timestamp": 104.142,
+        "duration": 0.19
+      },
+      {
+        "id": 6,
+        "text": "nhớ",
+        "timestamp": 104.342,
+        "duration": 0.25
+      },
+      {
+        "id": 7,
+        "text": "khôn",
+        "timestamp": 104.602,
+        "duration": 0.37
+      },
+      {
+        "id": 8,
+        "text": "nguôi",
+        "timestamp": 104.982,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "words": [
+      {
+        "id": 0,
+        "text": "Nhớ",
+        "timestamp": 105.682,
+        "duration": 0.37
+      },
+      {
+        "id": 1,
+        "text": "em",
+        "timestamp": 106.062,
+        "duration": 0.29
+      },
+      {
+        "id": 2,
+        "text": "như",
+        "timestamp": 106.362,
+        "duration": 0.27
+      },
+      {
+        "id": 3,
+        "text": "sao",
+        "timestamp": 106.642,
+        "duration": 0.39
+      },
+      {
+        "id": 4,
+        "text": "rơi",
+        "timestamp": 107.042,
+        "duration": 0.21
+      },
+      {
+        "id": 5,
+        "text": "vào",
+        "timestamp": 107.262,
+        "duration": 0.11
+      },
+      {
+        "id": 6,
+        "text": "lồng",
+        "timestamp": 107.382,
+        "duration": 0.29
+      },
+      {
+        "id": 7,
+        "text": "ngực",
+        "timestamp": 107.682,
+        "duration": 0.26
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "words": [
+      {
+        "id": 0,
+        "text": "Càng",
+        "timestamp": 108.722,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "đếm",
+        "timestamp": 109.062,
+        "duration": 0.35
+      },
+      {
+        "id": 2,
+        "text": "lại",
+        "timestamp": 109.422,
+        "duration": 0.17
+      },
+      {
+        "id": 3,
+        "text": "càng",
+        "timestamp": 109.602,
+        "duration": 0.15
+      },
+      {
+        "id": 4,
+        "text": "thấy",
+        "timestamp": 109.762,
+        "duration": 0.33
+      },
+      {
+        "id": 5,
+        "text": "thổn",
+        "timestamp": 110.102,
+        "duration": 0.33
+      },
+      {
+        "id": 6,
+        "text": "thức",
+        "timestamp": 110.442,
+        "duration": 0.32
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chẳng",
+        "timestamp": 111.062,
+        "duration": 0.27
+      },
+      {
+        "id": 1,
+        "text": "cần",
+        "timestamp": 111.342,
+        "duration": 0.21
+      },
+      {
+        "id": 2,
+        "text": "chạm",
+        "timestamp": 111.562,
+        "duration": 0.23
+      },
+      {
+        "id": 3,
+        "text": "tay,",
+        "timestamp": 111.802,
+        "duration": 0.29
+      },
+      {
+        "id": 4,
+        "text": "chẳng",
+        "timestamp": 112.102,
+        "duration": 0.35
+      },
+      {
+        "id": 5,
+        "text": "chung",
+        "timestamp": 112.462,
+        "duration": 0.33
+      },
+      {
+        "id": 6,
+        "text": "bầu",
+        "timestamp": 112.802,
+        "duration": 0.31
+      },
+      {
+        "id": 7,
+        "text": "trời",
+        "timestamp": 113.122,
+        "duration": 0.34
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chỉ",
+        "timestamp": 113.622,
+        "duration": 0.19
+      },
+      {
+        "id": 1,
+        "text": "cần",
+        "timestamp": 113.822,
+        "duration": 0.31
+      },
+      {
+        "id": 2,
+        "text": "nụ",
+        "timestamp": 114.142,
+        "duration": 0.33
+      },
+      {
+        "id": 3,
+        "text": "cười",
+        "timestamp": 114.482,
+        "duration": 0.37
+      },
+      {
+        "id": 4,
+        "text": "em",
+        "timestamp": 114.862,
+        "duration": 0.13
+      },
+      {
+        "id": 5,
+        "text": "thắp",
+        "timestamp": 115.002,
+        "duration": 0.15
+      },
+      {
+        "id": 6,
+        "text": "sáng",
+        "timestamp": 115.162,
+        "duration": 0.33
+      },
+      {
+        "id": 7,
+        "text": "muôn",
+        "timestamp": 115.502,
+        "duration": 0.33
+      },
+      {
+        "id": 8,
+        "text": "nơi",
+        "timestamp": 115.842,
+        "duration": 0.34
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "words": [
+      {
+        "id": 0,
+        "text": "Hai",
+        "timestamp": 116.222,
+        "duration": 0.25
+      },
+      {
+        "id": 1,
+        "text": "chữ",
+        "timestamp": 116.482,
+        "duration": 0.37
+      },
+      {
+        "id": 2,
+        "text": "\"tin",
+        "timestamp": 116.862,
+        "duration": 0.35
+      },
+      {
+        "id": 3,
+        "text": "anh\"",
+        "timestamp": 117.222,
+        "duration": 0.29
+      },
+      {
+        "id": 4,
+        "text": "nhẹ",
+        "timestamp": 117.522,
+        "duration": 0.37
+      },
+      {
+        "id": 5,
+        "text": "như",
+        "timestamp": 117.902,
+        "duration": 0.21
+      },
+      {
+        "id": 6,
+        "text": "gió",
+        "timestamp": 118.122,
+        "duration": 0.43
+      },
+      {
+        "id": 7,
+        "text": "qua",
+        "timestamp": 118.562,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "words": [
+      {
+        "id": 0,
+        "text": "Mà",
+        "timestamp": 119.082,
+        "duration": 0.17
+      },
+      {
+        "id": 1,
+        "text": "ấm",
+        "timestamp": 119.262,
+        "duration": 0.29
+      },
+      {
+        "id": 2,
+        "text": "hơn",
+        "timestamp": 119.562,
+        "duration": 0.33
+      },
+      {
+        "id": 3,
+        "text": "muôn",
+        "timestamp": 119.902,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "ngàn",
+        "timestamp": 120.222,
+        "duration": 0.33
+      },
+      {
+        "id": 5,
+        "text": "lời",
+        "timestamp": 120.562,
+        "duration": 0.17
+      },
+      {
+        "id": 6,
+        "text": "ngợi",
+        "timestamp": 120.742,
+        "duration": 0.51
+      },
+      {
+        "id": 7,
+        "text": "ca",
+        "timestamp": 121.262,
+        "duration": 0.6
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chưa",
+        "timestamp": 122.102,
+        "duration": 0.29
+      },
+      {
+        "id": 1,
+        "text": "gặp",
+        "timestamp": 122.402,
+        "duration": 0.21
+      },
+      {
+        "id": 2,
+        "text": "bao",
+        "timestamp": 122.622,
+        "duration": 0.21
+      },
+      {
+        "id": 3,
+        "text": "giờ",
+        "timestamp": 122.842,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "nhưng",
+        "timestamp": 123.162,
+        "duration": 0.29
+      },
+      {
+        "id": 5,
+        "text": "tình",
+        "timestamp": 123.462,
+        "duration": 0.19
+      },
+      {
+        "id": 6,
+        "text": "là",
+        "timestamp": 123.662,
+        "duration": 0.29
+      },
+      {
+        "id": 7,
+        "text": "thật",
+        "timestamp": 123.962,
+        "duration": 0.28
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "words": [
+      {
+        "id": 0,
+        "text": "Nhận",
+        "timestamp": 124.662,
+        "duration": 0.31
+      },
+      {
+        "id": 1,
+        "text": "ra",
+        "timestamp": 124.982,
+        "duration": 0.51
+      },
+      {
+        "id": 2,
+        "text": "em",
+        "timestamp": 125.502,
+        "duration": 0.17
+      },
+      {
+        "id": 3,
+        "text": "giữa",
+        "timestamp": 125.682,
+        "duration": 0.35
+      },
+      {
+        "id": 4,
+        "text": "thế",
+        "timestamp": 126.042,
+        "duration": 0.61
+      },
+      {
+        "id": 5,
+        "text": "gian",
+        "timestamp": 126.662,
+        "duration": 0.68
+      },
+      {
+        "id": 6,
+        "text": "tất",
+        "timestamp": 127.862,
+        "duration": 0.49
+      },
+      {
+        "id": 7,
+        "text": "bật",
+        "timestamp": 128.362,
+        "duration": 0.28
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "words": [
+      {
+        "id": 0,
+        "text": "Người",
+        "timestamp": 128.902,
+        "duration": 0.81
+      },
+      {
+        "id": 1,
+        "text": "tính",
+        "timestamp": 129.722,
+        "duration": 0.33
+      },
+      {
+        "id": 2,
+        "text": "không",
+        "timestamp": 130.062,
+        "duration": 0.33
+      },
+      {
+        "id": 3,
+        "text": "bằng",
+        "timestamp": 130.402,
+        "duration": 0.31
+      },
+      {
+        "id": 4,
+        "text": "trời",
+        "timestamp": 130.722,
+        "duration": 0.37
+      },
+      {
+        "id": 5,
+        "text": "cao",
+        "timestamp": 131.102,
+        "duration": 0.33
+      },
+      {
+        "id": 6,
+        "text": "đã",
+        "timestamp": 131.442,
+        "duration": 0.31
+      },
+      {
+        "id": 7,
+        "text": "định",
+        "timestamp": 131.762,
+        "duration": 0.3
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "words": [
+      {
+        "id": 0,
+        "text": "Duyên",
+        "timestamp": 132.282,
+        "duration": 0.49
+      },
+      {
+        "id": 1,
+        "text": "đến",
+        "timestamp": 132.782,
+        "duration": 0.15
+      },
+      {
+        "id": 2,
+        "text": "rồi",
+        "timestamp": 132.942,
+        "duration": 0.17
+      },
+      {
+        "id": 3,
+        "text": "mình",
+        "timestamp": 133.122,
+        "duration": 0.33
+      },
+      {
+        "id": 4,
+        "text": "đừng",
+        "timestamp": 133.462,
+        "duration": 0.33
+      },
+      {
+        "id": 5,
+        "text": "để",
+        "timestamp": 133.802,
+        "duration": 0.35
+      },
+      {
+        "id": 6,
+        "text": "lặng",
+        "timestamp": 134.162,
+        "duration": 0.31
+      },
+      {
+        "id": 7,
+        "text": "thinh",
+        "timestamp": 134.482,
+        "duration": 0.36
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "words": [
+      {
+        "id": 0,
+        "text": "Anh",
+        "timestamp": 135.202,
+        "duration": 0.27
+      },
+      {
+        "id": 1,
+        "text": "vẫn",
+        "timestamp": 135.482,
+        "duration": 0.29
+      },
+      {
+        "id": 2,
+        "text": "chờ",
+        "timestamp": 135.782,
+        "duration": 0.31
+      },
+      {
+        "id": 3,
+        "text": "ngày",
+        "timestamp": 136.102,
+        "duration": 0.43
+      },
+      {
+        "id": 4,
+        "text": "hai",
+        "timestamp": 136.542,
+        "duration": 0.31
+      },
+      {
+        "id": 5,
+        "text": "ta",
+        "timestamp": 136.862,
+        "duration": 0.31
+      },
+      {
+        "id": 6,
+        "text": "gặp",
+        "timestamp": 137.182,
+        "duration": 0.21
+      },
+      {
+        "id": 7,
+        "text": "mặt",
+        "timestamp": 137.402,
+        "duration": 0.3
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "words": [
+      {
+        "id": 0,
+        "text": "Để",
+        "timestamp": 137.762,
+        "duration": 0.27
+      },
+      {
+        "id": 1,
+        "text": "vẽ",
+        "timestamp": 138.042,
+        "duration": 0.29
+      },
+      {
+        "id": 2,
+        "text": "nên",
+        "timestamp": 138.342,
+        "duration": 0.53
+      },
+      {
+        "id": 3,
+        "text": "câu",
+        "timestamp": 138.882,
+        "duration": 0.29
+      },
+      {
+        "id": 4,
+        "text": "chuyện",
+        "timestamp": 139.182,
+        "duration": 0.33
+      },
+      {
+        "id": 5,
+        "text": "tình",
+        "timestamp": 139.522,
+        "duration": 0.21
+      },
+      {
+        "id": 6,
+        "text": "chúng",
+        "timestamp": 139.742,
+        "duration": 0.37
+      },
+      {
+        "id": 7,
+        "text": "mình",
+        "timestamp": 140.122,
+        "duration": 0.38
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chờ",
+        "timestamp": 140.542,
+        "duration": 0.23
+      },
+      {
+        "id": 1,
+        "text": "một",
+        "timestamp": 140.782,
+        "duration": 0.13
+      },
+      {
+        "id": 2,
+        "text": "ngày",
+        "timestamp": 140.922,
+        "duration": 0.31
+      },
+      {
+        "id": 3,
+        "text": "cái",
+        "timestamp": 141.242,
+        "duration": 0.35
+      },
+      {
+        "id": 4,
+        "text": "nắm",
+        "timestamp": 141.602,
+        "duration": 0.63
+      },
+      {
+        "id": 5,
+        "text": "tay",
+        "timestamp": 142.242,
+        "duration": 0.37
+      },
+      {
+        "id": 6,
+        "text": "thật",
+        "timestamp": 142.622,
+        "duration": 0.15
+      },
+      {
+        "id": 7,
+        "text": "chặt",
+        "timestamp": 142.782,
+        "duration": 0.28
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chờ",
+        "timestamp": 143.082,
+        "duration": 0.37
+      },
+      {
+        "id": 1,
+        "text": "một",
+        "timestamp": 143.462,
+        "duration": 0.15
+      },
+      {
+        "id": 2,
+        "text": "ngày",
+        "timestamp": 143.622,
+        "duration": 0.31
+      },
+      {
+        "id": 3,
+        "text": "không",
+        "timestamp": 143.942,
+        "duration": 0.35
+      },
+      {
+        "id": 4,
+        "text": "qua",
+        "timestamp": 144.302,
+        "duration": 0.67
+      },
+      {
+        "id": 5,
+        "text": "màn",
+        "timestamp": 144.982,
+        "duration": 0.23
+      },
+      {
+        "id": 6,
+        "text": "hình",
+        "timestamp": 145.222,
+        "duration": 0.29
+      },
+      {
+        "id": 7,
+        "text": "tắt",
+        "timestamp": 145.522,
+        "duration": 0.44
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "words": [
+      {
+        "id": 0,
+        "text": "Những",
+        "timestamp": 146.242,
+        "duration": 0.41
+      },
+      {
+        "id": 1,
+        "text": "lời",
+        "timestamp": 146.662,
+        "duration": 0.37
+      },
+      {
+        "id": 2,
+        "text": "yêu",
+        "timestamp": 147.042,
+        "duration": 0.27
+      },
+      {
+        "id": 3,
+        "text": "chưa",
+        "timestamp": 147.322,
+        "duration": 0.23
+      },
+      {
+        "id": 4,
+        "text": "kịp",
+        "timestamp": 147.562,
+        "duration": 0.13
+      },
+      {
+        "id": 5,
+        "text": "nói",
+        "timestamp": 147.702,
+        "duration": 0.31
+      },
+      {
+        "id": 6,
+        "text": "thành",
+        "timestamp": 148.022,
+        "duration": 0.21
+      },
+      {
+        "id": 7,
+        "text": "câu",
+        "timestamp": 148.242,
+        "duration": 0.4
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "words": [
+      {
+        "id": 0,
+        "text": "Sẽ",
+        "timestamp": 148.662,
+        "duration": 0.37
+      },
+      {
+        "id": 1,
+        "text": "theo",
+        "timestamp": 149.042,
+        "duration": 0.43
+      },
+      {
+        "id": 2,
+        "text": "em",
+        "timestamp": 149.482,
+        "duration": 0.23
+      },
+      {
+        "id": 3,
+        "text": "đi",
+        "timestamp": 149.722,
+        "duration": 0.33
+      },
+      {
+        "id": 4,
+        "text": "đến",
+        "timestamp": 150.062,
+        "duration": 0.31
+      },
+      {
+        "id": 5,
+        "text": "tận",
+        "timestamp": 150.382,
+        "duration": 0.23
+      },
+      {
+        "id": 6,
+        "text": "mai",
+        "timestamp": 150.622,
+        "duration": 0.29
+      },
+      {
+        "id": 7,
+        "text": "sau",
+        "timestamp": 150.922,
+        "duration": 1.66
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "words": [
+      {
+        "id": 0,
+        "text": "Nhớ",
+        "timestamp": 154.362,
+        "duration": 0.51
+      },
+      {
+        "id": 1,
+        "text": "em",
+        "timestamp": 154.882,
+        "duration": 0.25
+      },
+      {
+        "id": 2,
+        "text": "như",
+        "timestamp": 155.142,
+        "duration": 0.29
+      },
+      {
+        "id": 3,
+        "text": "sao",
+        "timestamp": 155.442,
+        "duration": 0.39
+      },
+      {
+        "id": 4,
+        "text": "rơi",
+        "timestamp": 155.842,
+        "duration": 0.15
+      },
+      {
+        "id": 5,
+        "text": "vào",
+        "timestamp": 156.002,
+        "duration": 0.15
+      },
+      {
+        "id": 6,
+        "text": "lồng",
+        "timestamp": 156.162,
+        "duration": 0.29
+      },
+      {
+        "id": 7,
+        "text": "ngực",
+        "timestamp": 156.462,
+        "duration": 0.22
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "words": [
+      {
+        "id": 0,
+        "text": "Càng",
+        "timestamp": 157.502,
+        "duration": 0.35
+      },
+      {
+        "id": 1,
+        "text": "đếm",
+        "timestamp": 157.862,
+        "duration": 0.33
+      },
+      {
+        "id": 2,
+        "text": "lại",
+        "timestamp": 158.202,
+        "duration": 0.17
+      },
+      {
+        "id": 3,
+        "text": "càng",
+        "timestamp": 158.382,
+        "duration": 0.15
+      },
+      {
+        "id": 4,
+        "text": "thấy",
+        "timestamp": 158.542,
+        "duration": 0.29
+      },
+      {
+        "id": 5,
+        "text": "thổn",
+        "timestamp": 158.842,
+        "duration": 0.35
+      },
+      {
+        "id": 6,
+        "text": "thức",
+        "timestamp": 159.202,
+        "duration": 0.36
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chẳng",
+        "timestamp": 159.862,
+        "duration": 0.25
+      },
+      {
+        "id": 1,
+        "text": "cần",
+        "timestamp": 160.122,
+        "duration": 0.23
+      },
+      {
+        "id": 2,
+        "text": "chạm",
+        "timestamp": 160.362,
+        "duration": 0.19
+      },
+      {
+        "id": 3,
+        "text": "tay,",
+        "timestamp": 160.562,
+        "duration": 0.33
+      },
+      {
+        "id": 4,
+        "text": "chẳng",
+        "timestamp": 160.902,
+        "duration": 0.33
+      },
+      {
+        "id": 5,
+        "text": "chung",
+        "timestamp": 161.242,
+        "duration": 0.33
+      },
+      {
+        "id": 6,
+        "text": "bầu",
+        "timestamp": 161.582,
+        "duration": 0.31
+      },
+      {
+        "id": 7,
+        "text": "trời",
+        "timestamp": 161.902,
+        "duration": 0.36
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chỉ",
+        "timestamp": 162.442,
+        "duration": 0.13
+      },
+      {
+        "id": 1,
+        "text": "cần",
+        "timestamp": 162.582,
+        "duration": 0.35
+      },
+      {
+        "id": 2,
+        "text": "nụ",
+        "timestamp": 162.942,
+        "duration": 0.33
+      },
+      {
+        "id": 3,
+        "text": "cười",
+        "timestamp": 163.282,
+        "duration": 0.35
+      },
+      {
+        "id": 4,
+        "text": "em",
+        "timestamp": 163.642,
+        "duration": 0.13
+      },
+      {
+        "id": 5,
+        "text": "thắp",
+        "timestamp": 163.782,
+        "duration": 0.17
+      },
+      {
+        "id": 6,
+        "text": "sáng",
+        "timestamp": 163.963,
+        "duration": 0.33
+      },
+      {
+        "id": 7,
+        "text": "muôn",
+        "timestamp": 164.303,
+        "duration": 0.33
+      },
+      {
+        "id": 8,
+        "text": "nơi",
+        "timestamp": 164.643,
+        "duration": 0.34
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "words": [
+      {
+        "id": 0,
+        "text": "Hai",
+        "timestamp": 165.003,
+        "duration": 0.29
+      },
+      {
+        "id": 1,
+        "text": "chữ",
+        "timestamp": 165.303,
+        "duration": 0.33
+      },
+      {
+        "id": 2,
+        "text": "\"tin",
+        "timestamp": 165.643,
+        "duration": 0.39
+      },
+      {
+        "id": 3,
+        "text": "anh\"",
+        "timestamp": 166.043,
+        "duration": 0.27
+      },
+      {
+        "id": 4,
+        "text": "nhẹ",
+        "timestamp": 166.323,
+        "duration": 0.35
+      },
+      {
+        "id": 5,
+        "text": "như",
+        "timestamp": 166.683,
+        "duration": 0.19
+      },
+      {
+        "id": 6,
+        "text": "gió",
+        "timestamp": 166.883,
+        "duration": 0.45
+      },
+      {
+        "id": 7,
+        "text": "qua",
+        "timestamp": 167.343,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "words": [
+      {
+        "id": 0,
+        "text": "Mà",
+        "timestamp": 167.863,
+        "duration": 0.19
+      },
+      {
+        "id": 1,
+        "text": "ấm",
+        "timestamp": 168.063,
+        "duration": 0.29
+      },
+      {
+        "id": 2,
+        "text": "hơn",
+        "timestamp": 168.363,
+        "duration": 0.33
+      },
+      {
+        "id": 3,
+        "text": "muôn",
+        "timestamp": 168.703,
+        "duration": 0.27
+      },
+      {
+        "id": 4,
+        "text": "ngàn",
+        "timestamp": 168.983,
+        "duration": 0.37
+      },
+      {
+        "id": 5,
+        "text": "lời",
+        "timestamp": 169.363,
+        "duration": 0.15
+      },
+      {
+        "id": 6,
+        "text": "ngợi",
+        "timestamp": 169.523,
+        "duration": 0.51
+      },
+      {
+        "id": 7,
+        "text": "ca",
+        "timestamp": 170.043,
+        "duration": 0.62
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chưa",
+        "timestamp": 170.903,
+        "duration": 0.31
+      },
+      {
+        "id": 1,
+        "text": "gặp",
+        "timestamp": 171.223,
+        "duration": 0.17
+      },
+      {
+        "id": 2,
+        "text": "bao",
+        "timestamp": 171.403,
+        "duration": 0.35
+      },
+      {
+        "id": 3,
+        "text": "giờ",
+        "timestamp": 171.763,
+        "duration": 0.19
+      },
+      {
+        "id": 4,
+        "text": "nhưng",
+        "timestamp": 171.963,
+        "duration": 0.29
+      },
+      {
+        "id": 5,
+        "text": "tình",
+        "timestamp": 172.263,
+        "duration": 0.19
+      },
+      {
+        "id": 6,
+        "text": "là",
+        "timestamp": 172.463,
+        "duration": 0.29
+      },
+      {
+        "id": 7,
+        "text": "thật",
+        "timestamp": 172.763,
+        "duration": 0.3
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "words": [
+      {
+        "id": 0,
+        "text": "Nhận",
+        "timestamp": 173.463,
+        "duration": 0.33
+      },
+      {
+        "id": 1,
+        "text": "ra",
+        "timestamp": 173.803,
+        "duration": 0.37
+      },
+      {
+        "id": 2,
+        "text": "em...",
+        "timestamp": 174.183,
+        "duration": 1.61
+      },
+      {
+        "id": 3,
+        "text": "đã",
+        "timestamp": 175.803,
+        "duration": 0.56
+      },
+      {
+        "id": 4,
+        "text": "nhận",
+        "timestamp": 178.863,
+        "duration": 0.64
+      },
+      {
+        "id": 5,
+        "text": "ra",
+        "timestamp": 180.003,
+        "duration": 0.57
+      },
+      {
+        "id": 6,
+        "text": "em...",
+        "timestamp": 180.583,
+        "duration": 0.76
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "words": [
+      {
+        "id": 0,
+        "text": "Nhớ",
+        "timestamp": 184.123,
+        "duration": 1.39
+      },
+      {
+        "id": 1,
+        "text": "em",
+        "timestamp": 185.523,
+        "duration": 0.43
+      },
+      {
+        "id": 2,
+        "text": "nhiều",
+        "timestamp": 185.963,
+        "duration": 0.37
+      },
+      {
+        "id": 3,
+        "text": "lắm,",
+        "timestamp": 186.343,
+        "duration": 0.65
+      },
+      {
+        "id": 4,
+        "text": "em",
+        "timestamp": 187.003,
+        "duration": 0.61
+      },
+      {
+        "id": 5,
+        "text": "ơi...",
+        "timestamp": 187.623,
+        "duration": 0.46
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "words": [
+      {
+        "id": 0,
+        "text": "Chờ",
+        "timestamp": 189.323,
+        "duration": 0.25
+      },
+      {
+        "id": 1,
+        "text": "ngày",
+        "timestamp": 189.583,
+        "duration": 0.15
+      },
+      {
+        "id": 2,
+        "text": "mình",
+        "timestamp": 189.743,
+        "duration": 0.31
+      },
+      {
+        "id": 3,
+        "text": "gặp",
+        "timestamp": 190.063,
+        "duration": 0.35
+      },
+      {
+        "id": 4,
+        "text": "nhau,",
+        "timestamp": 190.423,
+        "duration": 0.52
+      },
+      {
+        "id": 5,
+        "text": "thật",
+        "timestamp": 192.503,
+        "duration": 0.73
+      },
+      {
+        "id": 6,
+        "text": "gần...",
+        "timestamp": 193.243,
+        "duration": 0.3
+      }
+    ]
+  }
+]
