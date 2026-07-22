@@ -3355,4 +3355,112 @@ init();
   }
 })();
 </script>
+
+<script>
+/* ===== Duy & Vy audio: generative background music + sound effects ===== */
+(function(){
+  let ctx=null, master=null, delayNode=null, schedTimer=null;
+  let musicOn = (localStorage.getItem('dv-music') !== 'off');
+
+  function ensureCtx(){
+    if(!ctx){
+      ctx = new (window.AudioContext||window.webkitAudioContext)();
+      master = ctx.createGain(); master.gain.value = 0.9; master.connect(ctx.destination);
+      delayNode = ctx.createDelay(1.0); delayNode.delayTime.value = 0.38;
+      const fb = ctx.createGain(); fb.gain.value = 0.33;
+      const wet = ctx.createGain(); wet.gain.value = 0.28;
+      delayNode.connect(fb); fb.connect(delayNode); delayNode.connect(wet); wet.connect(master);
+    }
+    if(ctx.state === 'suspended') ctx.resume();
+  }
+
+  const N = m => 440*Math.pow(2,(m-69)/12);
+
+  function tone(freq,t,opt){
+    opt = opt||{};
+    const dur=opt.dur||1.2, vol=opt.vol||0.2, type=opt.type||'sine', attack=opt.attack||0.01, send=(opt.send===undefined?0.5:opt.send);
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type=type; o.frequency.value=freq;
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.linearRampToValueAtTime(vol,t+attack);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(master);
+    if(send>0){ const s=ctx.createGain(); s.gain.value=send; g.connect(s); s.connect(delayNode); }
+    o.start(t); o.stop(t+dur+0.15);
+  }
+  function pluck(freq,t,vol,dur){
+    vol=vol||0.16; dur=dur||2.2;
+    tone(freq,t,{dur:dur,vol:vol,type:'triangle',attack:0.005,send:0.6});
+    tone(freq*2,t,{dur:dur*0.6,vol:vol*0.25,type:'sine',attack:0.005,send:0.6});
+  }
+
+  /* ---- hopeful, ever-changing music: C / G / Am / F ---- */
+  const chords=[[48,55,60,64],[47,55,59,62],[45,52,57,60],[41,48,53,57]];
+  const penta=[60,62,64,67,69,72,74,76,79,81];
+  const BPM=68, BEAT=60/BPM, BAR=BEAT*4;
+  let bar=0, nextBar=0;
+
+  function scheduleBar(t){
+    const ch=chords[bar%4];
+    ch.forEach(function(m){ tone(N(m),t,{dur:BAR*1.05,vol:0.045,type:'triangle',attack:BEAT*0.8,send:0.3}); });
+    pluck(N(ch[0]-12),t,0.09,BAR);
+    let mt=t+BEAT*(Math.random()<0.5?0:0.5);
+    while(mt<t+BAR-0.1){
+      if(Math.random()<0.72){
+        const m=penta[Math.floor(Math.random()*penta.length)];
+        pluck(N(m),mt,0.10+Math.random()*0.05,1.8);
+      }
+      mt+=BEAT*[0.5,1,1,1.5][Math.floor(Math.random()*4)];
+    }
+    if(bar%8===0) pluck(N(84),t+BEAT*3.5,0.06,2.5);
+    bar++;
+  }
+  function musicLoop(){
+    if(!musicOn||!ctx) return;
+    while(nextBar<ctx.currentTime+1.2){
+      const t=Math.max(nextBar,ctx.currentTime+0.05);
+      scheduleBar(t); nextBar=t+BAR;
+    }
+  }
+  function startMusic(){ ensureCtx(); if(schedTimer) return; nextBar=ctx.currentTime+0.1; schedTimer=setInterval(musicLoop,300); musicLoop(); }
+  function stopMusic(){ if(schedTimer){ clearInterval(schedTimer); schedTimer=null; } }
+
+  /* ---- sound effects ---- */
+  const SFX={
+    sparkle:function(){ ensureCtx(); const t=ctx.currentTime; [72,76,79,84,88].forEach(function(m,i){ tone(N(m),t+i*0.07,{dur:1.0,vol:0.12,type:'sine',send:0.8}); }); },
+    whoosh:function(){ ensureCtx(); const t=ctx.currentTime;
+      const o=ctx.createOscillator(),g=ctx.createGain(); o.type='sine';
+      o.frequency.setValueAtTime(300,t); o.frequency.exponentialRampToValueAtTime(1200,t+0.5);
+      g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.15,t+0.15); g.gain.exponentialRampToValueAtTime(0.0001,t+0.6);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t+0.7);
+      [79,84,88].forEach(function(m,i){ tone(N(m),t+0.25+i*0.08,{dur:0.8,vol:0.08}); });
+    },
+    pop:function(){ ensureCtx(); const t=ctx.currentTime; tone(N(76),t,{dur:0.25,vol:0.10,type:'triangle',send:0.2}); tone(N(83),t+0.05,{dur:0.3,vol:0.07,send:0.3}); }
+  };
+
+  /* ---- music toggle pill ---- */
+  const btn=document.createElement('button');
+  btn.id='dv-music-btn';
+  btn.style.cssText='position:fixed;bottom:18px;right:18px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:50px;background:rgba(255,255,255,.92);border:1.5px solid #e8a0b0;color:#c4637a;font-family:Inter,-apple-system,sans-serif;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(196,99,122,.18);backdrop-filter:blur(6px);';
+  function label(){ btn.textContent = musicOn ? '🎵 music on' : '🔇 music off'; }
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    musicOn=!musicOn; localStorage.setItem('dv-music',musicOn?'on':'off');
+    if(musicOn) startMusic(); else stopMusic();
+    label();
+  });
+  label(); document.body.appendChild(btn);
+
+  /* browsers only allow sound after a user gesture: begin on first tap/click */
+  function firstStart(){ if(musicOn && !schedTimer) startMusic(); document.removeEventListener('pointerdown',firstStart); }
+  document.addEventListener('pointerdown',firstStart);
+
+  /* ---- hook the existing animations ---- */
+  if(typeof selectVisitor==='function'){ const orig=selectVisitor; window.selectVisitor=function(n){ SFX.sparkle(); return orig(n); }; }
+  if(typeof triggerFlyAway==='function'){ const orig=triggerFlyAway; window.triggerFlyAway=function(){ SFX.whoosh(); return orig(); }; }
+  document.addEventListener('click',function(e){
+    if(e.target && e.target.closest && e.target.closest('.btn-primary') && !e.target.closest('.avatar-btn')) SFX.pop();
+  },true);
+})();
+</script>
 </html>
