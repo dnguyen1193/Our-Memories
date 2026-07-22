@@ -3357,9 +3357,10 @@ init();
 </script>
 
 <script>
-/* ===== Duy & Vy audio: generative background music + sound effects ===== */
+/* ===== Duy & Vy audio: composed background music + sound effects ===== */
 (function(){
-  let ctx=null, master=null, delayNode=null, schedTimer=null;
+  let ctx=null, master=null, delayNode=null;
+  let musicGain=null, musicSrc=null, musicBuf=null, loadingMusic=false;
   let musicOn = (localStorage.getItem('dv-music') !== 'off');
 
   function ensureCtx(){
@@ -3388,42 +3389,38 @@ init();
     if(send>0){ const s=ctx.createGain(); s.gain.value=send; g.connect(s); s.connect(delayNode); }
     o.start(t); o.stop(t+dur+0.15);
   }
-  function pluck(freq,t,vol,dur){
-    vol=vol||0.16; dur=dur||2.2;
-    tone(freq,t,{dur:dur,vol:vol,type:'triangle',attack:0.005,send:0.6});
-    tone(freq*2,t,{dur:dur*0.6,vol:vol*0.25,type:'sine',attack:0.005,send:0.6});
-  }
 
-  /* ---- hopeful, ever-changing music: C / G / Am / F ---- */
-  const chords=[[48,55,60,64],[47,55,59,62],[45,52,57,60],[41,48,53,57]];
-  const penta=[60,62,64,67,69,72,74,76,79,81];
-  const BPM=68, BEAT=60/BPM, BAR=BEAT*4;
-  let bar=0, nextBar=0;
-
-  function scheduleBar(t){
-    const ch=chords[bar%4];
-    ch.forEach(function(m){ tone(N(m),t,{dur:BAR*1.05,vol:0.045,type:'triangle',attack:BEAT*0.8,send:0.3}); });
-    pluck(N(ch[0]-12),t,0.09,BAR);
-    let mt=t+BEAT*(Math.random()<0.5?0:0.5);
-    while(mt<t+BAR-0.1){
-      if(Math.random()<0.72){
-        const m=penta[Math.floor(Math.random()*penta.length)];
-        pluck(N(m),mt,0.10+Math.random()*0.05,1.8);
-      }
-      mt+=BEAT*[0.5,1,1,1.5][Math.floor(Math.random()*4)];
-    }
-    if(bar%8===0) pluck(N(84),t+BEAT*3.5,0.06,2.5);
-    bar++;
+  /* ---- background music: composed piece, gapless loop ---- */
+  function loadMusic(cb){
+    if(musicBuf){ cb(); return; }
+    if(loadingMusic) return;
+    loadingMusic = true;
+    fetch('journal-music.mp3?v=2').then(r=>r.arrayBuffer()).then(ab=>ctx.decodeAudioData(ab)).then(buf=>{
+      musicBuf = buf; loadingMusic = false; cb();
+    }).catch(function(e){ loadingMusic = false; console.warn('music load failed', e); });
   }
-  function musicLoop(){
-    if(!musicOn||!ctx) return;
-    while(nextBar<ctx.currentTime+1.2){
-      const t=Math.max(nextBar,ctx.currentTime+0.05);
-      scheduleBar(t); nextBar=t+BAR;
+  function startMusic(){
+    ensureCtx();
+    loadMusic(function(){
+      if(!musicOn || musicSrc) return;
+      musicGain = ctx.createGain();
+      musicGain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      musicGain.gain.linearRampToValueAtTime(0.55, ctx.currentTime+2.0);
+      musicGain.connect(master);
+      musicSrc = ctx.createBufferSource();
+      musicSrc.buffer = musicBuf; musicSrc.loop = true;
+      musicSrc.connect(musicGain);
+      musicSrc.start();
+    });
+  }
+  function stopMusic(){
+    if(musicSrc){
+      const s=musicSrc, g=musicGain; musicSrc=null; musicGain=null;
+      g.gain.setValueAtTime(g.gain.value, ctx.currentTime);
+      g.gain.linearRampToValueAtTime(0.0001, ctx.currentTime+0.8);
+      setTimeout(function(){ try{s.stop();}catch(e){} }, 900);
     }
   }
-  function startMusic(){ ensureCtx(); if(schedTimer) return; nextBar=ctx.currentTime+0.1; schedTimer=setInterval(musicLoop,300); musicLoop(); }
-  function stopMusic(){ if(schedTimer){ clearInterval(schedTimer); schedTimer=null; } }
 
   /* ---- sound effects ---- */
   const SFX={
@@ -3452,7 +3449,7 @@ init();
   label(); document.body.appendChild(btn);
 
   /* browsers only allow sound after a user gesture: begin on first tap/click */
-  function firstStart(){ if(musicOn && !schedTimer) startMusic(); document.removeEventListener('pointerdown',firstStart); }
+  function firstStart(){ if(musicOn && !musicSrc) startMusic(); document.removeEventListener('pointerdown',firstStart); }
   document.addEventListener('pointerdown',firstStart);
 
   /* ---- hook the existing animations ---- */
